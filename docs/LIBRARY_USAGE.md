@@ -32,7 +32,7 @@ public final class D {
 
 LocalRunner経由（`run`、`test`、`toclip`、JavaCodeSubmitter、AtCoderEasyTest）では、importを書かずに`FastScanner`や`UnionFind`を使用しても、Java Compiler APIが一意なlibrary型を自動importします。コードの可読性とIDE補完のため、ローカル解答では通常どおり明示importする運用を推奨します。
 
-IntelliJでは`File → New → AtCoder Library Solution`から雛形を作成できます。`lib.*`に対して補完、定義ジャンプ、Find Usages、Renameが利用できます。
+雛形は`templates/java/TemplateCode.java`です。IntelliJではFile Templateの`Class`に登録しておくと、`File → New → Java Class`から作成できます。`lib.*`に対して補完、定義ジャンプ、Find Usages、Renameが利用できます。
 
 `src/patterns`は読む・写経する資料であり、importや自動バンドルの対象ではありません。
 
@@ -68,8 +68,10 @@ Bundled library classes: lib.graph.Kruskal, lib.ds.UnionFind
 
 通常はリポジトリルートの`library/java/src`が自動検出されます。別の配置を使う場合だけ環境変数を指定します。
 
-```powershell
-$env:ATCODER_LIB_SRC = "C:\path\to\competitive-programming-java-library\src"
+ライブラリを読むのはWSL上のLocal Runnerなので、Windows側の環境変数は届きません。WSLの`~/.profile`にLinux形式のパスで設定します。
+
+```bash
+export ATCODER_LIB_SRC="/mnt/c/path/to/competitive-programming-java-library/src"
 ```
 
 ## バンドラの制約
@@ -89,4 +91,5 @@ $env:ATCODER_LIB_SRC = "C:\path\to\competitive-programming-java-library\src"
 
 1. `toclip`でコピーした、最後に成功した提出コードを使用
 2. `library/java/src/lib/...`からログに表示されたクラスを手動展開
-3. 従来の自己完結テンプレート`templates/java/TemplateCode.java`またはJava 17版を使用
+
+`templates/java`のテンプレートはどちらも`lib.*`をimportするため、バンドラなしでは提出できません。

@@ -4,7 +4,7 @@
 
 - **プロフィール**: https://atcoder.jp/users/nsubaru
 - **解答**: コンテスト単位で `src/<言語>/` に配置
-- **テンプレート**: `templates/`のライブラリ版・自己完結版テンプレートと提出用ヘッダー
+- **テンプレート**: `templates/`の言語別テンプレートと提出用ヘッダー
 
 ## リポジトリ構成
 
@@ -14,12 +14,10 @@ competitive-programming/
 ├── aoj/                 # Aizu Online Judge
 ├── codeforces/          # Codeforces
 ├── paiza/               # paiza (skill-check/a/src/java/A006.java など)
-├── techful/             # TechFUL
 ├── icpc/                # ICPC・JAG (問題データはローカルのみ)
 ├── library/java/        # Java ライブラリ (submodule)
 ├── library/cpp/         # C++ ライブラリ (submodule)
 ├── templates/           # 言語別テンプレート (java/, cpp/, python/)、提出用ヘッダー (header/)
-├── scripts/             # 補助スクリプト
 ├── docs/                # ドキュメント
 └── tools/               # 補助ツール (submodule)
     ├── shared/          # local-runner / userscripts 共通 TypeScript
@@ -33,7 +31,7 @@ uv でルートの `.venv` に一元管理します。バージョンは AtCoder
 
 ```powershell
 uv sync
-uv run python atcoder/abc/351-400/abc384/src/python/Main.py
+uv run python templates/python/TemplateCode.py
 ```
 
 ## 秘密情報
@@ -78,10 +76,18 @@ tools/local-runner/bin/serve.cmd
 ```text
 Solved: ABC000 [A ~ G]
 Resolved: ABC000 [A ~ G]
-Update: JDK17→24.0.2 ABC000 [A ~ G]
+feat: ランナーに新しいコマンドを追加
+fix: サンプル取得の失敗を修正
+refactor: コンテストフォルダを整理
+chore: 無視設定を更新
+docs: README を更新
 ```
 
 ## 補足
 
 - UserScript のインストール URL は `tools/userscripts/<Name>/dist/<Name>.user.js` を参照してください。
 - UserScript は `tools/userscripts` を編集し、`bun run build` で `dist` を更新します。
+
+## ライセンス
+
+本リポジトリの内容は、個別に別条件が明記された第三者の素材を除き、[0BSD（Zero-Clause BSD）](./LICENSE)で提供します。サブモジュールのライセンスは各リポジトリを参照してください。
