@@ -6,16 +6,7 @@
 
 ```powershell
 git submodule update --init --recursive
-python scripts/generate-modules.py
 ```
-
-スクリプトは次を行います。
-
-- 解答フォルダごとのIntelliJモジュールを作成
-- AtCoderのモジュールへ`library`のModule Dependencyを追加
-- `.idea/modules.xml`を更新
-
-新しいコンテストフォルダを作った後も、このスクリプトを再実行すればモジュールが追加されます。
 
 ## 解答を書く
 
@@ -98,4 +89,4 @@ $env:ATCODER_LIB_SRC = "C:\path\to\competitive-programming-java-library\src"
 
 1. `toclip`でコピーした、最後に成功した提出コードを使用
 2. `library/java/src/lib/...`からログに表示されたクラスを手動展開
-3. 従来の自己完結テンプレート`templates/TemplateCode.java`またはJava 17版を使用
+3. 従来の自己完結テンプレート`templates/java/TemplateCode.java`またはJava 17版を使用

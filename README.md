@@ -16,13 +16,22 @@ competitive-programming/
 ├── icpc/                # ICPC・JAG (問題データはローカルのみ)
 ├── library/java/        # Java ライブラリ (submodule)
 ├── library/cpp/         # C++ ライブラリ (submodule)
-├── templates/           # 解答テンプレート、提出用ヘッダー (header/)
-├── scripts/             # IntelliJ モジュール生成などの補助スクリプト
+├── templates/           # 言語別テンプレート (java/, cpp/, python/)、提出用ヘッダー (header/)
+├── scripts/             # 補助スクリプト
 ├── docs/                # ドキュメント
 └── tools/               # 補助ツール (submodule)
     ├── shared/          # local-runner / userscripts 共通 TypeScript
     ├── userscripts/     # Tampermonkey 用 UserScript (TypeScript → .user.js)
     └── local-runner/    # ローカル実行・CLI (test / submit)
+```
+
+## Python 環境
+
+uv でルートの `.venv` に一元管理します。バージョンは AtCoder の CPython 3.13.7 に合わせています。
+
+```powershell
+uv sync
+uv run python atcoder/abc/351-400/abc384/src/python/Main.py
 ```
 
 ## 秘密情報
@@ -48,11 +57,10 @@ bun --cwd userscripts run build
 bun --cwd local-runner run typecheck
 ```
 
-サブモジュールを初期化し、IntelliJの全解答モジュールを生成します。
+サブモジュールを初期化します。
 
 ```powershell
 git submodule update --init --recursive
-python scripts/generate-modules.py
 ```
 
 解答では`import lib.ds.UnionFind;`のように記述します。`run` / `test` / `tomain` / `submit`時に推移的依存を含む単一の`Main.java`へ自動展開されます。詳細は[LIBRARY_USAGE.md](./docs/LIBRARY_USAGE.md)を参照してください。

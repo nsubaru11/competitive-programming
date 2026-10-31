@@ -17,7 +17,7 @@
 ## ディレクトリ構成
 
 - atcoder/、aoj/、codeforces/、icpc/: コンテスト別の解答。言語ごとに src/java/ などへ配置する。
-- templates/: Java 24版とJava 17版の解答テンプレート、提出用ヘッダー。
+- templates/: 言語別の解答テンプレート (java/ は Java 24版と Java 17版) と提出用ヘッダー (header/)。
 - library/java/src/lib/: importして利用する競技プログラミングライブラリ。
 - library/java/test/: ライブラリの検証コード。
 - library/java/docs/: ライブラリのドキュメント。
@@ -29,7 +29,7 @@
 ## JDKバージョン
 
 - 基本の開発・実行環境は JDK 24.0.2（Java 24）。
-- templates/TemplateCode17.java と library/java/src/lib/io/compat17/ は Java 17互換を維持する。
+- templates/java/TemplateCode17.java と library/java/src/lib/io/compat17/ は Java 17互換を維持する。
 - 過去問に個別指定されたJDKは、対象問題の実行環境を確認せず一括変更しない。
 - ライブラリを編集する場合は library/java/AGENTS.md と配下の指示に従う。
 - 提出時は tools/local-runner による lib.* のバンドルを使用する。詳細は docs/LIBRARY_USAGE.md を参照する。
