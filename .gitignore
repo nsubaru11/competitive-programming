@@ -23,7 +23,6 @@ bin/
 build/
 target/
 cmake-build-*/
-.compiled-library/
 *.class
 *.jar
 *.war
