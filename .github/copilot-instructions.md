@@ -21,6 +21,7 @@
 - library/java/src/lib/: importして利用する競技プログラミングライブラリ。
 - library/java/test/: ライブラリの検証コード。
 - library/java/docs/: ライブラリのドキュメント。
+- library/cpp/: C++ 版のライブラリ。
 - tools/local-runner/: ローカルランナーとJavaのバンドル・実行処理。
 - tools/userscripts/、tools/shared/: UserScriptと共有処理。
 - out/、logs/: 生成物。ソースとして管理しない。

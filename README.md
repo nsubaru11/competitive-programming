@@ -15,6 +15,7 @@ competitive-programming/
 ├── codeforces/          # Codeforces
 ├── icpc/                # ICPC・JAG (問題データはローカルのみ)
 ├── library/java/        # Java ライブラリ (submodule)
+├── library/cpp/         # C++ ライブラリ (submodule)
 ├── templates/           # 解答テンプレート、提出用ヘッダー (header/)
 ├── scripts/             # IntelliJ モジュール生成などの補助スクリプト
 ├── docs/                # ドキュメント

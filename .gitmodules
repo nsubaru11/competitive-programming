@@ -6,3 +6,7 @@
 	path = library/java
 	url = ../competitive-programming-java-library.git
 	branch = main
+[submodule "library-cpp"]
+	path = library/cpp
+	url = ../competitive-programming-cpp-library.git
+	branch = main
