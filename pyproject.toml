@@ -1,13 +1,10 @@
 [project]
 name = "competitive-programming"
 version = "0.1.0"
-description = "Python environment for solutions and helper scripts"
+description = "Python environment for solutions"
 # AtCoder の CPython に合わせる
 requires-python = ">=3.13,<3.14"
-dependencies = [
-    "beautifulsoup4>=4.14.3",
-    "requests>=2.32.5",
-]
+dependencies = []
 
 [dependency-groups]
 # AtCoder の 2025-10 言語アップデートと同じバージョン
