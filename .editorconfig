@@ -16,3 +16,7 @@ indent_size = 4
 [*.{yml,yaml,md}]
 indent_style = space
 indent_size = 2
+
+# 生成物はビルドで整形するので、先頭の @formatter:off で IDE の整形から外す
+[**/dist/*.user.js]
+ij_formatter_tags_enabled = true
