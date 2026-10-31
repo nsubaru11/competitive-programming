@@ -1,9 +1,3 @@
-// ====================================================================================================
-// Author: nsubaru
-// Runtime: Java 24
-// Library: https://github.com/nsubaru11/competitive-programming-java-library
-// ====================================================================================================
-
 import static java.util.Arrays.*;
 import static java.util.Comparator.*;
 

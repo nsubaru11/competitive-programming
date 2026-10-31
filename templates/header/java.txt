@@ -1,5 +1,6 @@
 // ====================================================================================================
-// Author: nsubaru
-// Runtime: Java 24
+// Author:  nsubaru
+// Source:  https://github.com/nsubaru11/competitive-programming
 // Library: https://github.com/nsubaru11/competitive-programming-java-library
+// License: 0BSD
 // ====================================================================================================

@@ -62,7 +62,7 @@ Bundled library classes: lib.graph.Kruskal, lib.ds.UnionFind
 
 `run`、`localtest`、`test`、`crosscheck`、`tomain`、`toclip`、`submit`はすべて同じバンドル処理を通るため、ローカル実行と提出コードが一致します。
 
-`toclip d`はカレントディレクトリの`D.java`を短縮指定で解決します。`toclip D.java`のような明示指定も可能です。バンドル、`Main`化、`DEBUG=false`化を行った提出コードがそのままクリップボードへ入ります。
+`toclip d`はカレントディレクトリの`D.java`を短縮指定で解決します。`toclip D.java`のような明示指定も可能です。バンドル、`Main`化、`DEBUG=false`化、ヘッダーの付与を行った提出コードがそのままクリップボードへ入ります。ヘッダーは`--no-header`で省けます。
 
 ## libraryが見つからない場合
 
