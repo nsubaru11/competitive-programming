@@ -3,6 +3,6 @@
 	path = tools
 	url = https://github.com/nsubaru11/atcoder-java-tools
 [submodule "library"]
-	path = library
+	path = library/java
 	url = https://github.com/nsubaru11/competitive-programming-java-library.git
 	branch = main
