@@ -46,7 +46,11 @@ history.txt
 *.swp
 *.swo
 
-# 秘密情報
+# サイトごとの秘密情報
+.atcoder/
+.aoj/
+.codeforces/
+.icpc/
 .env
 .env.*
 session.txt

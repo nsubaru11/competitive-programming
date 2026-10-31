@@ -5,7 +5,7 @@ import time
 import requests
 from bs4 import BeautifulSoup
 
-# "REVEL_SESSION" の値をコピーして貼り付けてください
+# 環境変数 ATCODER_SESSION に "REVEL_SESSION" の値を設定してください
 SESSION_ID = os.environ.get("ATCODER_SESSION", "")
 
 CONTEST_ID = "abc442"

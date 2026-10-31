@@ -25,6 +25,11 @@ competitive-programming/
     └── local-runner/    # ローカル実行・CLI (test / submit)
 ```
 
+## 秘密情報
+
+セッションやパスワードは、サイトごとに `.atcoder/`、`.aoj/`、`.codeforces/`、`.icpc/` へ置きます。
+これらは `.gitignore` の対象で、リポジトリには含まれません。ソースコードに直接書かないでください。
+
 ## 補助ツール (tools)
 
 | パッケージ  | 説明                   | README                                                       |
