@@ -7,7 +7,6 @@
 import static java.util.Arrays.*;
 
 import java.util.*;
-import java.util.ArrayList;
 import java.util.stream.*;
 
 import lib.io.*;

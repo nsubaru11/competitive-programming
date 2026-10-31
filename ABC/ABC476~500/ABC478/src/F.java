@@ -30,7 +30,7 @@ public final class F {
 		int[] stack = new int[n];
 		int ans = 1;
 		for (int i = 1, len = 1; i < n; i++) {
-			while (len > 0 && q[stack[len - 1]] < q[i]) len--   ;
+			while (len > 0 && q[stack[len - 1]] < q[i]) len--;
 			int j = len > 0 ? stack[len - 1] : 0;
 			ans = (int) ((long) ans * (i - j) % MOD);
 			stack[len++] = i;

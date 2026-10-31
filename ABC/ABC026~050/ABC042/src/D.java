@@ -5,7 +5,7 @@ import java.util.*;
 import java.util.stream.*;
 
 import lib.io.*;
-import lib.math.combinatorics.*;
+import lib.math.*;
 
 public final class D {
 

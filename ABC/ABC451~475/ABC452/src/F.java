@@ -5,7 +5,7 @@ import java.util.*;
 import java.util.function.*;
 import java.util.stream.*;
 
-import lib.ds.*;
+import lib.ds.fenwick.*;
 import lib.io.*;
 
 public final class F {
@@ -33,14 +33,14 @@ public final class F {
 		long ans = 0, cnt = 0;
 		for (int l = 0, r = 0; l < n; l++) {
 			r = max(r, l);
-			while (r < n && cnt + bit.query(a[r], n - 1) <= k) {
-				cnt += bit.query(a[r], n - 1);
+			while (r < n && cnt + bit.sum(a[r], n - 1) <= k) {
+				cnt += bit.sum(a[r], n - 1);
 				bit.set(a[r], 1);
 				r++;
 			}
 			ans += r - l;
 			if (l < r) {
-				cnt -= bit.query(a[l]) - 1;
+				cnt -= bit.sum(a[l]) - 1;
 				bit.set(a[l], 0);
 			}
 		}

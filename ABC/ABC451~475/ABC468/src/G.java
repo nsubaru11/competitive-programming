@@ -6,7 +6,8 @@ import java.util.function.*;
 import java.util.stream.*;
 
 import lib.io.*;
-import lib.math.combinatorics.*;
+import lib.math.*;
+import lib.util.*;
 
 public final class G {
 
@@ -29,7 +30,7 @@ public final class G {
 			out.println(0);
 			return;
 		}
-		FactorialTable table = new FactorialTable(n);
+		FactorialTable table = new FactorialTable(n, MOD);
 		int[] a = new int[n + 1];
 		for (int i = 1; i <= n; i++) {
 			a[i] = table.fact(i);

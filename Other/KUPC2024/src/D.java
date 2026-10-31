@@ -1,11 +1,10 @@
+import static java.lang.Math.*;
+import static java.util.Arrays.*;
+
 import java.io.*;
 import java.math.*;
 import java.util.*;
-import java.util.ArrayList;
 import java.util.function.*;
-
-import static java.lang.Math.*;
-import static java.util.Arrays.*;
 
 public class D {
 
@@ -323,8 +322,7 @@ public class D {
 				} catch (IOException ignored) {
 				}
 			}
-			if (cnt < 0)
-				return 0;
+			if (cnt < 0) return 0;
 			return buf[pos++];
 		}
 
@@ -335,8 +333,7 @@ public class D {
 		 */
 		public char nextChar() {
 			byte b = read();
-			while (b < '!' || '~' < b)
-				b = read();
+			while (b < '!' || '~' < b) b = read();
 			return (char) b;
 		}
 
@@ -367,8 +364,7 @@ public class D {
 		public StringBuilder nextSb() {
 			StringBuilder sb = new StringBuilder();
 			int b = read();
-			while (b < '!' || '~' < b)
-				b = read();
+			while (b < '!' || '~' < b) b = read();
 			while ('!' <= b && b <= '~') {
 				sb.appendCodePoint(b);
 				b = read();
@@ -388,8 +384,7 @@ public class D {
 				sb.appendCodePoint(b);
 				b = read();
 			}
-			if (b == '\r')
-				read();
+			if (b == '\r') read();
 			return sb.toString();
 		}
 
@@ -401,8 +396,7 @@ public class D {
 		public int nextInt() {
 			int b = nextChar();
 			boolean neg = b == '-';
-			if (neg)
-				b = read();
+			if (neg) b = read();
 			int n = 0;
 			while ('0' <= b && b <= '9') {
 				n = n * 10 + b - '0';
@@ -419,8 +413,7 @@ public class D {
 		public long nextLong() {
 			int b = nextChar();
 			boolean neg = b == '-';
-			if (neg)
-				b = read();
+			if (neg) b = read();
 			long n = 0;
 			while ('0' <= b && b <= '9') {
 				n = n * 10 + b - '0';
@@ -709,8 +702,7 @@ public class D {
 			for (int a = 1; a <= x; a++)
 				for (int b = 1; b <= y; b++)
 					for (int c = 1; c <= z; c++)
-						e[a][b][c] = nextInt() + e[a - 1][b][c] + e[a][b - 1][c] + e[a][b][c - 1] - e[a - 1][b - 1][c]
-								- e[a - 1][b][c - 1] - e[a][b - 1][c - 1] + e[a - 1][b - 1][c - 1];
+						e[a][b][c] = nextInt() + e[a - 1][b][c] + e[a][b - 1][c] + e[a][b][c - 1] - e[a - 1][b - 1][c] - e[a - 1][b][c - 1] - e[a][b - 1][c - 1] + e[a - 1][b - 1][c - 1];
 			return e;
 		}
 
@@ -837,8 +829,7 @@ public class D {
 			for (int a = 1; a <= x; a++)
 				for (int b = 1; b <= y; b++)
 					for (int c = 1; c <= z; c++)
-						e[a][b][c] = nextLong() + e[a - 1][b][c] + e[a][b - 1][c] + e[a][b][c - 1] - e[a - 1][b - 1][c]
-								- e[a - 1][b][c - 1] - e[a][b - 1][c - 1] + e[a - 1][b - 1][c - 1];
+						e[a][b][c] = nextLong() + e[a - 1][b][c] + e[a][b - 1][c] + e[a][b][c - 1] - e[a - 1][b - 1][c] - e[a - 1][b][c - 1] - e[a][b - 1][c - 1] + e[a - 1][b - 1][c - 1];
 			return e;
 		}
 

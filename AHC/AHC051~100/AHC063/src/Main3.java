@@ -1,7 +1,7 @@
+import static java.util.Arrays.*;
+
 import java.io.*;
 import java.util.concurrent.*;
-
-import static java.util.Arrays.*;
 
 public final class Main3 {
 
@@ -37,7 +37,8 @@ public final class Main3 {
 				for (byte d = 0; d < 4; d++) {
 					if (!state.canMove(d)) continue;
 					state.evalNextUnchecked(d);
-					if (next.size() == curW && !next.containsHash(nextHash) && next.isWorseOrEqualThanWorst(nextScore, nextRank)) continue;
+					if (next.size() == curW && !next.containsHash(nextHash) && next.isWorseOrEqualThanWorst(nextScore, nextRank))
+						continue;
 					Ouroboros nextState = state.copy();
 					nextState.moveUnchecked(d);
 					if (best.score > nextState.score) best = nextState;
@@ -337,8 +338,7 @@ public final class Main3 {
 			return Integer.compare(rank, o.rank);
 		}
 
-		private record SearchNode(SearchNode prev, byte op) {
-		}
+		private record SearchNode(SearchNode prev, byte op) {}
 	}
 
 	private static final class ZobristHash {

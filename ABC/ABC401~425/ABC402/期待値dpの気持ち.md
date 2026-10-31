@@ -17,7 +17,7 @@ graph
 
 この場合期待値の計算方法は、
 $E = (S_a + S_b)P_aP_b$
-$\hspace{20pt} + (S_a + 0)P_a(1 - P_b)$
+$\hspace{20pt} + (S_a + 0)P_a (1 - P_b)$
 $\hspace{20pt} + (0 + S_c)(1 - P_a)P_c$
 $\hspace{20pt} + (0 + 0)(1 - P_a)(1 - P_c)$
 となります。
@@ -43,19 +43,19 @@ $\hspace{20pt} + (0 + 0)(1 - P_a)(1 - P_c)$
 ここで終了する場合、ここでは$S_a \times P_a$を返します。
 しかし、まだコストが残っているため、さらに再帰します。
 次に問題bを提出する。このとき、コストが無くなった場合、
-$(S_a + S_b)P_aP_b + (S_a + 0)P_a(1 - P_b)$
+$(S_a + S_b)P_aP_b + (S_a + 0)P_a (1 - P_b)$
 を返します。
 しかしこの方法では最終的な結果が最下層にたどり着くまで分かりません。
 そこで、動的計画法を用いるために、漸化式を作りたいと思います。
 漸化式を作るにあたってそこまでの結果を用いて次のノードの計算またはその逆が出来るようにします、
 つまり、
-$S_aP_aA + B = (S_a + S_b)P_aP_b + (S_a + 0)P_a(1 - P_b)$
+$S_aP_aA + B = (S_a + S_b)P_aP_b + (S_a + 0)P_a (1 - P_b)$
 となるA、Bを求めれば良い。
 まず右辺について、展開すると
-$右辺 = (S_a + S_b)P_aP_b + (S_a + 0)P_a(1 - P_b)$
+$右辺 = (S_a + S_b)P_aP_b + (S_a + 0)P_a (1 - P_b)$
 $\hspace{22pt} = S_aP_aP_b + S_bP_aP_b + S_aP_a - S_aP_aP_b$
 $\hspace{22pt} = S_bP_aP_b + S_aP_a$
-$\hspace{22pt} = S_aP_a(\frac{S_bP_b}{S_a} + 1)$
+$\hspace{22pt} = S_aP_a (\frac{S_bP_b}{S_a} + 1)$
 従って、
 $A = P_b + 1$
 

@@ -1,8 +1,6 @@
-import static java.lang.Math.*;
 import static java.util.Arrays.*;
 
 import java.util.*;
-import java.util.function.*;
 import java.util.stream.*;
 
 import lib.io.*;
@@ -212,215 +210,36 @@ public final class D {
 		return a > b ? a - b : b - a;
 	}
 
-	private static long lModPow(long a, long b, final long mod) {
-		if (b == 0) return 1;
-		long ans = 1;
-		for (a %= mod; b > 1; b >>= 1) {
-			if ((b & 1) == 1) ans = ans * a % mod;
-			a = a * a % mod;
-		}
-		return ans * a % mod;
+	private static void fill2D(final char[][] a, final char v) {
+		for (final char[] ai : a) fill(ai, v);
 	}
 
-	private static int iModPow(int a, int b, final int mod) {
-		if (b == 0) return 1;
-		int ans = 1;
-		for (a %= mod; b > 1; b >>= 1) {
-			if ((b & 1) == 1) ans = (int) ((long) ans * a % mod);
-			a = (int) ((long) a * a % mod);
-		}
-		return (int) ((long) ans * a % mod);
+	private static void fill2D(final int[][] a, final int v) {
+		for (final int[] ai : a) fill(ai, v);
 	}
 
-	private static long lcmLong(final long x, final long y) {
-		return x == 0 || y == 0 ? 0 : x / gcdLong(x, y) * y;
+	private static void fill2D(final long[][] a, final long v) {
+		for (final long[] ai : a) fill(ai, v);
 	}
 
-	private static int lcmInt(final int x, final int y) {
-		return x == 0 || y == 0 ? 0 : x / gcdInt(x, y) * y;
+	private static void fill2D(final double[][] a, final double v) {
+		for (final double[] ai : a) fill(ai, v);
 	}
 
-	private static long gcdLong(long a, long b) {
-		a = abs(a);
-		b = abs(b);
-		if (a == 0) return b;
-		if (b == 0) return a;
-		int commonShift = Long.numberOfTrailingZeros(a | b);
-		a >>= Long.numberOfTrailingZeros(a);
-		while (b != 0) {
-			b >>= Long.numberOfTrailingZeros(b);
-			if (a > b) {
-				long tmp = a;
-				a = b;
-				b = tmp;
-			}
-			b -= a;
-		}
-		return a << commonShift;
+	private static void fill3D(final char[][][] a, final char v) {
+		for (final char[][] ai : a) fill2D(ai, v);
 	}
 
-	private static int gcdInt(int a, int b) {
-		a = abs(a);
-		b = abs(b);
-		if (a == 0) return b;
-		if (b == 0) return a;
-		int commonShift = Integer.numberOfTrailingZeros(a | b);
-		a >>= Integer.numberOfTrailingZeros(a);
-		while (b != 0) {
-			b >>= Integer.numberOfTrailingZeros(b);
-			if (a > b) {
-				int tmp = a;
-				a = b;
-				b = tmp;
-			}
-			b -= a;
-		}
-		return a << commonShift;
+	private static void fill3D(final int[][][] a, final int v) {
+		for (final int[][] ai : a) fill2D(ai, v);
 	}
 
-	private static void compression(final int[] a, final int len) {
-		final int[] b = copyOf(a, len);
-		sort(b);
-		int n = 1;
-		for (int i = 1; i < len; i++) {
-			if (b[i] == b[i - 1]) continue;
-			b[n++] = b[i];
-		}
-		for (int i = 0; i < len; i++) {
-			a[i] = binarySearch(b, 0, n, a[i]);
-		}
+	private static void fill3D(final long[][][] a, final long v) {
+		for (final long[][] ai : a) fill2D(ai, v);
 	}
 
-	private static void compression(final int[][] a, final int n, final int m) {
-		final int len = n * m;
-		final int[] b = new int[len];
-		for (int i = 0, j = 0; i < n; i++, j += m) {
-			System.arraycopy(a[i], 0, b, j, m);
-		}
-		sort(b);
-		int nm = 1;
-		for (int i = 1; i < len; i++) {
-			if (b[i] == b[i - 1]) continue;
-			b[nm++] = b[i];
-		}
-		for (int i = 0; i < n; i++) {
-			int[] ai = a[i];
-			for (int j = 0; j < m; j++) {
-				ai[j] = binarySearch(b, 0, nm, ai[j]);
-			}
-		}
-	}
-
-	private static void compression(final int[][] a, final int n) {
-		int len = 0;
-		for (int i = 0; i < n; i++) len += a[i].length;
-		final int[] b = new int[len];
-		for (int i = 0, j = 0; i < n; i++) {
-			int m = a[i].length;
-			System.arraycopy(a[i], 0, b, j, m);
-			j += m;
-		}
-		sort(b);
-		int nm = 1;
-		for (int i = 1; i < len; i++) {
-			if (b[i] == b[i - 1]) continue;
-			b[nm++] = b[i];
-		}
-		for (int i = 0; i < n; i++) {
-			int[] ai = a[i];
-			for (int j = 0, m = ai.length; j < m; j++) {
-				ai[j] = binarySearch(b, 0, nm, ai[j]);
-			}
-		}
-	}
-
-	private static int digit2(long n) {
-		if (n == 0) return 1;
-		if (n == Long.MIN_VALUE) return 63;
-		return 64 - Long.numberOfLeadingZeros(Math.abs(n));
-	}
-
-	private static int digit2(int n) {
-		if (n == 0) return 1;
-		if (n == Integer.MIN_VALUE) return 31;
-		return 32 - Integer.numberOfLeadingZeros(Math.abs(n));
-	}
-
-	private static int digit10(long n) {
-		if (n == Long.MIN_VALUE) return 19;
-		if (n < 0) n = -n;
-		int res = 0;
-		do {
-			res++;
-			n /= 10;
-		} while (n > 0);
-		return res;
-	}
-
-	private static int digit10(int n) {
-		if (n == Integer.MIN_VALUE) return 10;
-		if (n < 0) n = -n;
-		int res = 0;
-		do {
-			res++;
-			n /= 10;
-		} while (n > 0);
-		return res;
-	}
-
-	private static long lSqrt(final long n) {
-		if (n <= 0) return 0;
-		long x = (long) sqrt(n);
-		while (x * x > n) x--;
-		while ((x + 1) * (x + 1) <= n) x++;
-		return x;
-	}
-
-	private static int iSqrt(final int n) {
-		if (n <= 0) return 0;
-		return (int) sqrt(n);
-	}
-
-	private static void prefix2D(final int[][] a, final IntBinaryOperator op) {
-		for (int[] ai : a) parallelPrefix(ai, op);
-		for (int i = 1, h = a.length, w = a[0].length; i < h; i++) {
-			for (int j = 0; j < w; j++) {
-				a[i][j] = op.applyAsInt(a[i][j], a[i - 1][j]);
-			}
-		}
-	}
-
-	private static void prefix2D(final long[][] a, final LongBinaryOperator op) {
-		for (long[] ai : a) parallelPrefix(ai, op);
-		for (int i = 1, h = a.length, w = a[0].length; i < h; i++) {
-			for (int j = 0; j < w; j++) {
-				a[i][j] = op.applyAsLong(a[i][j], a[i - 1][j]);
-			}
-		}
-	}
-
-	private static int rangeSum(final int[] a, final int i, final int j) {
-		return i > 0 ? a[j] - a[i - 1] : a[j];
-	}
-
-	private static long rangeSum(final long[] a, final int i, final int j) {
-		return i > 0 ? a[j] - a[i - 1] : a[j];
-	}
-
-	private static int rectSum(final int[][] a, final int i1, final int j1, final int i2, final int j2) {
-		int ans = a[i2][j2];
-		if (i1 > 0) ans -= a[i1 - 1][j2];
-		if (j1 > 0) ans -= a[i2][j1 - 1];
-		if (i1 > 0 && j1 > 0) ans += a[i1 - 1][j1 - 1];
-		return ans;
-	}
-
-	private static long rectSum(final long[][] a, final int i1, final int j1, final int i2, final int j2) {
-		long ans = a[i2][j2];
-		if (i1 > 0) ans -= a[i1 - 1][j2];
-		if (j1 > 0) ans -= a[i2][j1 - 1];
-		if (i1 > 0 && j1 > 0) ans += a[i1 - 1][j1 - 1];
-		return ans;
+	private static void fill3D(final double[][][] a, final double v) {
+		for (final double[][] ai : a) fill2D(ai, v);
 	}
 	// endregion
 

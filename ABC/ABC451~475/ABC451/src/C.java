@@ -5,7 +5,7 @@ import java.util.*;
 import java.util.function.*;
 import java.util.stream.*;
 
-import lib.ds.*;
+import lib.ds.priorityqueue.*;
 import lib.io.*;
 
 public final class C {
@@ -28,7 +28,7 @@ public final class C {
 			int t = sc.nextInt();
 			int h = sc.nextInt();
 			if (t == 1) {
-				pq.push(h);
+				pq.add(h);
 			} else {
 				while (!pq.isEmpty() && pq.peek() <= h) {
 					pq.poll();

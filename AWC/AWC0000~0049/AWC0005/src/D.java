@@ -1,12 +1,12 @@
+import static java.lang.Math.*;
+import static java.util.Arrays.*;
+
 import java.io.*;
 import java.lang.invoke.*;
 import java.math.*;
 import java.nio.*;
 import java.util.*;
 import java.util.function.*;
-
-import static java.lang.Math.*;
-import static java.util.Arrays.*;
 
 public final class D {
 
@@ -47,6 +47,205 @@ public final class D {
 			return k - cnt;
 		});
 		out.println(~ans - 1);
+	}
+
+	// region < Utility Methods >
+	private static boolean isValidRange(final int i, final int j, final int h, final int w) {
+		return 0 <= i && i < h && 0 <= j && j < w;
+	}
+
+	private static void swap(final char[] a, final int i, final int j) {
+		final char tmp = a[i];
+		a[i] = a[j];
+		a[j] = tmp;
+	}
+
+	private static void swap(final int[] a, final int i, final int j) {
+		final int tmp = a[i];
+		a[i] = a[j];
+		a[j] = tmp;
+	}
+
+	private static void swap(final long[] a, final int i, final int j) {
+		final long tmp = a[i];
+		a[i] = a[j];
+		a[j] = tmp;
+	}
+
+	private static boolean chmin(final char[] a, final int i, final char v) {
+		if (a[i] <= v) return false;
+		a[i] = v;
+		return true;
+	}
+
+	private static boolean chmin(final int[] a, final int i, final int v) {
+		if (a[i] <= v) return false;
+		a[i] = v;
+		return true;
+	}
+
+	private static boolean chmin(final long[] a, final int i, final long v) {
+		if (a[i] <= v) return false;
+		a[i] = v;
+		return true;
+	}
+
+	private static boolean chmax(final char[] a, final int i, final char v) {
+		if (a[i] >= v) return false;
+		a[i] = v;
+		return true;
+	}
+
+	private static boolean chmax(final int[] a, final int i, final int v) {
+		if (a[i] >= v) return false;
+		a[i] = v;
+		return true;
+	}
+
+	private static boolean chmax(final long[] a, final int i, final long v) {
+		if (a[i] >= v) return false;
+		a[i] = v;
+		return true;
+	}
+
+	private static int min(int... a) {
+		int len = a.length;
+		int min = a[0];
+		for (int i = 1; i < len; i++) if (min > a[i]) min = a[i];
+		return min;
+	}
+
+	private static int max(int... a) {
+		int len = a.length;
+		int max = a[0];
+		for (int i = 1; i < len; i++) if (max < a[i]) max = a[i];
+		return max;
+	}
+
+	private static long min(long... a) {
+		int len = a.length;
+		long min = a[0];
+		for (int i = 1; i < len; i++) if (min > a[i]) min = a[i];
+		return min;
+	}
+
+	private static long max(long... a) {
+		int len = a.length;
+		long max = a[0];
+		for (int i = 1; i < len; i++) if (max < a[i]) max = a[i];
+		return max;
+	}
+
+	private static double min(double... a) {
+		int len = a.length;
+		double min = a[0];
+		for (int i = 1; i < len; i++) if (min > a[i]) min = a[i];
+		return min;
+	}
+
+	private static double max(double... a) {
+		int len = a.length;
+		double max = a[0];
+		for (int i = 1; i < len; i++) if (max < a[i]) max = a[i];
+		return max;
+	}
+
+	private static long lModPow(long a, long b, final long mod) {
+		long ans = 1;
+		for (a %= mod; b > 0; a = a * a % mod, b >>= 1) {
+			if ((b & 1) == 1) ans = ans * a % mod;
+		}
+		return ans;
+	}
+
+	private static int iModPow(int a, int b, final int mod) {
+		int ans = 1;
+		for (a %= mod; b > 0; a = (int) ((long) a * a % mod), b >>= 1) {
+			if ((b & 1) == 1) ans = (int) ((long) ans * a % mod);
+		}
+		return ans;
+	}
+
+	private static long floorLong(final long a, final long b) {
+		return a < 0 ? (a - b + 1) / b : a / b;
+	}
+
+	private static int floorInt(final int a, final int b) {
+		return a < 0 ? (a - b + 1) / b : a / b;
+	}
+
+	private static long ceilLong(final long a, final long b) {
+		return a < 0 ? a / b : (a + b - 1) / b;
+	}
+
+	private static int ceilInt(final int a, final int b) {
+		return a < 0 ? a / b : (a + b - 1) / b;
+	}
+
+	private static long lcmLong(final long x, final long y) {
+		return x == 0 || y == 0 ? 0 : x / gcdLong(x, y) * y;
+	}
+
+	private static int lcmInt(final int x, final int y) {
+		return x == 0 || y == 0 ? 0 : x / gcdInt(x, y) * y;
+	}
+
+	private static long gcdLong(long a, long b) {
+		a = abs(a);
+		b = abs(b);
+		if (a == 0) return b;
+		if (b == 0) return a;
+		int commonShift = Long.numberOfTrailingZeros(a | b);
+		a >>= Long.numberOfTrailingZeros(a);
+		while (b != 0) {
+			b >>= Long.numberOfTrailingZeros(b);
+			if (a > b) {
+				long tmp = a;
+				a = b;
+				b = tmp;
+			}
+			b -= a;
+		}
+		return a << commonShift;
+	}
+
+	private static int gcdInt(int a, int b) {
+		a = abs(a);
+		b = abs(b);
+		if (a == 0) return b;
+		if (b == 0) return a;
+		int commonShift = Integer.numberOfTrailingZeros(a | b);
+		a >>= Integer.numberOfTrailingZeros(a);
+		while (b != 0) {
+			b >>= Integer.numberOfTrailingZeros(b);
+			if (a > b) {
+				int tmp = a;
+				a = b;
+				b = tmp;
+			}
+			b -= a;
+		}
+		return a << commonShift;
+	}
+
+	// region < I/O & Debug >
+	public static void main(final String[] args) {
+		try {
+			solve();
+		} catch (final Exception e) {
+			e.printStackTrace();
+		} finally {
+			sc.close();
+			out.close();
+		}
+	}
+	// endregion
+
+	private static void debug(final Object... args) {
+		if (DEBUG) {
+			out.flush();
+			System.err.println(deepToString(args));
+		}
 	}
 
 	/**
@@ -324,9 +523,7 @@ public final class D {
 			 * エラーの種類を表す列挙型
 			 */
 			private enum ErrorType {
-				NULL_COMPARATOR("ComparatorFunction is null."),
-				INVALID_BOUNDS("Invalid bounds: left=%d, right=%d."),
-				COMPARATOR_ERROR("Error occurred in comparator function: %s");
+				NULL_COMPARATOR("ComparatorFunction is null."), INVALID_BOUNDS("Invalid bounds: left=%d, right=%d."), COMPARATOR_ERROR("Error occurred in comparator function: %s");
 
 				private final String messageFormat;
 
@@ -338,205 +535,6 @@ public final class D {
 					return String.format(messageFormat, args);
 				}
 			}
-		}
-	}
-
-	// region < Utility Methods >
-	private static boolean isValidRange(final int i, final int j, final int h, final int w) {
-		return 0 <= i && i < h && 0 <= j && j < w;
-	}
-
-	private static void swap(final char[] a, final int i, final int j) {
-		final char tmp = a[i];
-		a[i] = a[j];
-		a[j] = tmp;
-	}
-
-	private static void swap(final int[] a, final int i, final int j) {
-		final int tmp = a[i];
-		a[i] = a[j];
-		a[j] = tmp;
-	}
-
-	private static void swap(final long[] a, final int i, final int j) {
-		final long tmp = a[i];
-		a[i] = a[j];
-		a[j] = tmp;
-	}
-
-	private static boolean chmin(final char[] a, final int i, final char v) {
-		if (a[i] <= v) return false;
-		a[i] = v;
-		return true;
-	}
-
-	private static boolean chmin(final int[] a, final int i, final int v) {
-		if (a[i] <= v) return false;
-		a[i] = v;
-		return true;
-	}
-
-	private static boolean chmin(final long[] a, final int i, final long v) {
-		if (a[i] <= v) return false;
-		a[i] = v;
-		return true;
-	}
-
-	private static boolean chmax(final char[] a, final int i, final char v) {
-		if (a[i] >= v) return false;
-		a[i] = v;
-		return true;
-	}
-
-	private static boolean chmax(final int[] a, final int i, final int v) {
-		if (a[i] >= v) return false;
-		a[i] = v;
-		return true;
-	}
-
-	private static boolean chmax(final long[] a, final int i, final long v) {
-		if (a[i] >= v) return false;
-		a[i] = v;
-		return true;
-	}
-
-	private static int min(int... a) {
-		int len = a.length;
-		int min = a[0];
-		for (int i = 1; i < len; i++) if (min > a[i]) min = a[i];
-		return min;
-	}
-
-	private static int max(int... a) {
-		int len = a.length;
-		int max = a[0];
-		for (int i = 1; i < len; i++) if (max < a[i]) max = a[i];
-		return max;
-	}
-
-	private static long min(long... a) {
-		int len = a.length;
-		long min = a[0];
-		for (int i = 1; i < len; i++) if (min > a[i]) min = a[i];
-		return min;
-	}
-
-	private static long max(long... a) {
-		int len = a.length;
-		long max = a[0];
-		for (int i = 1; i < len; i++) if (max < a[i]) max = a[i];
-		return max;
-	}
-
-	private static double min(double... a) {
-		int len = a.length;
-		double min = a[0];
-		for (int i = 1; i < len; i++) if (min > a[i]) min = a[i];
-		return min;
-	}
-
-	private static double max(double... a) {
-		int len = a.length;
-		double max = a[0];
-		for (int i = 1; i < len; i++) if (max < a[i]) max = a[i];
-		return max;
-	}
-
-	private static long lModPow(long a, long b, final long mod) {
-		long ans = 1;
-		for (a %= mod; b > 0; a = a * a % mod, b >>= 1) {
-			if ((b & 1) == 1) ans = ans * a % mod;
-		}
-		return ans;
-	}
-
-	private static int iModPow(int a, int b, final int mod) {
-		int ans = 1;
-		for (a %= mod; b > 0; a = (int) ((long) a * a % mod), b >>= 1) {
-			if ((b & 1) == 1) ans = (int) ((long) ans * a % mod);
-		}
-		return ans;
-	}
-
-	private static long floorLong(final long a, final long b) {
-		return a < 0 ? (a - b + 1) / b : a / b;
-	}
-
-	private static int floorInt(final int a, final int b) {
-		return a < 0 ? (a - b + 1) / b : a / b;
-	}
-
-	private static long ceilLong(final long a, final long b) {
-		return a < 0 ? a / b : (a + b - 1) / b;
-	}
-
-	private static int ceilInt(final int a, final int b) {
-		return a < 0 ? a / b : (a + b - 1) / b;
-	}
-
-	private static long lcmLong(final long x, final long y) {
-		return x == 0 || y == 0 ? 0 : x / gcdLong(x, y) * y;
-	}
-
-	private static int lcmInt(final int x, final int y) {
-		return x == 0 || y == 0 ? 0 : x / gcdInt(x, y) * y;
-	}
-
-	private static long gcdLong(long a, long b) {
-		a = abs(a);
-		b = abs(b);
-		if (a == 0) return b;
-		if (b == 0) return a;
-		int commonShift = Long.numberOfTrailingZeros(a | b);
-		a >>= Long.numberOfTrailingZeros(a);
-		while (b != 0) {
-			b >>= Long.numberOfTrailingZeros(b);
-			if (a > b) {
-				long tmp = a;
-				a = b;
-				b = tmp;
-			}
-			b -= a;
-		}
-		return a << commonShift;
-	}
-
-	private static int gcdInt(int a, int b) {
-		a = abs(a);
-		b = abs(b);
-		if (a == 0) return b;
-		if (b == 0) return a;
-		int commonShift = Integer.numberOfTrailingZeros(a | b);
-		a >>= Integer.numberOfTrailingZeros(a);
-		while (b != 0) {
-			b >>= Integer.numberOfTrailingZeros(b);
-			if (a > b) {
-				int tmp = a;
-				a = b;
-				b = tmp;
-			}
-			b -= a;
-		}
-		return a << commonShift;
-	}
-	// endregion
-
-	// region < I/O & Debug >
-	public static void main(final String[] args) {
-		try {
-			solve();
-		} catch (final Exception e) {
-			e.printStackTrace();
-		} finally {
-			sc.close();
-			out.close();
-		}
-	}
-
-	private static void debug(final Object... args) {
-		if (DEBUG) {
-			out.flush();
-			System.err.println(deepToString(args));
 		}
 	}
 
@@ -1013,8 +1011,7 @@ public final class D {
 			for (int a = 1; a <= x; a++)
 				for (int b = 1; b <= y; b++)
 					for (int c = 1; c <= z; c++)
-						ps[a][b][c] = nextInt() + ps[a - 1][b][c] + ps[a][b - 1][c] + ps[a][b][c - 1] - ps[a - 1][b - 1][c]
-								- ps[a - 1][b][c - 1] - ps[a][b - 1][c - 1] + ps[a - 1][b - 1][c - 1];
+						ps[a][b][c] = nextInt() + ps[a - 1][b][c] + ps[a][b - 1][c] + ps[a][b][c - 1] - ps[a - 1][b - 1][c] - ps[a - 1][b][c - 1] - ps[a][b - 1][c - 1] + ps[a - 1][b - 1][c - 1];
 			return ps;
 		}
 
@@ -1023,8 +1020,7 @@ public final class D {
 			for (int a = 1; a <= x; a++)
 				for (int b = 1; b <= y; b++)
 					for (int c = 1; c <= z; c++)
-						ps[a][b][c] = nextLong() + ps[a - 1][b][c] + ps[a][b - 1][c] + ps[a][b][c - 1] - ps[a - 1][b - 1][c]
-								- ps[a - 1][b][c - 1] - ps[a][b - 1][c - 1] + ps[a - 1][b - 1][c - 1];
+						ps[a][b][c] = nextLong() + ps[a - 1][b][c] + ps[a][b - 1][c] + ps[a][b][c - 1] - ps[a - 1][b - 1][c] - ps[a - 1][b][c - 1] - ps[a][b - 1][c - 1] + ps[a - 1][b - 1][c - 1];
 			return ps;
 		}
 
@@ -1167,25 +1163,9 @@ public final class D {
 		private static final byte ZERO = '0';
 		private static final byte[] TRUE_BYTES = {'Y', 'e', 's'};
 		private static final byte[] FALSE_BYTES = {'N', 'o'};
-		private static final short[] DIGIT_PAIRS = {
-				12336, 12592, 12848, 13104, 13360, 13616, 13872, 14128, 14384, 14640,
-				12337, 12593, 12849, 13105, 13361, 13617, 13873, 14129, 14385, 14641,
-				12338, 12594, 12850, 13106, 13362, 13618, 13874, 14130, 14386, 14642,
-				12339, 12595, 12851, 13107, 13363, 13619, 13875, 14131, 14387, 14643,
-				12340, 12596, 12852, 13108, 13364, 13620, 13876, 14132, 14388, 14644,
-				12341, 12597, 12853, 13109, 13365, 13621, 13877, 14133, 14389, 14645,
-				12342, 12598, 12854, 13110, 13366, 13622, 13878, 14134, 14390, 14646,
-				12343, 12599, 12855, 13111, 13367, 13623, 13879, 14135, 14391, 14647,
-				12344, 12600, 12856, 13112, 13368, 13624, 13880, 14136, 14392, 14648,
-				12345, 12601, 12857, 13113, 13369, 13625, 13881, 14137, 14393, 14649,
-		};
+		private static final short[] DIGIT_PAIRS = {12336, 12592, 12848, 13104, 13360, 13616, 13872, 14128, 14384, 14640, 12337, 12593, 12849, 13105, 13361, 13617, 13873, 14129, 14385, 14641, 12338, 12594, 12850, 13106, 13362, 13618, 13874, 14130, 14386, 14642, 12339, 12595, 12851, 13107, 13363, 13619, 13875, 14131, 14387, 14643, 12340, 12596, 12852, 13108, 13364, 13620, 13876, 14132, 14388, 14644, 12341, 12597, 12853, 13109, 13365, 13621, 13877, 14133, 14389, 14645, 12342, 12598, 12854, 13110, 13366, 13622, 13878, 14134, 14390, 14646, 12343, 12599, 12855, 13111, 13367, 13623, 13879, 14135, 14391, 14647, 12344, 12600, 12856, 13112, 13368, 13624, 13880, 14136, 14392, 14648, 12345, 12601, 12857, 13113, 13369, 13625, 13881, 14137, 14393, 14649,};
 
-		private static final long[] POW10 = {
-				1, 10, 100, 1_000, 10_000, 100_000, 1_000_000, 10_000_000, 100_000_000,
-				1_000_000_000, 10_000_000_000L, 100_000_000_000L, 1_000_000_000_000L,
-				10_000_000_000_000L, 100_000_000_000_000L, 1_000_000_000_000_000L,
-				10_000_000_000_000_000L, 100_000_000_000_000_000L, 1_000_000_000_000_000_000L
-		};
+		private static final long[] POW10 = {1, 10, 100, 1_000, 10_000, 100_000, 1_000_000, 10_000_000, 100_000_000, 1_000_000_000, 10_000_000_000L, 100_000_000_000L, 1_000_000_000_000L, 10_000_000_000_000L, 100_000_000_000_000L, 1_000_000_000_000_000L, 10_000_000_000_000_000L, 100_000_000_000_000_000L, 1_000_000_000_000_000_000L};
 		private final OutputStream out;
 		private final boolean autoFlush;
 		private byte[] buffer;

@@ -5,7 +5,7 @@ import java.util.*;
 import java.util.function.*;
 import java.util.stream.*;
 
-import lib.ds.*;
+import lib.ds.priorityqueue.*;
 import lib.graph.*;
 import lib.io.*;
 
@@ -31,15 +31,15 @@ public final class E {
 			}
 		}
 
-		IndexedPriorityQueue pq = new IndexedPriorityQueue(n);
-		pq.push(0, 0);
+		IntIndexedPriorityQueue pq = new IntIndexedPriorityQueue(n);
+		pq.add(0, 0);
 		int[] parent = new int[n];
 		boolean[] visited = new boolean[n];
 		parent[0] = -1;
 		UndirectedGraph tree = new UndirectedGraph(n, n - 1);
 		while (!pq.isEmpty()) {
-			int u = pq.peekNode();
-			int c = (int) pq.poll();
+			int u = pq.peekIndex();
+			int c = pq.poll();
 			if (parent[u] != -1) tree.add(parent[u], u, c);
 			visited[u] = true;
 			int[] cost = a[u];

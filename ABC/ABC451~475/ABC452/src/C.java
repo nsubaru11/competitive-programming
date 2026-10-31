@@ -1,16 +1,7 @@
 import static java.lang.Math.*;
 import static java.util.Arrays.*;
-import static java.util.Comparator.*;
-import static java.util.stream.Collectors.*;
-import static java.util.stream.Gatherers.*;
 
-import java.io.*;
-import java.lang.invoke.*;
-import java.math.*;
-import java.nio.*;
-import java.nio.charset.*;
 import java.util.*;
-import java.util.Map.*;
 import java.util.function.*;
 import java.util.stream.*;
 

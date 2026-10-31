@@ -5,7 +5,7 @@ import java.util.*;
 import java.util.function.*;
 import java.util.stream.*;
 
-import lib.ds.*;
+import lib.ds.set.*;
 import lib.io.*;
 
 public final class D {

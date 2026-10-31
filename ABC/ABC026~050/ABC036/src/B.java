@@ -22,8 +22,8 @@ public final class B {
 
 	private static void solve() {
 		int n = sc.nextInt();
-		IntArray2D arr = new IntArray2D(n, n, (i, j) -> i * n + j);
-		arr.rRotate();
+		IntArray2D arr = new IntArray2D(n, n).setAll((i, j) -> i * n + j);
+		arr.rotateRight();
 		char[][] s = sc.nextCharMat(n, n);
 		char[][] ans = new char[n][n];
 		for (int i = 0; i < n; i++) {

@@ -1,16 +1,21 @@
-import java.io.*;
+import static java.util.Arrays.*;
+
 import java.util.concurrent.*;
 
-import static java.util.Arrays.*;
+import lib.io.*;
 
 public final class Main2 {
 
 	// region < Constants & Globals >
-	private static final long startTime = System.currentTimeMillis();
+	private static final boolean DEBUG = true;
+	private static final int MOD = 998244353;
+	// private static final int MOD = 1_000_000_007;
+	private static final char[] op = new char[]{'L', 'U', 'R', 'D'};
 	private static final byte[] di = new byte[]{0, -1, 0, 1};
 	private static final byte[] dj = new byte[]{-1, 0, 1, 0};
 	private static final FastScanner sc = new FastScanner();
 	private static final FastPrinter out = new FastPrinter();
+	private static final long startTime = System.currentTimeMillis();
 	private static byte[] init, target, moveMask;
 	private static byte[][] nextIdx;
 	private static long[] ZOBRIST_SNAKE, ZOBRIST_HEAD;
@@ -109,7 +114,6 @@ public final class Main2 {
 		try {
 			solve();
 		} finally {
-			sc.close();
 			out.close();
 		}
 	}
@@ -289,8 +293,7 @@ public final class Main2 {
 			return Integer.compare(score, o.score);
 		}
 
-		private record SearchNode(SearchNode prev, byte op) {
-		}
+		private record SearchNode(SearchNode prev, byte op) {}
 	}
 
 	private static final class BeamQueue {
@@ -431,97 +434,5 @@ public final class Main2 {
 		}
 	}
 
-	private static final class FastScanner implements AutoCloseable {
-		private final InputStream in;
-		private final byte[] buffer;
-		private int pos = 0;
-
-		public FastScanner() {
-			this.in = System.in;
-			try {
-				buffer = in.readAllBytes();
-			} catch (final IOException e) {
-				throw new RuntimeException(e);
-			}
-		}
-
-		private int skipSpaces() {
-			int p = pos, b;
-			do {
-				b = buffer[p++];
-			} while (b <= 32);
-			pos = p;
-			return b;
-		}
-
-		@Override
-		public void close() {
-			try {
-				in.close();
-			} catch (final IOException e) {
-				throw new RuntimeException(e);
-			}
-		}
-
-		public char nextChar() {
-			return (char) skipSpaces();
-		}
-
-		public int nextInt() {
-			int b = skipSpaces();
-			boolean negative = false;
-			if (b == '-') {
-				negative = true;
-				b = buffer[pos++];
-			}
-			int p = pos;
-			int n = 0;
-			do {
-				n = (n << 3) + (n << 1) + (b & 15);
-				b = buffer[p++];
-			} while (b > 32);
-			pos = p;
-			return negative ? -n : n;
-		}
-	}
-
-	private static final class FastPrinter implements AutoCloseable {
-		private final OutputStream out;
-		private final byte[] buffer;
-		private int pos = 0;
-
-		public FastPrinter() {
-			this.out = System.out;
-			this.buffer = new byte[200000];
-		}
-
-		public void println(final byte[] arr) {
-			for (byte b : arr) {
-				buffer[pos++] = b;
-				buffer[pos++] = '\n';
-			}
-		}
-
-		@Override
-		public void close() {
-			try {
-				flush();
-				out.close();
-			} catch (final IOException e) {
-				throw new RuntimeException(e);
-			}
-		}
-
-		public void flush() {
-			if (pos == 0) return;
-			try {
-				out.write(buffer, 0, pos);
-				pos = 0;
-			} catch (final IOException e) {
-				throw new RuntimeException(e);
-			}
-		}
-
-	}
 	// endregion
 }
