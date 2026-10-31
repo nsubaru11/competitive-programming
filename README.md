@@ -14,6 +14,8 @@ competitive-programming/
 ├── aoj/                 # Aizu Online Judge
 ├── codeforces/          # Codeforces
 ├── paiza/               # paiza (skill-check/a/src/java/A006.java など)
+├── techful/             # TechFUL
+├── study/               # アルゴリズムの学習用実装
 ├── icpc/                # ICPC・JAG (問題データはローカルのみ)
 ├── library/java/        # Java ライブラリ (submodule)
 ├── library/cpp/         # C++ ライブラリ (submodule)
