@@ -79,7 +79,6 @@ logs/
 
 tools/**/node_modules/
 
-ADT/
 # ICPC の問題データと問題 PDF はローカルのみで管理
 icpc/**/*.in
 icpc/**/*.out

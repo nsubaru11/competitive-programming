@@ -2,7 +2,7 @@
 
 ## プロジェクト概要
 
-このプロジェクトはAtCoderのJava解答、解答テンプレート、ローカルランナーを管理します。再利用ライブラリは library/ にあります。
+このプロジェクトは競技プログラミングの解答、解答テンプレート、ローカルランナーを管理します。再利用ライブラリは library/java/ にあります。
 
 ## コーディング規則
 
@@ -16,19 +16,19 @@
 
 ## ディレクトリ構成
 
-- ABC/、ARC/、AGC/、AHC/、ADT/、AWC/、Other/: コンテスト別の解答。
-- template/: Java 24版とJava 17版の解答テンプレート。
-- library/src/lib/: importして利用する競技プログラミングライブラリ。
-- library/test/: ライブラリの検証コード。
-- library/docs/: ライブラリのドキュメント。
-- tools/runner/: ローカルランナーとJavaのバンドル・実行処理。
+- atcoder/、aoj/、codeforces/、icpc/: コンテスト別の解答。言語ごとに src/java/ などへ配置する。
+- templates/: Java 24版とJava 17版の解答テンプレート、提出用ヘッダー。
+- library/java/src/lib/: importして利用する競技プログラミングライブラリ。
+- library/java/test/: ライブラリの検証コード。
+- library/java/docs/: ライブラリのドキュメント。
+- tools/local-runner/: ローカルランナーとJavaのバンドル・実行処理。
 - tools/userscripts/、tools/shared/: UserScriptと共有処理。
 - out/、logs/: 生成物。ソースとして管理しない。
 
 ## JDKバージョン
 
 - 基本の開発・実行環境は JDK 24.0.2（Java 24）。
-- template/TemplateCode17.java と library/src/lib/io/compat17/ は Java 17互換を維持する。
+- templates/TemplateCode17.java と library/java/src/lib/io/compat17/ は Java 17互換を維持する。
 - 過去問に個別指定されたJDKは、対象問題の実行環境を確認せず一括変更しない。
-- ライブラリを編集する場合は library/AGENTS.md と配下の指示に従う。
-- 提出時は tools/runner による lib.* のバンドルを使用する。詳細は LIBRARY_USAGE.md を参照する。
+- ライブラリを編集する場合は library/java/AGENTS.md と配下の指示に従う。
+- 提出時は tools/local-runner による lib.* のバンドルを使用する。詳細は docs/LIBRARY_USAGE.md を参照する。

@@ -2,20 +2,20 @@
 
 ## 初回セットアップ
 
-AtCoderリポジトリのルートで実行します。
+リポジトリのルートで実行します。
 
 ```powershell
 git submodule update --init --recursive
-powershell -ExecutionPolicy Bypass -File .\setup-library.ps1
+python scripts/generate-modules.py
 ```
 
 スクリプトは次を行います。
 
-- `library/src`をIntelliJの`competitive-programming-library`モジュールとして登録
-- 既存の各コンテストモジュールへModule Dependencyを追加
-- Project File Templateの`AtCoder Library Solution`を配置
+- 解答フォルダごとのIntelliJモジュールを作成
+- AtCoderのモジュールへ`library`のModule Dependencyを追加
+- `.idea/modules.xml`を更新
 
-新しいコンテストモジュールを作った後も、`setup-library.ps1`を再実行すれば依存が追加されます。
+新しいコンテストフォルダを作った後も、このスクリプトを再実行すればモジュールが追加されます。
 
 ## 解答を書く
 
@@ -75,7 +75,7 @@ Bundled library classes: lib.graph.Kruskal, lib.ds.UnionFind
 
 ## libraryが見つからない場合
 
-通常はAtCoderルートの`library/src`が自動検出されます。別の配置を使う場合だけ環境変数を指定します。
+通常はリポジトリルートの`library/java/src`が自動検出されます。別の配置を使う場合だけ環境変数を指定します。
 
 ```powershell
 $env:ATCODER_LIB_SRC = "C:\path\to\competitive-programming-java-library\src"
@@ -97,5 +97,5 @@ $env:ATCODER_LIB_SRC = "C:\path\to\competitive-programming-java-library\src"
 バンドラに問題がある場合は、次の順で切り戻せます。
 
 1. `toclip`でコピーした、最後に成功した提出コードを使用
-2. `library/src/lib/...`からログに表示されたクラスを手動展開
-3. 従来の自己完結テンプレート`template/TemplateCode.java`またはJava 17版を使用
+2. `library/java/src/lib/...`からログに表示されたクラスを手動展開
+3. 従来の自己完結テンプレート`templates/TemplateCode.java`またはJava 17版を使用
