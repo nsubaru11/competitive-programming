@@ -1,7 +1,7 @@
 [project]
-name = "atcoder"
+name = "competitive-programming-scripts"
 version = "0.1.0"
-description = "Add your description here"
+description = "Helper scripts for competitive programming"
 requires-python = ">=3.14"
 dependencies = [
     "beautifulsoup4>=4.14.3",

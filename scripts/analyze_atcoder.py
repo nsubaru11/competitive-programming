@@ -1,3 +1,4 @@
+import os
 import re
 import time
 
@@ -5,7 +6,7 @@ import requests
 from bs4 import BeautifulSoup
 
 # "REVEL_SESSION" の値をコピーして貼り付けてください
-SESSION_ID = "efff20ef320638a318b4b18cba33cf5c59c07471-%00UserName%3Ansubaru%00%00a%3Afalse%00%00w%3Afalse%00%00_TS%3A1784954811%00%00csrf_token%3ACJ3GhRaQ9MMuIII48kD6zDMnu5wMn2vMsslSr68Ug9Y%3D%00%00SessionKey%3A68cd5257f016a62add897116d6ed03603a77f7a03c5f314c5ef7df4c3d626e41%00%00UserScreenName%3Ansubaru%00"
+SESSION_ID = os.environ.get("ATCODER_SESSION", "")
 
 CONTEST_ID = "abc442"
 PROBLEM_ID = "abc442_d"

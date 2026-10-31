@@ -1,0 +1,12 @@
+# 問題データと問題 PDF はローカルのみで管理する
+*.in
+*.out
+*.ans
+*.diff
+judgedata/
+domestic-*-data/
+prelim/**/*.pdf
+jag/**/*.pdf
+
+# 大会資料にはチーム情報が含まれるため公開しない
+prelim/*/docs/
