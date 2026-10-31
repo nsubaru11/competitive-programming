@@ -1,0 +1,565 @@
+import static java.lang.Math.*;
+import static java.util.Arrays.*;
+
+import java.io.*;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
+
+public final class D {
+
+	// region < Constants & Globals >
+	private static final boolean DEBUG = true;
+	private static final int MOD = 998244353;
+	// private static final int MOD = 1_000_000_007;
+	private static final char[] op = new char[]{'L', 'U', 'R', 'D'};
+	private static final int[] di = new int[]{0, -1, 0, 1, -1, -1, 1, 1};
+	private static final int[] dj = new int[]{-1, 0, 1, 0, -1, 1, 1, -1};
+	private static final Scanner sc = new Scanner(System.in);
+	private static final PrintWriter out = new PrintWriter(System.out, false);
+	// endregion
+
+	private static void solve() {
+		int n, k;
+		FactorialTable table = new FactorialTable(10_000);
+		outer:
+		while ((n = sc.nextInt()) + (k = sc.nextInt()) != 0) {
+			int[] s = new int[n];
+			setAll(s, i -> sc.nextInt());
+			int[] inv = new int[n];
+			for (int i = 0; i < n; i++) inv[s[i] - 1] = i;
+			int[] t = new int[n];
+			setAll(t, i -> sc.nextInt());
+			PriorityQueue<Integer> head = new PriorityQueue<>(Comparator.comparingInt(i -> s[i]));
+			TreeMap<Integer, Integer> intervals = new TreeMap<>();
+			head.add(0);
+			intervals.put(0, n - 1);
+			int[] cnt = new int[n];
+			// 絶対に分割しないといけない区間
+			for (int ti : t) {
+				int pi = head.peek();
+				if (s[pi] == ti) {
+					var entry = intervals.floorEntry(pi);
+					int l = entry.getKey(), r = entry.getValue();
+					head.poll();
+					if (l + cnt[l] == r) continue;
+					head.add(l + cnt[l] + 1);
+					cnt[l]++;
+				} else if (s[pi] > ti) {
+					int l = inv[ti - 1];
+					var lower = intervals.lowerEntry(l);
+					if (lower.getValue() >= l) {
+						intervals.put(l, lower.getValue());
+					} else {
+						var higher = intervals.higherEntry(l);
+						intervals.put(l, higher.getKey() - 1);
+					}
+					intervals.put(lower.getKey(), l - 1);
+					int r = intervals.get(l);
+					if (l + cnt[l] == r) continue;
+					head.add(l + 1);
+					cnt[l]++;
+				} else {
+					out.println(0);
+					continue outer;
+				}
+			}
+			if (intervals.size() > k) {
+				out.println(0);
+				continue;
+			}
+			int gate = k - intervals.size();
+			int divideCnt = 0;
+			for (var interval : intervals.entrySet()) {
+				int l = interval.getKey(), r = interval.getValue();
+				int mx = 0;
+				for (int p = l; p < r; p++) {
+					mx = max(mx, s[p]);
+					if (mx < s[p + 1]) divideCnt++;
+				}
+			}
+			int ans = 0;
+			for (int i = 0; i <= gate; i++) {
+				ans = (ans + table.nCr(divideCnt, i)) % MOD;
+			}
+			out.println(ans);
+		}
+	}
+
+	// region < Utility Methods >
+	private static boolean isValidRange(final int i, final int from, final int to) {
+		return ((i - from) | (to - 1 - i)) >= 0;
+	}
+
+	private static boolean isValidRange(final int i, final int j, final int h, final int w) {
+		return ((i | j | (h - 1 - i) | (w - 1 - j)) >>> 31) == 0;
+	}
+
+	private static void swap(final char[] a, final int i, final int j) {
+		final char tmp = a[i];
+		a[i] = a[j];
+		a[j] = tmp;
+	}
+
+	private static void swap(final int[] a, final int i, final int j) {
+		final int tmp = a[i];
+		a[i] = a[j];
+		a[j] = tmp;
+	}
+
+	private static void swap(final long[] a, final int i, final int j) {
+		final long tmp = a[i];
+		a[i] = a[j];
+		a[j] = tmp;
+	}
+
+	private static boolean chmin(final char[] a, final int i, final char v) {
+		if (a[i] <= v) return false;
+		a[i] = v;
+		return true;
+	}
+
+	private static boolean chmin(final int[] a, final int i, final int v) {
+		if (a[i] <= v) return false;
+		a[i] = v;
+		return true;
+	}
+
+	private static boolean chmin(final long[] a, final int i, final long v) {
+		if (a[i] <= v) return false;
+		a[i] = v;
+		return true;
+	}
+
+	private static boolean chmax(final char[] a, final int i, final char v) {
+		if (a[i] >= v) return false;
+		a[i] = v;
+		return true;
+	}
+
+	private static boolean chmax(final int[] a, final int i, final int v) {
+		if (a[i] >= v) return false;
+		a[i] = v;
+		return true;
+	}
+
+	private static boolean chmax(final long[] a, final int i, final long v) {
+		if (a[i] >= v) return false;
+		a[i] = v;
+		return true;
+	}
+
+	private static int min(final int a, final int b) {
+		return Math.min(a, b);
+	}
+
+	private static int min(final int a, final int b, final int c) {
+		return Math.min(a, Math.min(b, c));
+	}
+
+	private static int min(int... a) {
+		int len = a.length;
+		int min = a[0];
+		for (int i = 1; i < len; i++) if (min > a[i]) min = a[i];
+		return min;
+	}
+
+	private static int max(final int a, final int b) {
+		return Math.max(a, b);
+	}
+
+	private static int max(final int a, final int b, final int c) {
+		return Math.max(a, Math.max(b, c));
+	}
+
+	private static int max(int... a) {
+		int len = a.length;
+		int max = a[0];
+		for (int i = 1; i < len; i++) if (max < a[i]) max = a[i];
+		return max;
+	}
+
+	private static long min(final long a, final long b) {
+		return Math.min(a, b);
+	}
+
+	private static long min(final long a, final long b, final long c) {
+		return Math.min(a, Math.min(b, c));
+	}
+
+	private static long min(long... a) {
+		int len = a.length;
+		long min = a[0];
+		for (int i = 1; i < len; i++) if (min > a[i]) min = a[i];
+		return min;
+	}
+
+	private static long max(final long a, final long b) {
+		return Math.max(a, b);
+	}
+
+	private static long max(final long a, final long b, final long c) {
+		return Math.max(a, Math.max(b, c));
+	}
+
+	private static long max(long... a) {
+		int len = a.length;
+		long max = a[0];
+		for (int i = 1; i < len; i++) if (max < a[i]) max = a[i];
+		return max;
+	}
+
+	private static double min(final double a, final double b) {
+		return Math.min(a, b);
+	}
+
+	private static double min(final double a, final double b, final double c) {
+		return Math.min(a, Math.min(b, c));
+	}
+
+	private static double min(double... a) {
+		int len = a.length;
+		double min = a[0];
+		for (int i = 1; i < len; i++) if (min > a[i]) min = a[i];
+		return min;
+	}
+
+	private static double max(final double a, final double b) {
+		return Math.max(a, b);
+	}
+
+	private static double max(final double a, final double b, final double c) {
+		return Math.max(a, Math.max(b, c));
+	}
+
+	private static double max(double... a) {
+		int len = a.length;
+		double max = a[0];
+		for (int i = 1; i < len; i++) if (max < a[i]) max = a[i];
+		return max;
+	}
+
+	private static int diff(final int a, final int b) {
+		return a > b ? a - b : b - a;
+	}
+
+	private static long diff(final long a, final long b) {
+		return a > b ? a - b : b - a;
+	}
+
+	private static double diff(final double a, final double b) {
+		return a > b ? a - b : b - a;
+	}
+
+	private static long lModPow(long a, long b, final long mod) {
+		if (b == 0) return 1;
+		long ans = 1;
+		for (a %= mod; b > 1; b >>= 1) {
+			if ((b & 1) == 1) ans = ans * a % mod;
+			a = a * a % mod;
+		}
+		return ans * a % mod;
+	}
+
+	private static int iModPow(int a, int b, final int mod) {
+		if (b == 0) return 1;
+		int ans = 1;
+		for (a %= mod; b > 1; b >>= 1) {
+			if ((b & 1) == 1) ans = (int) ((long) ans * a % mod);
+			a = (int) ((long) a * a % mod);
+		}
+		return (int) ((long) ans * a % mod);
+	}
+
+	private static long lcmLong(final long x, final long y) {
+		return x == 0 || y == 0 ? 0 : x / gcdLong(x, y) * y;
+	}
+
+	private static int lcmInt(final int x, final int y) {
+		return x == 0 || y == 0 ? 0 : x / gcdInt(x, y) * y;
+	}
+
+	private static long gcdLong(long a, long b) {
+		a = abs(a);
+		b = abs(b);
+		if (a == 0) return b;
+		if (b == 0) return a;
+		int commonShift = Long.numberOfTrailingZeros(a | b);
+		a >>= Long.numberOfTrailingZeros(a);
+		while (b != 0) {
+			b >>= Long.numberOfTrailingZeros(b);
+			if (a > b) {
+				long tmp = a;
+				a = b;
+				b = tmp;
+			}
+			b -= a;
+		}
+		return a << commonShift;
+	}
+
+	private static int gcdInt(int a, int b) {
+		a = abs(a);
+		b = abs(b);
+		if (a == 0) return b;
+		if (b == 0) return a;
+		int commonShift = Integer.numberOfTrailingZeros(a | b);
+		a >>= Integer.numberOfTrailingZeros(a);
+		while (b != 0) {
+			b >>= Integer.numberOfTrailingZeros(b);
+			if (a > b) {
+				int tmp = a;
+				a = b;
+				b = tmp;
+			}
+			b -= a;
+		}
+		return a << commonShift;
+	}
+
+	private static void compression(final int[] a, final int len) {
+		final int[] b = copyOf(a, len);
+		sort(b);
+		int n = 1;
+		for (int i = 1; i < len; i++) {
+			if (b[i] == b[i - 1]) continue;
+			b[n++] = b[i];
+		}
+		for (int i = 0; i < len; i++) {
+			a[i] = binarySearch(b, 0, n, a[i]);
+		}
+	}
+
+	private static void compression(final int[][] a, final int n, final int m) {
+		final int len = n * m;
+		final int[] b = new int[len];
+		for (int i = 0, j = 0; i < n; i++, j += m) {
+			System.arraycopy(a[i], 0, b, j, m);
+		}
+		sort(b);
+		int nm = 1;
+		for (int i = 1; i < len; i++) {
+			if (b[i] == b[i - 1]) continue;
+			b[nm++] = b[i];
+		}
+		for (int i = 0; i < n; i++) {
+			int[] ai = a[i];
+			for (int j = 0; j < m; j++) {
+				ai[j] = binarySearch(b, 0, nm, ai[j]);
+			}
+		}
+	}
+
+	private static void compression(final int[][] a, final int n) {
+		int len = 0;
+		for (int i = 0; i < n; i++) len += a[i].length;
+		final int[] b = new int[len];
+		for (int i = 0, j = 0; i < n; i++) {
+			int m = a[i].length;
+			System.arraycopy(a[i], 0, b, j, m);
+			j += m;
+		}
+		sort(b);
+		int nm = 1;
+		for (int i = 1; i < len; i++) {
+			if (b[i] == b[i - 1]) continue;
+			b[nm++] = b[i];
+		}
+		for (int i = 0; i < n; i++) {
+			int[] ai = a[i];
+			for (int j = 0, m = ai.length; j < m; j++) {
+				ai[j] = binarySearch(b, 0, nm, ai[j]);
+			}
+		}
+	}
+
+	private static int digit2(long n) {
+		if (n == 0) return 1;
+		if (n == Long.MIN_VALUE) return 63;
+		return 64 - Long.numberOfLeadingZeros(Math.abs(n));
+	}
+
+	private static int digit2(int n) {
+		if (n == 0) return 1;
+		if (n == Integer.MIN_VALUE) return 31;
+		return 32 - Integer.numberOfLeadingZeros(Math.abs(n));
+	}
+
+	private static int digit10(long n) {
+		if (n == Long.MIN_VALUE) return 19;
+		if (n < 0) n = -n;
+		int res = 0;
+		do {
+			res++;
+			n /= 10;
+		} while (n > 0);
+		return res;
+	}
+
+	private static int digit10(int n) {
+		if (n == Integer.MIN_VALUE) return 10;
+		if (n < 0) n = -n;
+		int res = 0;
+		do {
+			res++;
+			n /= 10;
+		} while (n > 0);
+		return res;
+	}
+
+	private static long lSqrt(final long n) {
+		if (n <= 0) return 0;
+		long x = (long) sqrt(n);
+		while (x * x > n) x--;
+		while ((x + 1) * (x + 1) <= n) x++;
+		return x;
+	}
+
+	private static int iSqrt(final int n) {
+		if (n <= 0) return 0;
+		return (int) sqrt(n);
+	}
+	// endregion
+
+	// region < I/O & Debug >
+	public static void main(final String[] args) {
+		try {
+			solve();
+		} finally {
+			sc.close();
+			out.close();
+		}
+	}
+
+	private static void debugln(final Object... args) {
+		if (DEBUG) {
+			out.flush();
+			System.err.println(stream(args).map(Object::toString).collect(Collectors.joining("\n", "\n", "")));
+		}
+	}
+
+	private static void debug(final Object... args) {
+		if (DEBUG) {
+			out.flush();
+			System.err.println(stream(args).map(Object::toString).collect(Collectors.joining(", ", "", "")));
+		}
+	}
+
+	@SuppressWarnings("unused")
+	private static final class FactorialTable {
+		private final int mod;
+		private final int[] fact, invFact;
+
+		public FactorialTable() {
+			this(1_000_000, 998244353);
+		}
+
+		public FactorialTable(final int n) {
+			this(n, 998244353);
+		}
+
+		public FactorialTable(final int n, final int mod) {
+			this.mod = mod;
+			final int len = n << 1 | 1;
+			fact = new int[len];
+			invFact = new int[len];
+			fact[0] = 1;
+			for (int i = 1; i < len; i++) {
+				fact[i] = (int) ((long) i * fact[i - 1] % mod);
+			}
+			int invFactN = 1;
+			for (int a = fact[len - 1], b = mod - 2; b > 0; a = (int) ((long) a * a % mod), b >>= 1) {
+				if ((b & 1) == 1) invFactN = (int) ((long) invFactN * a % mod);
+			}
+			invFact[len - 1] = invFactN;
+			for (int i = len - 1; i > 0; i--) {
+				invFact[i - 1] = (int) ((long) invFact[i] * i % mod);
+			}
+		}
+
+		public int fact(final int n) {
+			return fact[n];
+		}
+
+		public int invFact(final int n) {
+			return invFact[n];
+		}
+
+		public int nCr(final int n, final int r) {
+			if (r < 0 || r > n) return 0;
+			return (int) ((long) fact[n] * invFact[r] % mod * invFact[n - r] % mod);
+		}
+
+		public int nPr(final int n, final int r) {
+			if (r < 0 || r > n) return 0;
+			return (int) ((long) fact[n] * invFact[n - r] % mod);
+		}
+
+		/**
+		 * `n` 種類のものから、重複を許して `r` 個選ぶ組み合わせ数
+		 *
+		 * @param n 種類数
+		 * @param r 選択個数
+		 * @return 重複組み合わせ
+		 */
+		public int nHr(final int n, final int r) {
+			if (n < 0 || r < 0) return 0;
+			if (n == 0 && r == 0) return 1;
+			return nCr(n + r - 1, r);
+		}
+
+		/**
+		 * 正しい括弧列の個数
+		 * グリッド上で対角線を越えずに `(0,0)` から `(n,n)` へ移動する経路数
+		 *
+		 * @param n n組
+		 * @return カタラン数
+		 */
+		public int catalan(final int n) {
+			if (n < 0) return 0;
+			return (nCr(2 * n, n) - nCr(2 * n, n - 1) + mod) % mod;
+		}
+
+		/**
+		 * `n` 種類のものを、 `k` 個の「列（並び順に意味があるグループ）」に分割する組み合わせ数
+		 *
+		 * @param n 種類数
+		 * @param k 列数
+		 * @return lah number
+		 */
+		public int lah(final int n, final int k) {
+			if (n < k || k < 0) return 0;
+			if (n == 0) return 1;
+			long res = (long) nCr(n - 1, k - 1) * fact[n] % mod;
+			return (int) (res * invFact[k] % mod);
+		}
+
+		/**
+		 * 長さ `2n` の正しい括弧列のうち、`()` という山（ピーク）がちょうど `k` 個あるものの数
+		 *
+		 * @param n n組
+		 * @param k 山の数
+		 * @return ナラヤナ数
+		 */
+		public int narayana(final int n, final int k) {
+			if (k < 1 || k > n) return 0;
+			long res = (long) nCr(n, k) * nCr(n, k - 1) % mod;
+			long invN = (long) fact[n - 1] * invFact[n] % mod;
+			return (int) (res * invN % mod);
+		}
+
+		/**
+		 * グリッド上で対角線を越えずに `(0,0)` から `(n,k)` (n &ge; k) へ移動する経路数
+		 *
+		 * @param n 候補者Aの票数
+		 * @param k 候補者Bの票数
+		 * @return Ballot Theorem / カタランの三角形
+		 */
+		public int ballotTheorem(final int n, final int k) {
+			if (n < k || k < 0) return 0;
+			if (n == 0) return 1;
+			return (nCr(n + k, k) - nCr(n + k, k - 1) + mod) % mod;
+		}
+	}
+	// endregion
+}

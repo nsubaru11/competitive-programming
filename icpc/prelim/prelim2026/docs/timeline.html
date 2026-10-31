@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ICPC国内予選 作戦タイムライン</title>
+	<style>
+		:root {
+			--text: #1c2230;
+			--muted: #727c8d;
+			--line: #d7dce4;
+			--line2: #e8ebf1;
+			--fill: #eef1f6;
+			--ac: #3a7a55;
+			--mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+			--sans: system-ui, -apple-system, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			margin: 0;
+			background: #fff;
+			color: var(--text);
+			font-family: var(--sans);
+			line-height: 1.55;
+			font-size: 13px;
+		}
+
+		.page {
+			max-width: 1000px;
+			margin: 0 auto;
+			padding: 24px 22px;
+		}
+
+		.head {
+			display: flex;
+			align-items: baseline;
+			gap: 14px;
+			margin-bottom: 4px;
+			flex-wrap: wrap;
+		}
+
+		.head h1 {
+			font-size: 18px;
+			font-weight: 700;
+			margin: 0;
+		}
+
+		.head .meta {
+			font-family: var(--mono);
+			font-size: 11px;
+			color: var(--muted);
+		}
+
+		.head .meta em {
+			font-style: normal;
+			color: var(--ac);
+			font-weight: 700;
+		}
+
+		.note {
+			font-size: 12px;
+			color: var(--muted);
+			margin: 2px 0 0;
+		}
+
+		.note b {
+			color: var(--text);
+		}
+
+		.sec {
+			font-family: var(--mono);
+			font-size: 11px;
+			letter-spacing: .06em;
+			color: var(--muted);
+			margin: 26px 0 10px;
+			text-transform: uppercase;
+		}
+
+		/* timeline (非線形スケール: 0-10→12, 10-45→26, 45-90→30, 90-120→20, 120-180→12) */
+		.ruler {
+			position: relative;
+			height: 20px;
+			margin-left: 82px;
+			border-bottom: 1px solid var(--line);
+		}
+
+		.tick {
+			position: absolute;
+			top: 0;
+			transform: translateX(-50%);
+			font-family: var(--mono);
+			font-size: 10px;
+			color: var(--muted);
+		}
+
+		.tick::after {
+			content: "";
+			position: absolute;
+			left: 50%;
+			top: 14px;
+			width: 1px;
+			height: 6px;
+			background: var(--line);
+		}
+
+		.baton {
+			display: grid;
+			grid-template-columns:82px repeat(100, 1fr);
+			align-items: center;
+			height: 30px;
+			margin-bottom: 4px;
+		}
+
+		.baton .lbl {
+			grid-column: 1;
+			font-family: var(--mono);
+			font-size: 9px;
+			color: var(--muted);
+			text-align: right;
+			padding-right: 8px;
+			text-transform: uppercase;
+		}
+
+		.kb {
+			margin: 0 2px;
+			height: 20px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-family: var(--mono);
+			font-size: 10px;
+			font-weight: 700;
+			background: var(--fill);
+			border: 1px solid var(--line);
+		}
+
+		.lane {
+			display: grid;
+			grid-template-columns:82px repeat(100, 1fr);
+			min-height: 50px;
+			border-top: 1px solid var(--line2);
+		}
+
+		.lane .name {
+			grid-column: 1;
+			display: flex;
+			align-items: center;
+			padding-right: 8px;
+			font-weight: 700;
+			font-size: 12.5px;
+		}
+
+		.blk {
+			margin: 6px 3px;
+			padding: 7px 9px;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			background: var(--fill);
+			border: 1px solid var(--line);
+		}
+
+		.blk b {
+			font-weight: 700;
+			font-size: 12px;
+		}
+
+		.blk small {
+			color: var(--muted);
+			font-size: 10px;
+		}
+
+		.blk.soft {
+			background: #fff;
+			border: 1px dashed var(--line);
+		}
+
+		.tl-note {
+			margin: 10px 0 0 82px;
+			font-size: 11px;
+			color: var(--muted);
+		}
+
+		/* checklists */
+		.extras {
+			display: grid;
+			grid-template-columns:1fr 1fr;
+			gap: 16px;
+		}
+
+		.xbox {
+			border: 1px solid var(--line);
+			padding: 14px 17px;
+		}
+
+		.xbox h3 {
+			font-size: 13.5px;
+			font-weight: 700;
+			margin: 0 0 8px;
+		}
+
+		.xbox h3 small {
+			font-weight: 400;
+			color: var(--muted);
+			font-size: 11px;
+		}
+
+		.xbox ul {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+		}
+
+		.xbox li {
+			position: relative;
+			padding: 6px 0 6px 22px;
+			font-size: 12.5px;
+			color: #3a4658;
+			border-bottom: 1px solid var(--line2);
+		}
+
+		.xbox li:last-child {
+			border-bottom: none;
+		}
+
+		.xbox li::before {
+			content: "";
+			position: absolute;
+			left: 0;
+			top: 11px;
+			width: 11px;
+			height: 11px;
+			border: 1.5px solid var(--muted);
+		}
+
+		.xbox li b {
+			color: var(--text);
+		}
+
+		/* phase detail */
+		.phases {
+			display: grid;
+			grid-template-columns:repeat(2, 1fr);
+			gap: 16px;
+		}
+
+		.phase {
+			border: 1px solid var(--line);
+			padding: 14px 17px;
+		}
+
+		.phase .top {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin-bottom: 10px;
+			padding-bottom: 9px;
+			border-bottom: 1px solid var(--line2);
+		}
+
+		.phase .time {
+			font-family: var(--mono);
+			font-weight: 700;
+			font-size: 16px;
+		}
+
+		.phase .time small {
+			color: var(--muted);
+			font-weight: 400;
+			font-size: 11px;
+		}
+
+		.kbtag {
+			font-family: var(--mono);
+			font-size: 10px;
+			font-weight: 700;
+			padding: 2px 9px;
+			background: var(--fill);
+			border: 1px solid var(--line);
+		}
+
+		.row {
+			display: grid;
+			grid-template-columns:66px 1fr;
+			gap: 10px;
+			padding: 7px 0;
+		}
+
+		.row + .row {
+			border-top: 1px solid var(--line2);
+		}
+
+		.row .p {
+			font-weight: 700;
+		}
+
+		.row .d {
+			color: #3a4658;
+		}
+
+		.row .d b {
+			color: var(--text);
+		}
+
+		.row .d .ac {
+			color: var(--ac);
+			font-family: var(--mono);
+			font-size: 11px;
+		}
+
+		@media (max-width: 720px) {
+			.phases, .extras {
+				grid-template-columns:1fr;
+			}
+		}
+
+		@media print {
+			body {
+				font-size: 12px;
+			}
+
+			.page {
+				max-width: none;
+				padding: 0;
+			}
+
+			.page.break {
+				break-after: page;
+				page-break-after: always;
+			}
+
+			.phase, .xbox {
+				break-inside: avoid;
+			}
+
+			@page {
+				size: A4 landscape;
+				margin: 9mm;
+			}
+		}
+	</style>
+</head>
+<body>
+
+<!-- ============ 表（1ページ目） ============ -->
+<div class="page break">
+
+	<div class="head">
+		<h1>ICPC国内予選 作戦タイムライン</h1>
+		<span class="meta">目標 <em>E問題＝5完</em> ／ 180分 ／ PC1台</span>
+	</div>
+	<p class="note">※ DとEは難易度が入れ替わる場合がある。以下の「D→E」は<b>先に実装が見えた方→もう片方</b>と読み替える。
+	</p>
+
+	<div class="sec">タイムライン ＆ キーボード受け渡し</div>
+	<div class="ruler">
+		<div class="tick" style="left:0%">0</div>
+		<div class="tick" style="left:12%">10</div>
+		<div class="tick" style="left:38%">45</div>
+		<div class="tick" style="left:68%">90</div>
+		<div class="tick" style="left:88%">120</div>
+		<div class="tick" style="left:100%">180</div>
+	</div>
+
+	<div class="baton">
+		<div class="lbl">Keyboard ▸</div>
+		<div class="kb" style="grid-column:2 / 14">すばる</div>
+		<div class="kb" style="grid-column:14 / 40">まっひー</div>
+		<div class="kb" style="grid-column:40 / 90">すばる</div>
+		<div class="kb" style="grid-column:90 / 102">解ける人</div>
+	</div>
+
+	<div class="lane">
+		<div class="name">すばる</div>
+		<div class="blk" style="grid-column:2 / 14"><b>A・B 実装</b></div>
+		<div class="blk soft" style="grid-column:14 / 40"><b>D／E 考察</b><small>先に握る方を決める</small></div>
+		<div class="blk" style="grid-column:40 / 70"><b>D 実装</b><small>ストレステスト込み</small></div>
+		<div class="blk" style="grid-column:70 / 90"><b>E 実装</b></div>
+		<div class="blk soft" style="grid-column:90 / 102"><b>詰め</b></div>
+	</div>
+
+	<div class="lane">
+		<div class="name">まっひー</div>
+		<div class="blk soft" style="grid-column:2 / 14"><b>C 精読</b></div>
+		<div class="blk" style="grid-column:14 / 40"><b>C 実装</b><small>約30–40分</small></div>
+		<div class="blk soft" style="grid-column:40 / 70"><b>E 考察</b></div>
+		<div class="blk soft" style="grid-column:70 / 90"><b>E 手計算検証</b></div>
+		<div class="blk soft" style="grid-column:90 / 102"><b>詰め支援</b></div>
+	</div>
+
+	<div class="lane">
+		<div class="name">こうた</div>
+		<div class="blk soft" style="grid-column:2 / 14"><b>D・E 速読 → 中継</b></div>
+		<div class="blk soft" style="grid-column:14 / 40"><b>反例探し（最優先）</b></div>
+		<div class="blk soft" style="grid-column:40 / 70"><b>D手試し → E合流</b></div>
+		<div class="blk soft" style="grid-column:70 / 90"><b>F以降の偵察・順位表</b></div>
+		<div class="blk soft" style="grid-column:90 / 102"><b>時間・ペナ判断</b></div>
+	</div>
+
+	<p class="tl-note">枠＝実装（キーボード）／ 破線枠＝紙・考察・支援。時間軸は等間隔ではない。</p>
+
+	<div class="sec">チェックリスト</div>
+	<div class="extras">
+		<div class="xbox">
+			<h3>コーディング開始前 <small>— 書き始める前に全部YES</small></h3>
+			<ul>
+				<li>制約を確認した（Nの上限・値域・複数データセット）</li>
+				<li>計算量の見積もりが制限内に収まる</li>
+				<li>紙の手順（箇条書き）が最後まで書けている</li>
+				<li>その手順をサンプル1個に手で適用して一致した</li>
+				<li>入力形式・終端条件（0行区切り等）を確認した</li>
+			</ul>
+		</div>
+		<div class="xbox">
+			<h3>提出前 <small>— 1誤答＝+20分</small></h3>
+			<ul>
+				<li>サンプルが全通過</li>
+				<li>エッジ：最小・最大・境界（N=1、上限、0）</li>
+				<li>実行時間・メモリが制約内</li>
+				<li>出力形式が仕様通り（改行・空白・端数・大文字小文字）</li>
+				<li>複数データセットで状態がリセットされている</li>
+			</ul>
+		</div>
+	</div>
+
+</div>
+
+<!-- ============ 裏（2ページ目） ============ -->
+<div class="page">
+
+	<div class="sec" style="margin-top:0;">フェーズ詳細</div>
+	<div class="phases">
+		<div class="phase">
+			<div class="top"><span class="time">00–10<small> 分</small></span><span class="kbtag">⌨ すばる</span></div>
+			<div class="row">
+				<div class="p">すばる</div>
+				<div class="d">A・Bを10分未満で実装・提出。</div>
+			</div>
+			<div class="row">
+				<div class="p">まっひー</div>
+				<div class="d">Cを精読し、紙で手順を箇条書き。</div>
+			</div>
+			<div class="row">
+				<div class="p">こうた</div>
+				<div class="d">D・Eを速読して要約。D・E→すばるへ中継。</div>
+			</div>
+		</div>
+		<div class="phase">
+			<div class="top"><span class="time">10–45<small> 分</small></span><span class="kbtag">⌨ まっひー</span>
+			</div>
+			<div class="row">
+				<div class="p">まっひー</div>
+				<div class="d">Cの現在の考えをすばるorこうたに伝え、実装（約30–40分）。</div>
+			</div>
+			<div class="row">
+				<div class="p">すばる</div>
+				<div class="d">D/Eを紙で考察。<b>考察が見えてる方</b>を先に握る。</div>
+			</div>
+			<div class="row">
+				<div class="p">こうた</div>
+				<div class="d">① すばるの考察の反例探し（最優先）。② すばるが自走できてそうなら、D/Eの「握らなかった方」を読む。③
+					Cは、まっひーから助けを求められたときだけ。
+				</div>
+			</div>
+		</div>
+		<div class="phase">
+			<div class="top"><span class="time">45–90<small> 分</small></span><span class="kbtag">⌨ すばる</span></div>
+			<div class="row">
+				<div class="p">すばる</div>
+				<div class="d">Dを実装。重実装の可能性が高いため時間がかかるのは仕方がない。ストレステストも自分で回す。
+					<span class="ac">C → AC</span></div>
+			</div>
+			<div class="row">
+				<div class="p">まっひー</div>
+				<div class="d">こうたからEの詳細を聞き、Eの考察へ。</div>
+			</div>
+			<div class="row">
+				<div class="p">こうた</div>
+				<div class="d">Dの考察を手で試す（サンプル2–3個を紙で追って一致したらOK）→
+					Eに合流し、実装ができるレベルまで詰める。
+				</div>
+			</div>
+		</div>
+		<div class="phase">
+			<div class="top"><span class="time">90–120<small> 分</small></span><span class="kbtag">⌨ すばる</span></div>
+			<div class="row">
+				<div class="p">すばる</div>
+				<div class="d">Eの考察ができていれば実装。考察済みを書き起こす。 <span class="ac">目標 E → AC</span></div>
+			</div>
+			<div class="row">
+				<div class="p">まっひー</div>
+				<div class="d">Eの考察をサンプル入力に手で適用し、照合が取れるか可能な範囲で全て試す。</div>
+			</div>
+			<div class="row">
+				<div class="p">こうた</div>
+				<div class="d">
+					F以降がEより簡単じゃないか順位表で確認しておく（この時点で解けているチームは結構出るはず）。
+				</div>
+			</div>
+		</div>
+		<div class="phase" style="grid-column:1 / -1;">
+			<div class="top"><span class="time">120–180<small> 分 · バッファ／詰め</small></span><span class="kbtag">⌨ 解ける人</span>
+			</div>
+			<div class="row">
+				<div class="p">全員</div>
+				<div class="d">未着地のD or Eを詰める。両方通っていれば、順位表を確認し簡単なものを1問だけ狙う。</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+</body>
+</html>
