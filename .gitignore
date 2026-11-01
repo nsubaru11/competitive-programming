@@ -45,6 +45,10 @@ history.txt
 *.swp
 *.swo
 
+# paiza のスキルチェックは問題と解答の公開が規約で禁止されている
+paiza/skill-check/
+paiza/other/
+
 # サイトごとの秘密情報
 .atcoder/
 .aoj/

@@ -13,7 +13,7 @@ competitive-programming/
 ├── atcoder/             # AtCoder (abc/351-400/abc377/src/java/A.java など)
 ├── aoj/                 # Aizu Online Judge
 ├── codeforces/          # Codeforces
-├── paiza/               # paiza (skill-check/a/src/java/A006.java など)
+├── paiza/               # paiza レベルアップ問題集 (level-up/binary-search/src/java/normal.java など)
 ├── icpc/                # ICPC・JAG (問題データはローカルのみ)
 ├── library/java/        # Java ライブラリ (submodule)
 ├── library/cpp/         # C++ ライブラリ (submodule)
