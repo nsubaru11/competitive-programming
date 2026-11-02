@@ -41,12 +41,12 @@ uv run python templates/python/TemplateCode.py
 
 ## 補助ツール (tools)
 
-| パッケージ  | 説明                   | README                                                       |
-|-------------|------------------------|--------------------------------------------------------------|
-| tools       | Bun ワークスペースの親 | [tools/README.md](./tools/README.md)                         |
-| shared      | 共通ライブラリ         | [tools/shared/README.md](./tools/shared/README.md)           |
-| userscripts | ブラウザ拡張スクリプト | [tools/userscripts/README.md](./tools/userscripts/README.md) |
-| local-runner | CLI・Local Runner     | [tools/local-runner/README.md](./tools/local-runner/README.md) |
+| パッケージ   | 説明                   | README                                                         |
+|--------------|------------------------|----------------------------------------------------------------|
+| tools        | Bun ワークスペースの親 | [tools/README.md](./tools/README.md)                           |
+| shared       | 共通ライブラリ         | [tools/shared/README.md](./tools/shared/README.md)             |
+| userscripts  | ブラウザ拡張スクリプト | [tools/userscripts/README.md](./tools/userscripts/README.md)   |
+| local-runner | CLI・Local Runner      | [tools/local-runner/README.md](./tools/local-runner/README.md) |
 
 ### クイックスタート
 
