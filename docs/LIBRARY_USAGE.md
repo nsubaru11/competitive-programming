@@ -6,6 +6,8 @@
 
 ```powershell
 git submodule update --init --recursive
+tools/local-runner/bin/setlib.cmd library/java
+tools/local-runner/bin/setheader.cmd java templates/header/java.txt
 ```
 
 ## 解答を書く
@@ -13,7 +15,7 @@ git submodule update --init --recursive
 通常のJavaと同じようにimportします。
 
 ```java
-import lib.ds.UnionFind;
+import lib.ds.unionfind.UnionFind;
 import lib.graph.Kruskal;
 import lib.io.FastPrinter;
 import lib.io.FastScanner;
@@ -30,7 +32,7 @@ public final class D {
 }
 ```
 
-LocalRunner経由（`run`、`test`、`toclip`、JavaCodeSubmitter、AtCoderEasyTest）では、importを書かずに`FastScanner`や`UnionFind`を使用しても、Java Compiler APIが一意なlibrary型を自動importします。コードの可読性とIDE補完のため、ローカル解答では通常どおり明示importする運用を推奨します。
+Local Runner経由（`run`、`test`、`toclip`、CP ToolkitのJavaの提出補助とEasy Test）では、importを書かずに`FastScanner`や`UnionFind`を使用しても、Java Compiler APIが一意なlibrary型を自動importします。コードの可読性とIDE補完のため、ローカル解答では通常どおり明示importする運用を推奨します。
 
 雛形は`templates/java/TemplateCode.java`です。IntelliJではFile Templateの`Class`に登録しておくと、`File → New → Java Class`から作成できます。`lib.*`に対して補完、定義ジャンプ、Find Usages、Renameが利用できます。
 
@@ -57,28 +59,33 @@ submit d
 バンドルが行われると、次のようなログが出ます。
 
 ```text
-Bundled library classes: lib.graph.Kruskal, lib.ds.UnionFind
+Bundled library classes: lib.graph.Kruskal, lib.ds.unionfind.UnionFind
 ```
 
 `run`、`localtest`、`test`、`crosscheck`、`tomain`、`toclip`、`submit`はすべて同じバンドル処理を通るため、ローカル実行と提出コードが一致します。
 
-`toclip d`はカレントディレクトリの`D.java`を短縮指定で解決します。`toclip D.java`のような明示指定も可能です。バンドル、`Main`化、`DEBUG=false`化、ヘッダーの付与を行った提出コードがそのままクリップボードへ入ります。ヘッダーは`--no-header`で省けます。
+`toclip d`はカレントディレクトリの`D.java`を短縮指定で解決します。`toclip D.java`のような明示指定も可能です。バンドル、`Main`化、`DEBUG=false`化、ヘッダーの付与を行った提出コードがそのままクリップボードへ入ります。ヘッダーは`--no-header`で省け、`setheader`で名前を付けて登録したものは`--header=<name>`で選べます。
 
 ## libraryが見つからない場合
 
-通常はリポジトリルートの`library/java/src`が自動検出されます。別の配置を使う場合だけ環境変数を指定します。
+ライブラリの場所は自動では探しません。`setlib`で設定し、`status`で読み込まれているかを確認します。
 
-ライブラリを読むのはWSL上のLocal Runnerなので、Windows側の環境変数は届きません。WSLの`~/.profile`にLinux形式のパスで設定します。
-
-```bash
-export ATCODER_LIB_SRC="/mnt/c/path/to/competitive-programming-java-library/src"
+```powershell
+setlib library/java
+stop
+serve
+status
 ```
+
+未設定でもLocal Runnerは起動します。このとき`lib.*`を使うコードは、設定を促すエラーになります。
+
+環境変数`ATCODER_LIB_SRC`を設定すると、`setlib`より優先します。ライブラリを読むのはWSL上のLocal Runnerなので、Windows側の環境変数は届きません。使うときはWSLの`~/.profile`にLinux形式のパスで設定します。`setlib`の設定はWSLのサーバーにも届きます。
 
 ## バンドラの制約
 
 - `import lib.some.Class;`または`import lib.some.*;`を使う
 - `import static lib...`は使わない
-- 本文中で`lib.ds.UnionFind`のような完全修飾参照を使わない
+- 本文中で`lib.ds.unionfind.UnionFind`のような完全修飾参照を使わない
 - 解答と依存クラスでトップレベル型の単純名を重複させない
 
 ワイルドカードimportを使った場合も、javacが実際にシンボル解決したトップレベル型だけがインラインされます。バンドル後の元importは削除されず、`// import lib.some.*;`のようにコメントとして残ります。Main化、コンストラクタ・自己参照の変更、DEBUG切替、package/import範囲もJava Compiler APIのASTとシンボル情報に基づきます。

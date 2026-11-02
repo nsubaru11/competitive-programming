@@ -50,20 +50,29 @@ uv run python templates/python/TemplateCode.py
 
 ### クイックスタート
 
-```powershell
-cd tools
-bun install
-bun --cwd userscripts run build
-bun --cwd local-runner run typecheck
-```
-
 サブモジュールを初期化します。
 
 ```powershell
 git submodule update --init --recursive
 ```
 
-解答では`import lib.ds.UnionFind;`のように記述します。`run` / `test` / `tomain` / `submit`時に推移的依存を含む単一の`Main.java`へ自動展開されます。詳細は[LIBRARY_USAGE.md](./docs/LIBRARY_USAGE.md)を参照してください。
+依存パッケージを入れて、ビルドと型チェックを行います。
+
+```powershell
+cd tools
+bun install
+bun run --cwd userscripts build
+bun run --cwd local-runner typecheck
+```
+
+Local Runner に、Java のライブラリと提出用ヘッダーの場所を設定します。リポジトリのルートで実行します。設定はクローンごとに必要です。
+
+```powershell
+tools/local-runner/bin/setlib.cmd library/java
+tools/local-runner/bin/setheader.cmd java templates/header/java.txt
+```
+
+解答では`import lib.ds.unionfind.UnionFind;`のように記述します。`run` / `test` / `tomain` / `submit`時に推移的依存を含む単一の`Main.java`へ自動展開されます。詳細は[LIBRARY_USAGE.md](./docs/LIBRARY_USAGE.md)を参照してください。
 
 ローカルランナー起動 (Windows):
 
@@ -85,7 +94,7 @@ docs: README を更新
 
 ## 補足
 
-- UserScript のインストール URL は `tools/userscripts/<Name>/dist/<Name>.user.js` を参照してください。
+- UserScript は [Greasy Fork](https://greasyfork.org/scripts/603262-cp-toolkit) からインストールできます。
 - UserScript は `tools/userscripts` を編集し、`bun run build` で `dist` を更新します。
 
 ## ライセンス
