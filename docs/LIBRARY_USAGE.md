@@ -12,29 +12,11 @@ tools/local-runner/bin/setheader.cmd java templates/header/java.txt
 
 ## 解答を書く
 
-通常のJavaと同じようにimportします。
-
-```java
-import lib.ds.unionfind.UnionFind;
-import lib.graph.Kruskal;
-import lib.io.FastPrinter;
-import lib.io.FastScanner;
-
-public final class D {
-	public static void main(final String[] args) {
-		final FastScanner sc = new FastScanner();
-		try (final FastPrinter out = new FastPrinter()) {
-			final int n = sc.nextInt();
-			final UnionFind uf = new UnionFind(n);
-			out.println(uf.groupCount());
-		}
-	}
-}
-```
+通常のJavaと同じように、`import lib.ds.unionfind.UnionFind;`や`import lib.io.*;`の形でimportします。実際の解答例は[ABC040 D](../atcoder/abc/001-050/abc040/src/java/D.java)を参照してください。
 
 Local Runner経由（`run`、`test`、`toclip`、CP ToolkitのJavaの提出補助とEasy Test）では、importを書かずに`FastScanner`や`UnionFind`を使用しても、Java Compiler APIが一意なlibrary型を自動importします。コードの可読性とIDE補完のため、ローカル解答では通常どおり明示importする運用を推奨します。
 
-雛形は`templates/java/TemplateCode.java`です。IntelliJではFile Templateの`Class`に登録しておくと、`File → New → Java Class`から作成できます。`lib.*`に対して補完、定義ジャンプ、Find Usages、Renameが利用できます。
+雛形は[TemplateCode.java](../templates/java/TemplateCode.java)です。IntelliJではFile Templateの`Class`に登録しておくと、`File → New → Java Class`から作成できます。`lib.*`に対して補完、定義ジャンプ、Find Usages、Renameが利用できます。
 
 `src/patterns`は読む・写経する資料であり、importや自動バンドルの対象ではありません。
 
