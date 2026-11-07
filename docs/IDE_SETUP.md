@@ -35,7 +35,7 @@ scripts/sync-ide-project-settings.pyが、.ide/ideaを正として他の.ide/*/.
 - 各IDEの最近のプロジェクトにリポジトリのルートが残っていれば削除する。起動時に前回のプロジェクトとして開かれるのを防ぐ。
 - IntelliJ IDEA: .ide/ideaを開く。新しいコンテストのモジュールは.ide/idea/.idea/modules.xmlへ登録する。パスは$PROJECT_DIR$/../../から始める。
 - CLion: .ide/clionを開き、CMakeの設定を[CMAKE_SETUP.md](CMAKE_SETUP.md)の表と照らし合わせる。
-- PyCharm: .ide/pycharmを開く。pyproject.tomlからプロジェクト構成を自動生成するWorkspaceを有効にすると、モジュールが作り直される。除外設定が失われていないか確認する。
+- PyCharm: .ide/pycharmを開く。pyproject.tomlからプロジェクト構成を自動生成するWorkspaceモードは無効にする。.ide/pycharm/.idea/pyProjectModel.xmlのusePyprojectTomlをfalseにする。Settings → Project Structureの切り替えと同じ設定である。有効にすると、モジュールが作り直されて除外設定が失われることがあり、パッケージの導入やpyproject.tomlへの追記も自動で提案される。
 
 - [PyCharm：Workspaces and monorepos](https://www.jetbrains.com/help/pycharm/python-workspaces.html)
 - [CLion：Change project root](https://www.jetbrains.com/help/clion/change-project-root-directory.html)
