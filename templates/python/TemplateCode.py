@@ -1,22 +1,20 @@
-import sys, math, itertools as it
-from itertools import permutations, combinations, combinations_with_replacement
-from itertools import product, accumulate, groupby, chain, count, cycle, pairwise
-from collections import deque, defaultdict, Counter
-from functools import lru_cache, reduce
-from fractions import Fraction
+import sys, math, heapq, bisect, random
+import itertools as it
+from collections import Counter, defaultdict, deque
 from decimal import Decimal, getcontext
-import heapq, bisect, random
+from fractions import Fraction
+from functools import cache, lru_cache, reduce
+from itertools import accumulate, chain, combinations, combinations_with_replacement, count, cycle, groupby, pairwise, permutations, product
 
 input = sys.stdin.readline
 sys.setrecursionlimit(10**7)
+sys.set_int_max_str_digits(0)
 getcontext().prec = 50
-
-def ii():  return int(input())
-def mi():  return map(int, input().split())
-def li():  return list(map(int, input().split()))
-def ls():  return input().split()
-
-def show(x): print(list(x))
-def grids(g): print('\n'.join(' '.join(map(str, r)) for r in g))
-def grid(g): print('\n'.join(''.join(map(str, r)) for r in g))
 INF = float('inf')
+def ii(): return int(input())
+def mi(): return map(int, input().split())
+def li(): return list(mi())
+def ls(): return input().split()
+def show(x): print(list(x))
+def grids(g): print(*(' '.join(map(str, r)) for r in g), sep='\n')
+def grid(g): print(*map(''.join, g), sep='\n')

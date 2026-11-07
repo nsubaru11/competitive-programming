@@ -1,5 +1,6 @@
-// #if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME};
-// #end
+## @formatter:off
+#if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME};
+#end
 
 import static java.lang.Math.*;
 import static java.util.Arrays.*;
@@ -18,10 +19,9 @@ import lib.io.*;
 import lib.util.*;
 import lib.math.*;
 
-// public final class ${NAME} {
-public final class TemplateCode {
+public final class ${NAME} {
 
-	// region < Constants & Globals >
+	// region < Runtime Setup & Constants >
 	private static final boolean DEBUG = true;
 	private static final int MOD = 998244353;
 	// private static final int MOD = 1_000_000_007;
@@ -36,7 +36,7 @@ public final class TemplateCode {
 
 	}
 
-	// region < Utility Methods >
+	// region < Utilities >
 	private static boolean isValidRange(final int i, final int from, final int to) {
 		return ((i - from) | (to - 1 - i)) >= 0;
 	}
@@ -189,18 +189,6 @@ public final class TemplateCode {
 		return max;
 	}
 
-	private static int diff(final int a, final int b) {
-		return a > b ? a - b : b - a;
-	}
-
-	private static long diff(final long a, final long b) {
-		return a > b ? a - b : b - a;
-	}
-
-	private static double diff(final double a, final double b) {
-		return a > b ? a - b : b - a;
-	}
-
 	private static void fill2D(final char[][] a, final char v) {
 		for (final char[] ai : a) fill(ai, v);
 	}
@@ -234,7 +222,7 @@ public final class TemplateCode {
 	}
 	// endregion
 
-	// region < main & debug >
+	// region < Entry Point & Debug >
 	public static void main(final String[] args) {
 		try {
 			solve();
@@ -248,11 +236,11 @@ public final class TemplateCode {
 			out.flush();
 			if (args == null) System.err.println("null");
 			else if (args.getClass().getComponentType().isArray()) System.err.println(stringify(args));
-			// #if (${NAME} == "E")
-			// else System.err.println(stream(args).map(o -> stringify(o)).collect(Collectors.joining("\n", "\n", "")));
-			// #else
-			// else System.err.println(stream(args).map(${NAME}::stringify).collect(Collectors.joining("\n", "\n", "")));
-			// #end
+			#if (${NAME} == "E")
+			else System.err.println(stream(args).map(o -> stringify(o)).collect(Collectors.joining("\n", "\n", "")));
+			#else
+			else System.err.println(stream(args).map(${NAME}::stringify).collect(Collectors.joining("\n", "\n", "")));
+			#end
 		}
 	}
 
@@ -261,11 +249,11 @@ public final class TemplateCode {
 			out.flush();
 			if (args == null) System.err.println("null");
 			else if (args.getClass().getComponentType().isArray()) System.err.println(stringify(args));
-			// #if (${NAME} == "E")
-			// else System.err.println(stream(args).map(o -> stringify(o)).collect(Collectors.joining(", ", "", "")));
-			// #else
-			// else System.err.println(stream(args).map(${NAME}::stringify).collect(Collectors.joining(", ", "", "")));
-			// #end
+			#if (${NAME} == "E")
+			else System.err.println(stream(args).map(o -> stringify(o)).collect(Collectors.joining(", ", "", "")));
+			#else
+			else System.err.println(stream(args).map(${NAME}::stringify).collect(Collectors.joining(", ", "", "")));
+			#end
 		}
 	}
 
