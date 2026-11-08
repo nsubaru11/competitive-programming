@@ -29,10 +29,10 @@ competitive-programming/
 
 ## 使用環境
 
-| 言語 | バージョン |
-|---|---|
-| Java | AtCoder・ICPC: 24.0.2 / Codeforces: 21 / AOJ: 11 / paiza: 18.0.2 |
-| C++ | GCC 15.2.0（WSL、AtCoderはGNU C++23） |
-| Python | CPython 3.13.7 / PyPy 3.11-v7.3.20 / Codon 0.19.3（WSL） |
+| 言語   | バージョン                                                       |
+|--------|------------------------------------------------------------------|
+| Java   | AtCoder・ICPC: 24.0.2 / Codeforces: 21 / AOJ: 11 / paiza: 18.0.2 |
+| C++    | GCC 15.2.0（WSL、AtCoderはGNU C++23）                            |
+| Python | CPython 3.13.7 / PyPy 3.11-v7.3.20 / Codon 0.19.3（WSL）         |
 
 ライセンスは [0BSD](LICENSE) です。サブモジュールは各リポジトリのライセンスに従います。

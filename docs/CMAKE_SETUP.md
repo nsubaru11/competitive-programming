@@ -2,10 +2,10 @@
 
 ## CMake・CMakeLists.txt・.cmake
 
-| 名前 | 意味 |
-|---|---|
-| CMake | ビルド手順を作るツール。WSLではcmakeコマンドを実行する |
-| CMakeLists.txt | 各CMakeプロジェクトの入口となる設定ファイル |
+| 名前           | 意味                                                                                    |
+|----------------|-----------------------------------------------------------------------------------------|
+| CMake          | ビルド手順を作るツール。WSLではcmakeコマンドを実行する                                  |
+| CMakeLists.txt | 各CMakeプロジェクトの入口となる設定ファイル                                             |
 | .cmakeファイル | 設定を分割して置くファイル。今回のLocalOptions.cmakeはCMakeLists.txtからincludeして読む |
 
 ## 解答の実行
@@ -35,13 +35,13 @@ C++フォルダの探索は構成時だけ行い、毎回リポジトリ全体�
 
 Ctrl+Alt+S → Build, Execution, Deployment → CMakeを開く。
 
-| 項目 | WSL Debug | WSL Run |
-|---|---|---|
-| Toolchain | WSL | WSL |
-| Build type | Debug | Run |
+| 項目            | WSL Debug                           | WSL Run                           |
+|-----------------|-------------------------------------|-----------------------------------|
+| Toolchain       | WSL                                 | WSL                               |
+| Build type      | Debug                               | Run                               |
 | Build directory | cmake-build-wsl-debug(.ide/clion内) | cmake-build-wsl-run(.ide/clion内) |
-| CMake options | -G Ninja | -G Ninja |
-| 主なオプション | -Og -g3 | -O2 -g3 -march=native |
+| CMake options   | -G Ninja                            | -G Ninja                          |
+| 主なオプション  | -Og -g3                             | -O2 -g3 -march=native             |
 
 どちらも有効にする。旧WSL JudgeはWSL Runに変更済み。
 LOCAL・軽量な標準ライブラリ検査・警告・フレームポインタ保持は両方で有効。
@@ -52,14 +52,14 @@ Apply → OK後、Reload CMake Projectを実行する。
 
 ## 設定の場所
 
-| ファイル | 役割 |
-|---|---|
-| .ide/clion/CMakeLists.txt | CLion用の入口。リポジトリのCMakeLists.txtを読み込むだけ |
-| CMakeLists.txt | 解答とテンプレートだけを登録する |
-| cmake/LocalOptions.cmake | 言語規格、ローカル実行・デバッグ用オプション、GCCの標準ライブラリの実行時検索場所 |
-| scripts/list-cpp-directories.py | CMake構成時にC++用フォルダを見つける補助処理 |
-| library/cpp/CMakeLists.txt | ライブラリ単独の開発・サンプル用。親からは読み込まない |
-| .ide/clion/.idea/workspace.xml | このPCのWSL Debug / WSL Run設定 |
+| ファイル                        | 役割                                                                              |
+|---------------------------------|-----------------------------------------------------------------------------------|
+| .ide/clion/CMakeLists.txt       | CLion用の入口。リポジトリのCMakeLists.txtを読み込むだけ                           |
+| CMakeLists.txt                  | 解答とテンプレートだけを登録する                                                  |
+| cmake/LocalOptions.cmake        | 言語規格、ローカル実行・デバッグ用オプション、GCCの標準ライブラリの実行時検索場所 |
+| scripts/list-cpp-directories.py | CMake構成時にC++用フォルダを見つける補助処理                                      |
+| library/cpp/CMakeLists.txt      | ライブラリ単独の開発・サンプル用。親からは読み込まない                            |
+| .ide/clion/.idea/workspace.xml  | このPCのWSL Debug / WSL Run設定                                                   |
 
 ## ライブラリの開発
 
