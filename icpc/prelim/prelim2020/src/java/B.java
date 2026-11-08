@@ -8,9 +8,9 @@ public class B {
 
 		while (true) {
 			//入力
-			int m = Integer.parseInt(sc.next());	//人数
-			int n = Integer.parseInt(sc.next());	//件数
-			int p = Integer.parseInt(sc.next());	//感染源
+			int m = Integer.parseInt(sc.next());    //人数
+			int n = Integer.parseInt(sc.next());    //件数
+			int p = Integer.parseInt(sc.next());    //感染源
 			if (m == 0) {
 				sc.close();
 				return;

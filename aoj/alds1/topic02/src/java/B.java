@@ -1,8 +1,8 @@
-import static java.util.Arrays.*;
-
 import java.io.*;
 import java.util.*;
 import java.util.stream.*;
+
+import static java.util.Arrays.*;
 
 public final class B {
 

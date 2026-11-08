@@ -1,8 +1,5 @@
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.*;
-
-import static java.util.Arrays.*;
-import static java.lang.Math.*;
 
 public class C {
 
@@ -11,7 +8,7 @@ public class C {
 
 	private static void solve(int n) {
 		int k = sc.nextInt();
-		if ((k * sum(n)  % n) == 0) {
+		if ((k * sum(n) % n) == 0) {
 			out.println("Yes");
 		} else {
 			out.println("No");
@@ -28,7 +25,7 @@ public class C {
 		return ans;
 	}
 
-	private static void factorsSet (HashSet<Long> factors, long n) {
+	private static void factorsSet(HashSet<Long> factors, long n) {
 		// 約数の集合を作成します。
 		for (long i = 1L; i <= Math.sqrt(n) + 1; i++) {
 			if (n % i == 0) {

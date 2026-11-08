@@ -1,9 +1,9 @@
+import lib.ds.priorityqueue.*;
+import lib.io.*;
+
 import static java.lang.Math.*;
 import static java.util.Arrays.*;
 import static java.util.Comparator.*;
-
-import lib.ds.priorityqueue.*;
-import lib.io.*;
 
 public final class E {
 

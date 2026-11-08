@@ -1,5 +1,3 @@
-import static java.util.Arrays.*;
-
 import java.util.*;
 import java.util.stream.*;
 
@@ -7,6 +5,8 @@ import lib.io.*;
 import lib.math.*;
 import lib.math.number.*;
 import lib.search.*;
+
+import static java.util.Arrays.*;
 
 public final class E {
 

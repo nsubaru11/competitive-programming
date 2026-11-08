@@ -1,8 +1,5 @@
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.*;
-
-import static java.util.Arrays.*;
-import static java.lang.Math.*;
 
 public class E {
 
@@ -44,6 +41,23 @@ public class E {
 		}
 	}
 
+	public static void main(String[] args) {
+		try {
+			// 最初の入力
+			e = sc.next();
+			solve(); // メインロジック
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			sc.close();
+			out.close();
+		}
+	}
+
+	enum State {
+		IF, ELSE, VAR, THEN, NUM
+	}
+
 	private static class Tree {
 		String label;
 		Tree IF, ELSE;
@@ -58,22 +72,5 @@ public class E {
 	}
 
 	private record Token(String var, int num, State state) {}
-
-	enum State {
-		IF, ELSE, VAR, THEN, NUM
-	}
-
-	public static void main(String[] args) {
-		try {
-			// 最初の入力
-			e = sc.next();
-			solve(); // メインロジック
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			sc.close();
-			out.close();
-		}
-	}
 
 }

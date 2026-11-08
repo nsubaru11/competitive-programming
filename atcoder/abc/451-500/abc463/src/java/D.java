@@ -1,12 +1,12 @@
-import static java.lang.Math.*;
-import static java.util.Arrays.*;
-import static java.util.Comparator.*;
-
 import java.util.*;
 import java.util.stream.*;
 
 import lib.io.*;
 import lib.search.*;
+
+import static java.lang.Math.*;
+import static java.util.Arrays.*;
+import static java.util.Comparator.*;
 
 public final class D {
 

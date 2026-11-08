@@ -1,10 +1,10 @@
-import static java.util.Arrays.*;
-
 import java.util.*;
 import java.util.stream.*;
 
 import lib.io.*;
 import lib.util.*;
+
+import static java.util.Arrays.*;
 
 public final class G {
 

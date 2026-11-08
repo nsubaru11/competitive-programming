@@ -1,14 +1,11 @@
-import java.awt.Point;
-import java.io.PrintWriter;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Scanner;
-import java.util.TreeSet;
+import java.awt.*;
+import java.io.*;
+import java.util.*;
 
 public final class D3 {
 
-	private static final int[] dx = { 1, 0, -1, 0 };
-	private static final int[] dy = { 0, 1, 0, -1 };
+	private static final int[] dx = {1, 0, -1, 0};
+	private static final int[] dy = {0, 1, 0, -1};
 	private static final long[][][] visited = new long[101][101][4];
 	private static final Comparator<Point> y_comparator = Comparator.comparingInt(o -> o.y);
 	private static final Comparator<Point> x_comparator = Comparator.comparingInt(o -> o.x);
@@ -73,7 +70,7 @@ public final class D3 {
 	}
 
 	private static long moveAndGetRemainDistance(PrintWriter out, Point current, Point next, long distance,
-			int direction) {
+												 int direction) {
 		int x1 = current.x, y1 = current.y;
 		int x2 = next.x, y2 = next.y;
 		int dist = Math.abs(x1 - x2) + Math.abs(y1 - y2) - 1;

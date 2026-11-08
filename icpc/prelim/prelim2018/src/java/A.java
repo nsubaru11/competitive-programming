@@ -1,8 +1,7 @@
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.*;
 
 import static java.util.Arrays.*;
-import static java.lang.Math.*;
 //import static java.lang.System.out;
 
 public class A {

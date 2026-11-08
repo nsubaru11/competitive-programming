@@ -30,7 +30,7 @@ public class E {
 
 			temp = 0;
 			int flag = 0;
-			for (int i: go.keySet()) {
+			for (int i : go.keySet()) {
 				if (i == go.size() - 1) {
 					break;
 				} else if (i + 1 < n && go.higherKey(i + 1) != null && i > 0) {
@@ -39,7 +39,7 @@ public class E {
 						break;
 					} else if (go.containsKey(i + 1) && go.get(i) - a[i] + a[i + 1] <= m && go.get(go.higherKey(i + 1)) + a[i] <= m) {
 						flag = 1;
-					} else if (go.containsKey(i - 1) &&  go.containsKey(i + 1) && (go.get(i - 1) + a[i + 1] <= m || go.get(go.higherKey(i + 1)) + a[i] <= m)) {
+					} else if (go.containsKey(i - 1) && go.containsKey(i + 1) && (go.get(i - 1) + a[i + 1] <= m || go.get(go.higherKey(i + 1)) + a[i] <= m)) {
 						flag = 1;
 					} else if (go.containsKey(i - 1) && go.higherKey(i) != null && go.higherKey(go.higherKey(i)) != null && go.get(i) - a[i] + a[i + 1] <= m && go.higherKey(i) - a[i + 1] + go.higherKey(go.higherKey(i)) <= m) {
 						flag = 1;
@@ -50,7 +50,7 @@ public class E {
 					}
 				}
 			}
-			System.out.println((flag == 2) ? count - 2: (flag == 1) ? count - 1: count);
+			System.out.println((flag == 2) ? count - 2 : (flag == 1) ? count - 1 : count);
 		}
 	}
 

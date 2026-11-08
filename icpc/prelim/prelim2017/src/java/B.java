@@ -1,5 +1,5 @@
-import java.io.PrintWriter;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class B {
 

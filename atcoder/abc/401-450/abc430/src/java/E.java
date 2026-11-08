@@ -1,7 +1,7 @@
-import static java.util.Arrays.*;
-
 import lib.io.*;
 import lib.string.matching.*;
+
+import static java.util.Arrays.*;
 
 public final class E {
 

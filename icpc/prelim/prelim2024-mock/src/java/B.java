@@ -4,7 +4,7 @@ public class B {
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		
+
 		while (true) {
 			// input
 			int n = Integer.parseInt(sc.next());
@@ -20,10 +20,10 @@ public class B {
 					str.insert(idx, sc.next());
 					idx++;
 				} else if (s.equals("LEFT")) {
-					idx = (idx > 0) ? idx - 1: idx;
+					idx = (idx > 0) ? idx - 1 : idx;
 					sc.nextLine();
-				} else  if (s.equals("RIGHT")) {
-					idx = (idx < str.length()) ? idx + 1: idx;
+				} else if (s.equals("RIGHT")) {
+					idx = (idx < str.length()) ? idx + 1 : idx;
 					sc.nextLine();
 				}
 			}

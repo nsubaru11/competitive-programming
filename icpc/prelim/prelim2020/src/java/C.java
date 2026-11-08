@@ -1,10 +1,10 @@
-import java.io.PrintWriter;
-import java.math.BigInteger;
+import java.io.*;
+import java.math.*;
 import java.util.*;
-import java.util.stream.LongStream;
+import java.util.stream.*;
 
-import static java.util.Arrays.*;
 import static java.lang.Math.*;
+import static java.util.Arrays.*;
 
 public class C {
 
@@ -13,7 +13,7 @@ public class C {
 		Scanner sc = new Scanner(System.in);
 		PrintWriter out = new PrintWriter(System.out);
 
-		TreeSet<Long> factors;	//約数の集合
+		TreeSet<Long> factors;    //約数の集合
 
 		//あらかじめエラトステネスの篩により素数の集合を作成
 		int max = (int) Math.sqrt(1000000000000000L) + 2;
@@ -22,7 +22,7 @@ public class C {
 		while (true) {
 			//入力
 			long n = sc.nextLong();
-			if (n == 0)  {
+			if (n == 0) {
 				sc.close();
 				out.flush();
 				return;
@@ -55,7 +55,7 @@ public class C {
 				 */
 
 				long ans = Long.MAX_VALUE;
-				long w = factors.ceiling((long) Math.cbrt(n));	//出発地点
+				long w = factors.ceiling((long) Math.cbrt(n));    //出発地点
 				while (true) {
 					// (n / w) が素数と仮定したときのd, hを用意する
 					long d = n / w;

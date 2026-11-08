@@ -1,13 +1,13 @@
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.*;
 
 public class B2 {
 
-	private static int w;	//列
-	private static int h;	//行
-	private static boolean[][] cell;	//マス目
+	private static int w;    //列
+	private static int h;    //行
+	private static boolean[][] cell;    //マス目
 	private static boolean[] upperFrame; //上枠
-	private static boolean[] leftFrame;	//左枠
+	private static boolean[] leftFrame;    //左枠
 
 	public static void main(String[] args) {
 
@@ -15,9 +15,9 @@ public class B2 {
 		PrintWriter out = new PrintWriter(System.out);
 
 		while (true) {
-			w = Integer.parseInt(sc.next());	//列
-			h = Integer.parseInt(sc.next());	//行
-			if(w == 0) {
+			w = Integer.parseInt(sc.next());    //列
+			h = Integer.parseInt(sc.next());    //行
+			if (w == 0) {
 				sc.close();
 				out.flush();
 				return;

@@ -1,9 +1,9 @@
-import static java.lang.Math.*;
-import static java.util.Arrays.*;
-
 import lib.ds.priorityqueue.*;
 import lib.graph.*;
 import lib.io.*;
+
+import static java.lang.Math.*;
+import static java.util.Arrays.*;
 
 public final class E {
 

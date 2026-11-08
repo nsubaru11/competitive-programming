@@ -1,7 +1,7 @@
-import static java.lang.Math.*;
-
 import lib.ds.set.*;
 import lib.io.*;
+
+import static java.lang.Math.*;
 
 public class C {
 

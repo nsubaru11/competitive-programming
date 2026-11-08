@@ -1,10 +1,10 @@
-import static java.lang.Math.*;
-import static java.util.Arrays.*;
-
 import java.util.*;
 
 import lib.io.*;
 import lib.math.*;
+
+import static java.lang.Math.*;
+import static java.util.Arrays.*;
 
 public final class D {
 

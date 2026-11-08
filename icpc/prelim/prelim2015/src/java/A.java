@@ -1,6 +1,5 @@
-import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class A {
 
@@ -21,7 +20,7 @@ public class A {
 
 	public static void main(String[] args) {
 		try (Scanner sc = new Scanner(System.in);
-			PrintWriter out = new PrintWriter(System.out)) {
+			 PrintWriter out = new PrintWriter(System.out)) {
 			int m, n_min, n_max;
 			while (true) {
 				m = sc.nextInt();

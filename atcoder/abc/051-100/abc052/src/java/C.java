@@ -1,11 +1,11 @@
-import static java.util.Arrays.*;
-
 import java.util.*;
 import java.util.stream.*;
 
 import lib.ds.map.*;
 import lib.io.*;
 import lib.math.*;
+
+import static java.util.Arrays.*;
 
 public final class C {
 

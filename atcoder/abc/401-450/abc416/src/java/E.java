@@ -1,8 +1,8 @@
+import lib.io.*;
+
 import static java.lang.Long.*;
 import static java.lang.Math.min;
 import static java.util.Arrays.*;
-
-import lib.io.*;
 
 public class E {
 

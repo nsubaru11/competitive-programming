@@ -1,4 +1,4 @@
-import java.awt.Point;
+import java.awt.*;
 import java.util.*;
 
 public class D2 {
@@ -15,11 +15,11 @@ public class D2 {
 				sc.close();
 				return;
 			}
-			int a = sc.nextInt();	//出発地点x座標
-			int b = sc.nextInt();	//出発地点y座標
-			d = sc.nextLong();	//移動距離
-			HashMap<Integer, TreeSet<Integer>> x_y = new HashMap<>();	//障害物のx座標からy座標への写像
-			HashMap<Integer, TreeSet<Integer>> y_x = new HashMap<>();	//障害物のy座標からx座標への写像
+			int a = sc.nextInt();    //出発地点x座標
+			int b = sc.nextInt();    //出発地点y座標
+			d = sc.nextLong();    //移動距離
+			HashMap<Integer, TreeSet<Integer>> x_y = new HashMap<>();    //障害物のx座標からy座標への写像
+			HashMap<Integer, TreeSet<Integer>> y_x = new HashMap<>();    //障害物のy座標からx座標への写像
 			for (int i = 0; i < n; i++) {
 				int x = sc.nextInt();
 				int y = sc.nextInt();
@@ -106,7 +106,7 @@ public class D2 {
 								}
 							}
 						}
-						
+
 					}
 				}
 				if (d == 0) break;
@@ -178,7 +178,7 @@ public class D2 {
 		}
 	}
 
-		private static boolean Memo(HashMap<Point, HashMap<Integer, Long>> memo, Point xy, int direction) {
+	private static boolean Memo(HashMap<Point, HashMap<Integer, Long>> memo, Point xy, int direction) {
 		if (memo.get(xy) == null) {
 			HashMap<Integer, Long> dir_d = new HashMap<>();
 			dir_d.put(direction, d);
@@ -199,12 +199,12 @@ public class D2 {
 
 	private static void plusX(Point xy, HashMap<Integer, TreeSet<Integer>> y_x) {
 		if (y_x.get(xy.y) == null) {
-			System.out.println((long)(xy.x + d) + " " + xy.y);
+			System.out.println((long) (xy.x + d) + " " + xy.y);
 			d = 0;
 		} else {
 			TreeSet<Integer> x = y_x.get(xy.y);
 			if (x.higher(xy.x) == null || x.higher(xy.x) > (long) xy.x + d) {
-				System.out.println((long)(xy.x + d) + " " + xy.y);
+				System.out.println((long) (xy.x + d) + " " + xy.y);
 				d = 0;
 			} else {
 				d -= Math.abs(x.higher(xy.x) - xy.x) - 1;
@@ -231,12 +231,12 @@ public class D2 {
 
 	private static void minusX(Point xy, HashMap<Integer, TreeSet<Integer>> y_x) {
 		if (y_x.get(xy.y) == null) {
-			System.out.println((long)(xy.x - d) + " " + xy.y);
+			System.out.println((long) (xy.x - d) + " " + xy.y);
 			d = 0;
 		} else {
 			TreeSet<Integer> x = y_x.get(xy.y);
 			if (x.lower(xy.x) == null || x.lower(xy.x) < (long) xy.x - d) {
-				System.out.println((long)(xy.x - d) + " " + xy.y);
+				System.out.println((long) (xy.x - d) + " " + xy.y);
 				d = 0;
 			} else {
 				d -= Math.abs(x.lower(xy.x) - xy.x) - 1;

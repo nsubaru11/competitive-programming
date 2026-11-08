@@ -1,7 +1,6 @@
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.*;
 
-import static java.util.Arrays.*;
 import static java.lang.Math.*;
 //import static java.lang.System.out;
 
@@ -17,7 +16,7 @@ public class A {
 		for (int i = 1; i < s; i++) {
 			for (int j = 1; j < s; j++) {
 				int price = i * (x + 100) / 100 + j * (x + 100) / 100;
-				if (price == s){
+				if (price == s) {
 					price = i * (y + 100) / 100 + j * (y + 100) / 100;
 					ans = max(ans, price);
 				}

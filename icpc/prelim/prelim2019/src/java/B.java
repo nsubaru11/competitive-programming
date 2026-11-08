@@ -12,9 +12,9 @@ public class B {
 				sc.close();
 				return;
 			}
-			
-			HashMap<Character, Integer> y = new HashMap<>();	//行
-			HashMap<Character, Integer> x = new HashMap<>();	//列
+
+			HashMap<Character, Integer> y = new HashMap<>();    //行
+			HashMap<Character, Integer> x = new HashMap<>();    //列
 			for (int i = 0; i < h; i++) {
 				String r = sc.next();
 				for (int j = 0; j < w; j++) {

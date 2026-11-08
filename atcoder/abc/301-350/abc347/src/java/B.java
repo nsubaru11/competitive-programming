@@ -16,7 +16,7 @@ public class B {
 					set.add(s);
 				}
 			}
-      
+
 		}
 		System.out.println(set.size());
 	}

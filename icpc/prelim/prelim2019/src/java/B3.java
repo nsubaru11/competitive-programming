@@ -28,7 +28,7 @@ public class B3 {
 			for (int i = 1; i < s.length(); i++) {
 				int dx = Math.abs(x[s.charAt(i)] - x[s.charAt(i - 1)]);
 				int dy = Math.abs(y[s.charAt(i)] - y[s.charAt(i - 1)]);
-				ans +=  dx + dy;
+				ans += dx + dy;
 			}
 			System.out.println(ans + s.length());
 		}

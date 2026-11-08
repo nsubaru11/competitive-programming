@@ -15,12 +15,12 @@ public class S {
 				sc.close();
 				return;
 			}
-			
+
 			System.out.println(GCD(GCD(GCD(a, b), c), d));
-			
+
 		}
 	}
-	
+
 	private static long GCD(long x, long y) {
 		/* 最大公約数を求めます。
 		 * 互いに素ならば 1 を、片方が 0 ならもう片方の値を返します。

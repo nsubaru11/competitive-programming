@@ -1,9 +1,6 @@
-import java.io.PrintWriter;
 import java.util.*;
 
-import static java.lang.System.out;
-import static java.util.Arrays.*;
-import static java.lang.Math.*;
+import static java.lang.System.*;
 
 public class D {
 

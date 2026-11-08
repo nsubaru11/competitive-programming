@@ -1,4 +1,4 @@
-import java.math.BigInteger;
+import java.math.*;
 import java.util.*;
 
 public class C {
@@ -24,7 +24,7 @@ public class C {
 
 			} else {
 				for (long i = 1L; i <= b; i++) {
-					long sq = 8L * b + 4L * i * (i - 1L) + 1L;	//jについて解いた時に出てくるrootの中の値
+					long sq = 8L * b + 4L * i * (i - 1L) + 1L;    //jについて解いた時に出てくるrootの中の値
 					if (isSquareNum(sq) && (Math.round(Math.sqrt(sq)) % 2 == 1)) {
 						long j = (Math.round(Math.sqrt(sq)) - 1L) / 2L;
 						long sum = j - i + 1;

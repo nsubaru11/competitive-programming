@@ -23,7 +23,7 @@ public class D2 {
 			HashMap<Integer, HashSet<Integer>> xy = new HashMap<>();
 			dp[0][0] = true;
 			int ans = 0;
-			for(int i = 0; i < n; i++) {
+			for (int i = 0; i < n; i++) {
 				for (int x = 0; x < sum + 1; x++) {
 					for (int y = 0; y < sum + 1; y++) {
 						if (dp[x][y]) {
@@ -52,8 +52,8 @@ public class D2 {
 						}
 					}
 				}
-				for (int x: xy.keySet()) {
-					for (int y: xy.get(x)) {
+				for (int x : xy.keySet()) {
+					for (int y : xy.get(x)) {
 						dp[x][y] = true;
 					}
 				}

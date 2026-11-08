@@ -27,11 +27,11 @@ public class E2 {
 				}
 			}
 			go.put(n - 1, temp);
-			
+
 			temp = 0;
 			int flag = 0;
-		
-			for (int i: go.keySet()) {
+
+			for (int i : go.keySet()) {
 				if (i == go.size() - 1) {
 					break;
 				} else if (go.higherKey(i + 1) != null && i + 1 < go.size()) {
@@ -47,9 +47,9 @@ public class E2 {
 					}
 				}
 			}
-		
-			System.out.println((flag == 2) ? count - 2: (flag == 1) ? count - 1: count);
+
+			System.out.println((flag == 2) ? count - 2 : (flag == 1) ? count - 1 : count);
 		}
 	}
-	
+
 }

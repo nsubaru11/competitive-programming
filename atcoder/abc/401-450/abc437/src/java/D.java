@@ -1,6 +1,6 @@
-import static java.util.Arrays.*;
-
 import lib.io.*;
+
+import static java.util.Arrays.*;
 
 public final class D {
 

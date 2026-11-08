@@ -1,8 +1,8 @@
+import lib.io.*;
+
 import static java.lang.Math.*;
 import static java.util.Arrays.*;
 import static java.util.Comparator.*;
-
-import lib.io.*;
 
 public final class B {
 

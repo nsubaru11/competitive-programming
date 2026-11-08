@@ -1,11 +1,11 @@
-import static java.util.Arrays.*;
-
 import java.util.*;
 import java.util.stream.*;
 
 import lib.ds.map.*;
 import lib.ds.unionfind.*;
 import lib.io.*;
+
+import static java.util.Arrays.*;
 
 public final class D {
 

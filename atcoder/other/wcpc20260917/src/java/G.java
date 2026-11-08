@@ -1,11 +1,11 @@
-import static java.util.Arrays.*;
-
 import java.util.*;
 import java.util.stream.*;
 
 import lib.ds.priorityqueue.*;
 import lib.graph.*;
 import lib.io.*;
+
+import static java.util.Arrays.*;
 
 public final class G {
 

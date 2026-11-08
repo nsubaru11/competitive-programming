@@ -1,4 +1,4 @@
-import java.awt.Point;
+import java.awt.*;
 import java.util.*;
 
 public class B2 {
@@ -13,7 +13,7 @@ public class B2 {
 				sc.close();
 				return;
 			}
-			
+
 			HashMap<Character, Point> coord = new HashMap<>();
 			for (int i = 0; i < h; i++) {
 				String r = sc.next();
@@ -27,7 +27,7 @@ public class B2 {
 			for (int i = 1; i < s.length(); i++) {
 				int dx = Math.abs(coord.get(s.charAt(i)).x - coord.get(s.charAt(i - 1)).x);
 				int dy = Math.abs(coord.get(s.charAt(i)).y - coord.get(s.charAt(i - 1)).y);
-				ans +=  dx + dy;
+				ans += dx + dy;
 			}
 			System.out.println(ans + s.length());
 		}

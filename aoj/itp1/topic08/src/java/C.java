@@ -7,7 +7,7 @@ public class C {
 		String s;
 		int[] arr = new int[128];
 		while ((s = br.readLine()) != null) {
-			for (char c: s.toCharArray()) {
+			for (char c : s.toCharArray()) {
 				arr[Character.toLowerCase(c)]++;
 			}
 		}

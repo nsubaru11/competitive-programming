@@ -1,10 +1,11 @@
-import static java.util.Arrays.*;
-
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.stream.*;
 
+import lib.ds.priorityqueue.PriorityQueue;
 import lib.io.*;
+
+import static java.util.Arrays.*;
 
 public final class Main {
 
@@ -30,8 +31,8 @@ public final class Main {
 
 	private static int beamSearch() {
 		int w = 10000;
-		lib.ds.priorityqueue.PriorityQueue<Ouroboros> cur = new lib.ds.priorityqueue.PriorityQueue<>(w * 4, true);
-		lib.ds.priorityqueue.PriorityQueue<Ouroboros> next = new lib.ds.priorityqueue.PriorityQueue<>(w * 4, true);
+		PriorityQueue<Ouroboros> cur = new PriorityQueue<>(w * 4, true);
+		PriorityQueue<Ouroboros> next = new PriorityQueue<>(w * 4, true);
 		Ouroboros best = new Ouroboros(init);
 		cur.add(best);
 		LongHashSet visited = new LongHashSet();
@@ -53,7 +54,7 @@ public final class Main {
 			int size = next.size();
 			while (size-- > curW) next.poll();
 			if (next.isEmpty()) break;
-			lib.ds.priorityqueue.PriorityQueue<Ouroboros> temp = cur;
+			PriorityQueue<Ouroboros> temp = cur;
 			cur = next;
 			next = temp;
 			next.clear();

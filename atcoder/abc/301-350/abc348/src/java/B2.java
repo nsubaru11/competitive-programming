@@ -1,7 +1,6 @@
 import java.util.*;
 
 
-
 public class B2 {
 
 	public static void main(String[] args) {
@@ -29,7 +28,7 @@ public class B2 {
 			System.out.println(n + 1);
 			base = base + N;
 		}
-		
+
 
 	}
 }

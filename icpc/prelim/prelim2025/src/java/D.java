@@ -1,8 +1,7 @@
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.*;
-import java.util.function.Predicate;
+import java.util.function.*;
 
-import static java.util.Arrays.*;
 import static java.lang.Math.*;
 //import static java.lang.System.out;
 
@@ -54,7 +53,8 @@ public class D {
 
 		// 横
 		boolean possible = true;
-		outer: for (int i = 0; i < n; i++) {
+		outer:
+		for (int i = 0; i < n; i++) {
 			boolean flag = true;
 			boolean isBlack = isBlackTest.test(mat[i][0]);
 			int cnt = 0;
@@ -81,7 +81,8 @@ public class D {
 		}
 
 		// 縦
-		outer: for (int j = 0; j < m; j++) {
+		outer:
+		for (int j = 0; j < m; j++) {
 			boolean flag = true;
 			boolean isBlack = isBlackTest.test(mat[0][j]);
 			int cnt = 0;

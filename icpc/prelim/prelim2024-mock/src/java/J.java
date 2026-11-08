@@ -1,10 +1,10 @@
 import java.util.*;
 
 public class J {
-	
+
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		
+
 		while (true) {
 			// input
 			int n = Integer.parseInt(sc.next());

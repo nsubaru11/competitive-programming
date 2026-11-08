@@ -1,10 +1,9 @@
-import static java.lang.Math.*;
-import static java.util.Arrays.*;
-import static java.util.Comparator.*;
-
 import java.io.*;
 import java.util.*;
 import java.util.stream.*;
+
+import static java.lang.Math.*;
+import static java.util.Arrays.*;
 
 public final class B {
 
@@ -26,7 +25,7 @@ public final class B {
 			boolean[][] ac_table = new boolean[t][p];
 
 			for (int i = 0; i < r; i++) {
-				int time  = sc.nextInt();
+				int time = sc.nextInt();
 				int team = sc.nextInt() - 1;
 				int problem = sc.nextInt() - 1;
 				boolean ac = sc.nextInt() == 0;

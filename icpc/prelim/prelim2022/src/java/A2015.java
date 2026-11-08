@@ -1,10 +1,10 @@
 import java.util.*;
 
 public class A2015 {
-	
+
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		
+
 		while (true) {
 			int m = Integer.parseInt(sc.next());
 			if (m == 0) {
@@ -24,7 +24,7 @@ public class A2015 {
 					gap = a[i] - a[i + 1];
 					count = i + 1;
 				}
-				
+
 			}
 			System.out.println(count);
 		}

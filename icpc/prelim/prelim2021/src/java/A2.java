@@ -19,10 +19,10 @@ public class A2 {
 				return;
 			}
 			//操作
-			while(plates.size() > 1) {
+			while (plates.size() > 1) {
 				int b = plates.first();
 				tempPlates.clear();
-				for(int plate : plates) {
+				for (int plate : plates) {
 					tempPlates.add(plate - b);
 				}
 				plates.clear();

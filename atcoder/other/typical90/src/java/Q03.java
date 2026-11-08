@@ -1,8 +1,8 @@
-import static java.lang.Math.*;
-import static java.util.Arrays.*;
-
 import lib.graph.tree.*;
 import lib.io.*;
+
+import static java.lang.Math.*;
+import static java.util.Arrays.*;
 
 public final class Q03 {
 

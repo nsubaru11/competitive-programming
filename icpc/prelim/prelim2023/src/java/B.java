@@ -11,12 +11,12 @@ public class B {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 
-		while(true) {
+		while (true) {
 			n = Integer.parseInt(sc.next());   //あみだくじの本数
 			m = Integer.parseInt(sc.next());   //横棒の数
 			p = Integer.parseInt(sc.next());   //出発地点
 			q = Integer.parseInt(sc.next());   //期待する到着地点
-			if(n == 0) {
+			if (n == 0) {
 				sc.close();
 				return;
 			}
@@ -64,25 +64,25 @@ public class B {
 	private static int[] check(int idx, int i) {
 
 		int[] ans = new int[2];
-		if (i - 1 > 0 && idx < m + 2 && a[idx][i - 1] == p) {	//左隣を調べる
+		if (i - 1 > 0 && idx < m + 2 && a[idx][i - 1] == p) {    //左隣を調べる
 			ans[0] = i - 1;
 			ans[1] = idx - 1;
 			return ans;
 
-		} else if (i + 1 < n + 1 && a[idx][i + 1] == p) {	//右隣を調べる
+		} else if (i + 1 < n + 1 && a[idx][i + 1] == p) {    //右隣を調べる
 			ans[0] = i;
 			ans[1] = idx - 1;
 			return ans;
 
 		} else {
 			if (i - 1 > 0 && idx + 1 < m + 2 && a[idx + 1][i - 1] == a[idx][i]) {
-				ans = check(idx + 1, i - 1);	//左下に移動
+				ans = check(idx + 1, i - 1);    //左下に移動
 
 			} else if (idx + 1 < m + 2 && a[idx + 1][i] == a[idx][i]) {
-				ans = check(idx + 1, i);	//真下に移動
+				ans = check(idx + 1, i);    //真下に移動
 
 			} else if (i + 1 < n + 1 && idx + 1 < m + 2 && a[idx + 1][i + 1] == a[idx][i]) {
-				ans = check(idx + 1, i + 1);	//右下に移動
+				ans = check(idx + 1, i + 1);    //右下に移動
 
 			} else {
 				return ans;

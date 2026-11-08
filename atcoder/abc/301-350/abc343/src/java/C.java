@@ -1,10 +1,10 @@
 import java.util.*;
 
-public class C{
+public class C {
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		
+
 		long n = Long.parseLong(sc.next());
 		long cube = 0L;
 		for (long i = 1L; i * i * i <= n; i++) {
@@ -14,7 +14,7 @@ public class C{
 			}
 		}
 		System.out.println(cube);
-		
+
 	}
 
 	private static boolean check(String cube) {

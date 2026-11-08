@@ -1,9 +1,9 @@
-import static java.lang.Math.*;
-import static java.util.Arrays.*;
-
 import lib.io.*;
 import lib.string.approximate.*;
 import lib.util.*;
+
+import static java.lang.Math.*;
+import static java.util.Arrays.*;
 
 public final class C {
 

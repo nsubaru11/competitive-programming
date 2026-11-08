@@ -14,7 +14,7 @@ public class A1 {
 				return;
 			}
 			Integer[] a = new Integer[n]; //所得
-			int average = 0;	//所得の平均
+			int average = 0;    //所得の平均
 			for (int i = 0; i < n; i++) {
 				a[i] = Integer.parseInt(sc.next());
 				average += a[i];
@@ -46,7 +46,7 @@ public class A1 {
 					high = middle - 1;
 				}
 			}
-			System.out.println((a[low] <= average) ? low + 1: low);
+			System.out.println((a[low] <= average) ? low + 1 : low);
 		}
 	}
 

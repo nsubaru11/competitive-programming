@@ -1,6 +1,6 @@
-import java.util.Map.Entry;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.*;
+import java.util.Map.*;
 
 public class B {
 
@@ -46,7 +46,7 @@ public class B {
 
 	public static void main(String[] args) {
 		try (Scanner sc = new Scanner(System.in);
-			PrintWriter out = new PrintWriter(System.out)) {
+			 PrintWriter out = new PrintWriter(System.out)) {
 			int n;
 			while ((n = sc.nextInt()) != 0) {
 				solve(sc, out, n);

@@ -1,6 +1,5 @@
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.*;
-import java.util.Map.Entry;
 
 public class C {
 
@@ -23,7 +22,7 @@ public class C {
 
 	public static void main(String[] args) {
 		try (Scanner sc = new Scanner(System.in);
-			PrintWriter out = new PrintWriter(System.out)) {
+			 PrintWriter out = new PrintWriter(System.out)) {
 			while (true) {
 				int m = sc.nextInt();
 				int n = sc.nextInt();

@@ -3,7 +3,7 @@ import java.util.*;
 public class C {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		
+
 		int N = Integer.parseInt(sc.next());
 		int A = Integer.parseInt(sc.next());
 		int B = Integer.parseInt(sc.next());
@@ -18,7 +18,7 @@ public class C {
 		TreeSet<Integer> interval = new TreeSet<>();
 		int i = 0;
 		int y = 0;
-		for (int x: days) {
+		for (int x : days) {
 			if (i == 0) {
 				y = x;
 				i++;

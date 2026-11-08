@@ -1,8 +1,5 @@
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.*;
-
-import static java.util.Arrays.*;
-import static java.lang.Math.*;
 //import static java.lang.System.out;
 
 public class A {
@@ -14,6 +11,26 @@ public class A {
 	private static void solve(int h) {
 		int w = sc.nextInt();
 		out.println(ts.higher(new Point(h, w)));
+	}
+
+	public static void main(String[] args) {
+		try {
+			// 最初の入力
+			int h;
+			for (int i = 1; i <= 150; i++) {
+				for (int j = i + 1; j <= 150; j++) {
+					ts.add(new Point(i, j));
+				}
+			}
+			while ((h = sc.nextInt()) != 0) {
+				solve(h); // メインロジック
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			sc.close();
+			out.close();
+		}
 	}
 
 	private static class Point implements Comparable<Point> {
@@ -34,26 +51,6 @@ public class A {
 		@Override
 		public String toString() {
 			return h + " " + w;
-		}
-	}
-
-	public static void main(String[] args) {
-		try {
-			// 最初の入力
-			int h;
-			for (int i = 1; i <= 150; i++) {
-				for (int j = i + 1; j <= 150; j++) {
-					ts.add(new Point(i, j));
-				}
-			}
-			while ((h = sc.nextInt()) != 0) {
-				solve(h); // メインロジック
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			sc.close();
-			out.close();
 		}
 	}
 

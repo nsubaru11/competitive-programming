@@ -1,4 +1,4 @@
-import java.math.BigInteger;
+import java.math.*;
 import java.util.*;
 
 public class C2 {
@@ -16,13 +16,13 @@ public class C2 {
 
 			// solve
 			BigInteger prime = new BigInteger(b + "");
-			if (Long.bitCount(b) == 1) {	//2の累乗となるときフロア数の総数は1つになるため例外処理
+			if (Long.bitCount(b) == 1) {    //2の累乗となるときフロア数の総数は1つになるため例外処理
 				System.out.println(b + " " + 1);
 
 			} else if (prime.isProbablePrime(Integer.MAX_VALUE)) { //素数の時はフロア数が2つとなるため例外処理
 				System.out.println(b / 2L + " " + 2);
 
-			} else  {
+			} else {
 
 				/* 尺取り法
 				 * 1. ある i から j まで連続する自然数の和を sum とする。
@@ -48,5 +48,3 @@ public class C2 {
 	}
 
 }
-
-

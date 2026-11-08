@@ -1,8 +1,8 @@
-import static java.lang.Math.*;
-
 import java.util.function.*;
 
 import lib.io.*;
+
+import static java.lang.Math.*;
 
 public class D {
 

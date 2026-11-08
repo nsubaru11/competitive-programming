@@ -1,8 +1,5 @@
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.*;
-
-import static java.util.Arrays.*;
-import static java.lang.Math.*;
 //import static java.lang.System.out;
 
 public class B {
@@ -26,7 +23,7 @@ public class B {
 			a = max - min;
 			if (map.containsKey(a)) {
 				int j = map.get(a);
-				out.println(j + " " + a + " " + (i - j) );
+				out.println(j + " " + a + " " + (i - j));
 				return true;
 			}
 			map.put(a, i);

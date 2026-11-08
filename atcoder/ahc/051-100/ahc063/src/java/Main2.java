@@ -1,8 +1,8 @@
-import static java.util.Arrays.*;
-
 import java.util.concurrent.*;
 
 import lib.io.*;
+
+import static java.util.Arrays.*;
 
 public final class Main2 {
 

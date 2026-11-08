@@ -1,10 +1,10 @@
-import static java.util.Arrays.*;
-import static java.util.Comparator.*;
-
 import java.util.*;
 import java.util.stream.*;
 
 import lib.io.*;
+
+import static java.util.Arrays.*;
+import static java.util.Comparator.*;
 
 public final class F {
 

@@ -1,11 +1,11 @@
-import static java.lang.Math.*;
-import static java.util.Arrays.*;
-
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.*;
 
 import lib.io.*;
+
+import static java.lang.Math.*;
+import static java.util.Arrays.*;
 
 public final class B {
 

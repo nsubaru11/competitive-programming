@@ -1,7 +1,7 @@
+import lib.io.*;
+
 import static java.lang.Math.*;
 import static java.util.Arrays.*;
-
-import lib.io.*;
 
 public final class F {
 

@@ -15,7 +15,7 @@ public class B {
 				System.out.println(list.get(list.size() - k));
 			}
 		}
-		
+
 	}
 
 }

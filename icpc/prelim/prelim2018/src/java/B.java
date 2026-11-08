@@ -7,17 +7,17 @@ public class B {
 
 		while (true) {
 			// input
-			int n = Integer.parseInt(sc.next());	//　幅
+			int n = Integer.parseInt(sc.next());    //　幅
 			if (n == 0) {
 				sc.close();
 				return;
 			}
-			int m = Integer.parseInt(sc.next());	//　高さ
-			int t = Integer.parseInt(sc.next());	//　折る操作の回数
-			int p = Integer.parseInt(sc.next());	//　穴をあける操作の回数
+			int m = Integer.parseInt(sc.next());    //　高さ
+			int t = Integer.parseInt(sc.next());    //　折る操作の回数
+			int p = Integer.parseInt(sc.next());    //　穴をあける操作の回数
 
 			// solve
-			int[][]a = new int[m * (m + 1) / 2][n * (n + 1) / 2];
+			int[][] a = new int[m * (m + 1) / 2][n * (n + 1) / 2];
 			for (int i = 0; i < m; i++) {
 				for (int j = 0; j < n; j++) {
 					a[i][j] = 1;

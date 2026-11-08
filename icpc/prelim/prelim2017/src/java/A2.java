@@ -23,10 +23,10 @@ public class A2 {
 			Arrays.sort(a);
 			for (int i = 0; i < n; i++) {
 				int j = Arrays.binarySearch(a, i + 1, n, m - a[i]);
-				j = (j < 0) ? ~j - 1: j;
-				sum = (j != n && j != i) ? Math.max(sum, a[i] + a[j]): sum;
+				j = (j < 0) ? ~j - 1 : j;
+				sum = (j != n && j != i) ? Math.max(sum, a[i] + a[j]) : sum;
 			}
-			System.out.println((sum == 0) ? "NONE": sum);
+			System.out.println((sum == 0) ? "NONE" : sum);
 		}
 	}
 

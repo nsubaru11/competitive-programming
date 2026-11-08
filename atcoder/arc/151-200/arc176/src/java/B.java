@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class B{
+public class B {
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
@@ -22,8 +22,8 @@ public class B{
 				K -= N;
 				N = 1;
 			}
-			System.out.println((long) (Math.pow(2, N) % (Math.pow(2, M) - Math.pow(2, K)) ) % 10);
+			System.out.println((long) (Math.pow(2, N) % (Math.pow(2, M) - Math.pow(2, K))) % 10);
 		}
-		
+
 	}
 }

@@ -1,11 +1,8 @@
 import java.awt.*;
-import java.io.PrintWriter;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Scanner;
-import java.util.TreeSet;
+import java.io.*;
+import java.util.*;
 
-import static java.util.Arrays.fill;
+import static java.util.Arrays.*;
 
 public final class D {
 

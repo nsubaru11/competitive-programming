@@ -1,4 +1,4 @@
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.*;
 
 public class A {

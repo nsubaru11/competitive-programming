@@ -1,9 +1,9 @@
-import static java.lang.Math.*;
-import static java.util.Arrays.*;
-
 import java.io.*;
 import java.util.*;
 import java.util.stream.*;
+
+import static java.lang.Math.*;
+import static java.util.Arrays.*;
 
 public final class D {
 
@@ -59,26 +59,6 @@ public final class D {
 			}
 		}
 		return memo[flag] = cnt;
-	}
-
-	private static class Circle {
-		public final int i, x, y, r, c;
-
-		public Circle(int i, int x, int y, int r, int c) {
-			this.i = i;
-			this.x = x;
-			this.y = y;
-			this.r = r;
-			this.c = c;
-		}
-
-		private static boolean isOverlap(final Circle o1, final Circle o2) {
-			int dx = o1.x - o2.x, dy = o1.y - o2.y;
-			int d2 = dx * dx + dy * dy;
-			int r2 = (o1.r + o2.r) * (o1.r + o2.r);
-			return d2 < r2;
-		}
-
 	}
 
 	// region < Utility Methods >
@@ -414,7 +394,6 @@ public final class D {
 		if (n <= 0) return 0;
 		return (int) sqrt(n);
 	}
-	// endregion
 
 	// region < main & debug >
 	public static void main(final String[] args) {
@@ -425,6 +404,7 @@ public final class D {
 			out.close();
 		}
 	}
+	// endregion
 
 	private static void debugln(final Object... args) {
 		if (DEBUG) {
@@ -483,6 +463,26 @@ public final class D {
 			return sj.toString();
 		}
 		return obj.toString();
+	}
+
+	private static class Circle {
+		public final int i, x, y, r, c;
+
+		public Circle(int i, int x, int y, int r, int c) {
+			this.i = i;
+			this.x = x;
+			this.y = y;
+			this.r = r;
+			this.c = c;
+		}
+
+		private static boolean isOverlap(final Circle o1, final Circle o2) {
+			int dx = o1.x - o2.x, dy = o1.y - o2.y;
+			int d2 = dx * dx + dy * dy;
+			int r2 = (o1.r + o2.r) * (o1.r + o2.r);
+			return d2 < r2;
+		}
+
 	}
 	// endregion
 }

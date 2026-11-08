@@ -1,7 +1,7 @@
-import static java.util.Arrays.*;
-
 import lib.ds.segmenttree.*;
 import lib.io.*;
+
+import static java.util.Arrays.*;
 
 public final class E2 {
 

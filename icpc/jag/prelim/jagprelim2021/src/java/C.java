@@ -1,10 +1,10 @@
-import static java.lang.Math.*;
-import static java.util.Arrays.*;
-
 import java.io.*;
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.*;
+
+import static java.lang.Math.*;
+import static java.util.Arrays.*;
 
 public final class C {
 

@@ -4,7 +4,7 @@ public class A2 {
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		
+
 		int n = sc.nextInt();
 		int m = sc.nextInt();
 		int[] a = new int[m];
@@ -19,7 +19,7 @@ public class A2 {
 			}
 		}
 		Arrays.sort(a);
-		
+
 		if (a[m - 1] == n - 1) {
 			for (int i = 1; i <= n; i++) {
 				if (i != a[0]) {
@@ -29,7 +29,7 @@ public class A2 {
 			System.out.println(a[0]);
 			return;
 		}
-		
+
 		int j = 0;
 		System.out.print(1);
 		set2.add(1);
@@ -41,7 +41,7 @@ public class A2 {
 					System.out.print(" " + i);
 					set2.add(i);
 				}
-			}	
+			}
 		}
 	}
 
@@ -50,7 +50,7 @@ public class A2 {
 			int j = i;
 			i++;
 			System.out.print(" " + i);
-			set2.add(i);				
+			set2.add(i);
 			if (!set.contains(i)) {
 				System.out.print(" " + j);
 				set2.add(j);

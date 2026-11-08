@@ -8,7 +8,7 @@ public class Q {
 		while (true) {
 			// input
 			int n = sc.nextInt();
-			TreeMap<Integer,Integer> map = new TreeMap<>();
+			TreeMap<Integer, Integer> map = new TreeMap<>();
 			if (n == 0) {
 				sc.close();
 				return;
@@ -25,9 +25,9 @@ public class Q {
 			int floor = Integer.MIN_VALUE;
 			if (map.floorKey(2023) != null) {
 				floor = map.floorKey(2023);
-			}			
+			}
 
-			if(Math.abs(2023 - ceiling) > Math.abs(2023 - floor)) {
+			if (Math.abs(2023 - ceiling) > Math.abs(2023 - floor)) {
 				System.out.println(map.get(floor));
 			} else {
 				System.out.println(map.get(ceiling));

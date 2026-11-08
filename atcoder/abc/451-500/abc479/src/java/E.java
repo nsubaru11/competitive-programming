@@ -1,11 +1,11 @@
-import static java.util.Arrays.*;
-
 import java.util.*;
 import java.util.stream.*;
 
 import lib.ds.fenwick.*;
 import lib.graph.tree.*;
 import lib.io.*;
+
+import static java.util.Arrays.*;
 
 public final class E {
 

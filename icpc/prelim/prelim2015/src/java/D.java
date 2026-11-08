@@ -1,7 +1,5 @@
-import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.Scanner;
-import java.util.function.IntBinaryOperator;
+import java.io.*;
+import java.util.*;
 
 public class D {
 
@@ -11,6 +9,18 @@ public class D {
 			for (int j = 0; j <= n; j++) {
 
 			}
+		}
+	}
+
+	public static void main(String[] args) {
+		try (Scanner sc = new Scanner(System.in);
+			 PrintWriter out = new PrintWriter(System.out)) {
+			int n;
+			while ((n = sc.nextInt()) != 0) {
+				solve(sc, out, n);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -32,18 +42,6 @@ public class D {
 				}
 			}
 			return true;
-		}
-	}
-
-	public static void main(String[] args) {
-		try (Scanner sc = new Scanner(System.in);
-			 PrintWriter out = new PrintWriter(System.out)) {
-			int n;
-			while ((n = sc.nextInt()) != 0) {
-				solve(sc, out, n);
-			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
 		}
 	}
 }

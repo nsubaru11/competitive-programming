@@ -1,7 +1,7 @@
-import java.io.PrintWriter;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
-import static java.util.Arrays.setAll;
+import static java.util.Arrays.*;
 
 public class A {
 

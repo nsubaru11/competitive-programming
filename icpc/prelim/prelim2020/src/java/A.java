@@ -14,7 +14,7 @@ public class A {
 			//行で読み込み
 			sc.nextLine();
 			String S = sc.nextLine();
-			S = S.replaceAll(" ", "");	//半角スペースを削除する
+			S = S.replaceAll(" ", "");    //半角スペースを削除する
 			int count = 0;
 			for (int i = 0; i < n - 3; i++) {
 				//2020があればcountし、iをさらに+1すすめる

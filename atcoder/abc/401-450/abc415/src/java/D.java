@@ -1,6 +1,6 @@
-import static java.lang.Long.*;
-
 import lib.io.*;
+
+import static java.lang.Long.*;
 
 public class D {
 

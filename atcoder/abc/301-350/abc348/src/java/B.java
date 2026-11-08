@@ -1,7 +1,6 @@
 import java.util.*;
 
 
-
 public class B {
 
 	public static void main(String[] args) {
@@ -28,7 +27,7 @@ public class B {
 			}
 			System.out.println(n + 1);
 		}
-		
+
 
 	}
 }

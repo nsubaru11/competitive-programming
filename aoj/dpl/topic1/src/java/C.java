@@ -16,7 +16,7 @@ public class C {
 			int w = Integer.parseInt(sc.next());
 			min = Math.min(min, w);
 			for (int j = min; j < W + 1; j++) {
-				dp[i][j] = (j >= w) ? Math.max(dp[i - 1][j], dp[i][j - w] + v):  dp[i - 1][j];
+				dp[i][j] = (j >= w) ? Math.max(dp[i - 1][j], dp[i][j - w] + v) : dp[i - 1][j];
 			}
 		}
 		System.out.println(dp[n][W]);

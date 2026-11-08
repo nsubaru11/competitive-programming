@@ -1,9 +1,9 @@
-import static java.lang.Math.*;
-
 import java.util.*;
 
 import lib.ds.unionfind.*;
 import lib.io.*;
+
+import static java.lang.Math.*;
 
 public final class D2 {
 

@@ -1,8 +1,8 @@
-import java.io.PrintWriter;
-import java.util.Scanner;
-import java.util.function.Predicate;
+import java.io.*;
+import java.util.*;
+import java.util.function.*;
 
-import static java.lang.Math.max;
+import static java.lang.Math.*;
 //import static java.lang.System.out;
 
 public class D2 {
@@ -56,12 +56,12 @@ public class D2 {
 		//  よこ向きにあるとき ↓
 		//  #.....#  .#####.
 		//  たて向きにあるとき ↓
- 		//  #  .
- 		//  .  #
- 		//  .  #
- 		//  .  #
- 		//  .  #
- 		//  #  .
+		//  #  .
+		//  .  #
+		//  .  #
+		//  .  #
+		//  .  #
+		//  #  .
 		boolean isOnly = false;
 
 		// 両サイドに補色が存在する連続する同色のブロックがmax未満なら不可（実現可能かどうかのフラグ）
@@ -72,7 +72,8 @@ public class D2 {
 		boolean possible = true;
 
 		// よこ
-		outer: for (int i = 0; i < n; i++) {
+		outer:
+		for (int i = 0; i < n; i++) {
 			boolean flag = true;
 			boolean isBlack = blackTest.test(mat[i][0]);
 			int cnt = 0;
@@ -98,7 +99,8 @@ public class D2 {
 		}
 
 		// たて
-		outer: for (int j = 0; j < m; j++) {
+		outer:
+		for (int j = 0; j < m; j++) {
 			boolean flag = true;
 			boolean isBlack = blackTest.test(mat[0][j]);
 			int cnt = 0;
@@ -131,8 +133,8 @@ public class D2 {
 		// L字が存在する
 		// 上記の条件では以下の条件が考慮できていない
 		//  #..  ..#  ###  ###
- 		//  #..  ..#  #..  ..#
- 		//  ###  ###  #..  ..#
+		//  #..  ..#  #..  ..#
+		//  ###  ###  #..  ..#
 		boolean isL = false;
 		for (int i = 0; i < n - 1; i++) {
 			for (int j = 0; j < m - 1; j++) {

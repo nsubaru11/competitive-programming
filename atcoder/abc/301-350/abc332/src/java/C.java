@@ -1,6 +1,6 @@
-import static java.lang.Math.*;
-
 import lib.io.*;
+
+import static java.lang.Math.*;
 
 public final class C {
 

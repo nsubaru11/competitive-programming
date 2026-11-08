@@ -1,10 +1,10 @@
-import static java.util.Arrays.*;
-
 import java.util.*;
 import java.util.stream.*;
 
 import lib.io.*;
 import lib.util.*;
+
+import static java.util.Arrays.*;
 
 public final class F {
 
@@ -27,7 +27,9 @@ public final class F {
 		int[] freq = new int[n];
 		int[] cnt = {0};
 		int[] ans = new int[q];
-		MoAlgorithm.run(n, lr, i -> {if (freq[c[i]]++ == 0) cnt[0]++;}, i -> {
+		MoAlgorithm.run(n, lr, i -> {
+			if (freq[c[i]]++ == 0) cnt[0]++;
+		}, i -> {
 			if (freq[c[i]]-- == 1) cnt[0]--;
 		}, i -> ans[i] = cnt[0]);
 		out.println(ans);

@@ -1,7 +1,6 @@
-import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.Scanner;
-import java.util.function.IntBinaryOperator;
+import java.io.*;
+import java.util.*;
+import java.util.function.*;
 
 public class C {
 

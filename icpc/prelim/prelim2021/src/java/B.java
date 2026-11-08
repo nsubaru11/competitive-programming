@@ -1,4 +1,4 @@
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.*;
 
 public class B {
@@ -15,16 +15,16 @@ public class B {
 
 		nums_X = new HashSet<>();
 		nums_Y = new HashSet<>();
-		
+
 		while (true) {
-			w = Integer.parseInt(sc.next());	//列
-			h = Integer.parseInt(sc.next());	//行
-			if(w == 0) {
+			w = Integer.parseInt(sc.next());    //列
+			h = Integer.parseInt(sc.next());    //行
+			if (w == 0) {
 				sc.close();
 				out.flush();
 				return;
 			}
-			
+
 			cell = new boolean[h][w];
 			for (int i = 0; i < w + h - 1; i++) {
 				int x = Integer.parseInt(sc.next());
@@ -71,17 +71,17 @@ public class B {
 				nums_Y.add(I);
 			}
 		}
-		
+
 		for (int J = 0; J < w; J++) {
 			if (cell[y][J] == true && x != J) {
 				nums_X.add(J);
 			}
 		}
 		//記録した縦と横の
-        //交差する地点をtrueにする
+		//交差する地点をtrueにする
 		boolean f = false;
-		for (int num_x: nums_X) {
-			for (int num_y: nums_Y) {
+		for (int num_x : nums_X) {
+			for (int num_y : nums_Y) {
 				if (cell[num_y][num_x] == false) {
 					cell[num_y][num_x] = true;
 					f = true;

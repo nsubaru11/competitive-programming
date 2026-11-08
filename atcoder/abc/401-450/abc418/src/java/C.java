@@ -1,7 +1,7 @@
-import static java.util.Arrays.*;
-
 import lib.io.*;
 import lib.search.*;
+
+import static java.util.Arrays.*;
 
 public class C {
 

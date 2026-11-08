@@ -29,7 +29,7 @@ public class B2 {
 					if (S.indexOf('"', Sidx) == -1 && T.indexOf('"', Tidx) == -1) {
 						subS = S.substring(Sidx);
 						subT = T.substring(Tidx);
-						System.out.println((subS.equals(subT)) ? "CLOSE": "DIFFERENT");
+						System.out.println((subS.equals(subT)) ? "CLOSE" : "DIFFERENT");
 						break;
 					} else if (S.indexOf('"', Sidx) == -1 || T.indexOf('"', Tidx) == -1) {
 						System.out.println("DIFFERENT");
