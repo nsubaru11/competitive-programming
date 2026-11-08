@@ -23,6 +23,12 @@ public class normal {
 		out.flush();
 	}
 
+	private static int[] nextInts(final Scanner sc, final int n) {
+		final int[] a = new int[n];
+		for (int i = 0; i < n; i++) a[i] = sc.nextInt();
+		return a;
+	}
+
 	@SuppressWarnings("unused")
 	private static abstract class AbstractBinarySearch {
 
@@ -72,11 +78,5 @@ public class normal {
 		private enum SearchType {
 			NORMAL, UPPER_BOUND, LOWER_BOUND
 		}
-	}
-
-	private static int[] nextInts(final Scanner sc, final int n) {
-		final int[] a = new int[n];
-		for (int i = 0; i < n; i++) a[i] = sc.nextInt();
-		return a;
 	}
 }

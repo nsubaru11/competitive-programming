@@ -2,16 +2,16 @@
 
 ファイル名がIDEのテンプレート名になる。IntelliJ IDEAへの同期は[IDE_SETUP.md](../../docs/IDE_SETUP.md#テンプレートと共通設定の同期)を参照する。
 
-| ファイル       | IDEのテンプレート名       | 用途                                                   |
-|----------------|---------------------------|--------------------------------------------------------|
-| Class.java     | Class（標準のJavaクラス） | Java 24・AtCoderの解答                                 |
-| Class17.java   | Class17                   | Java 17以降の解答                                      |
-| AOJ.java       | AOJ                       | Java 11・標準Scanner/PrintWriter                       |
-| ICPC.java      | ICPC                      | Java 24・libのFastScanner/FastPrinterを使う            |
-| Judge.java     | Judge                     | ライブラリの検証用。オンラインジャッジの問題を解く     |
-| Example.java   | Example                   | ライブラリの利用例。最小のmainクラス                   |
-| Test.java      | Test                      | ライブラリの単体テスト（JUnit Jupiter）                |
-| Benchmark.java | Benchmark                 | ライブラリのマイクロベンチマーク（JMH）                |
+| ファイル       | IDEのテンプレート名       | 用途                                               |
+|----------------|---------------------------|----------------------------------------------------|
+| Class.java     | Class（標準のJavaクラス） | Java 24・AtCoderの解答                             |
+| Class17.java   | Class17                   | Java 17以降の解答                                  |
+| AOJ.java       | AOJ                       | Java 11・標準Scanner/PrintWriter                   |
+| ICPC.java      | ICPC                      | Java 24・libのFastScanner/FastPrinterを使う        |
+| Judge.java     | Judge                     | ライブラリの検証用。オンラインジャッジの問題を解く |
+| Example.java   | Example                   | ライブラリの利用例。最小のmainクラス               |
+| Test.java      | Test                      | ライブラリの単体テスト（JUnit Jupiter）            |
+| Benchmark.java | Benchmark                 | ライブラリのマイクロベンチマーク（JMH）            |
 
 Classは標準の「Java Class」テンプレートを上書きするため、`File → New → Java Class` でこの雛形が使われる。
 

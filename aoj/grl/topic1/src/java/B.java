@@ -6,6 +6,8 @@ import static java.util.Arrays.*;
 public class B {
 
 	private static final Scanner sc = new Scanner(System.in);
+	private static final long INF = Long.MAX_VALUE;
+	private static final long NINF = Long.MIN_VALUE;
 
 	public static void main(String[] args) {
 		int v = sc.nextInt();
@@ -36,9 +38,6 @@ public class B {
 		}
 		System.out.println(sj);
 	}
-
-	private static final long INF = Long.MAX_VALUE;
-	private static final long NINF = Long.MIN_VALUE;
 
 	/**
 	 * 始点 {@code s} から全頂点への最短距離を計算します。
