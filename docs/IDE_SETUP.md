@@ -4,31 +4,55 @@ JetBrainsのIDEは、リポジトリのルートではなく、.ide内のIDEご�
 プロジェクト設定(.idea)がIDEごとに分かれるため、同時に開いても設定を上書きし合わない。
 どのIDEでも、プロジェクトツリーにはリポジトリ全体が表示される。ソースの場所は共通。
 
-| IDE | 開くフォルダ | プロジェクト名 | 担当 |
-|---|---|---|---|
-| IntelliJ IDEA | .ide/idea | competitive-programming | Java、tools、library/java |
-| CLion | .ide/clion | competitive-programming | C++(CMake) |
-| PyCharm | .ide/pycharm | competitive-programming | Python |
+| IDE           | 開くフォルダ | プロジェクト名          | 担当                      |
+|---------------|--------------|-------------------------|---------------------------|
+| IntelliJ IDEA | .ide/idea    | competitive-programming | Java、tools、library/java |
+| CLion         | .ide/clion   | competitive-programming | C++(CMake)                |
+| PyCharm       | .ide/pycharm | competitive-programming | Python                    |
 
 ルートをIDEで開かない。開くとルートに.ideaが作られる。作られた場合はIDEを閉じてから削除する。他のIDEの設定には影響しない。
 ほかのIDEを使う場合は、.ide/<IDE名>を作り、そこからリポジトリのルートを対象にする。
 
 ## 各フォルダの中身
 
-| パス | 内容 | Git |
-|---|---|---|
-| .ide/idea/.idea/ | IDEAの設定。Javaのモジュール一覧(modules.xml)、スコープ、検査プロファイル、ファイルテンプレート | 管理外 |
-| .ide/idea/competitive-programming.iml | リポジトリ全体を対象にするJavaモジュール。生成物を除外する | 管理外 |
-| .ide/clion/CMakeLists.txt | CLion用の入口。リポジトリのCMakeLists.txtを読み込むだけ | 管理対象 |
-| .ide/clion/.idea/ | CLionの設定。CMakeのプロファイル、プロジェクトのルート、除外フォルダ | 管理外 |
-| .ide/clion/cmake-build-wsl-*/ | C++のビルド結果 | 管理外 |
-| .ide/pycharm/.idea/ | PyCharmの設定。Python SDK(.venv)、リポジトリ全体を対象にするモジュール | 管理外 |
+| パス                                  | 内容                                                                                            | Git      |
+|---------------------------------------|-------------------------------------------------------------------------------------------------|----------|
+| .ide/idea/.idea/                      | IDEAの設定。Javaのモジュール一覧(modules.xml)、スコープ、検査プロファイル、ファイルテンプレート | 管理外   |
+| .ide/idea/competitive-programming.iml | リポジトリ全体を対象にするJavaモジュール。生成物を除外する                                      | 管理外   |
+| .ide/clion/CMakeLists.txt             | CLion用の入口。リポジトリのCMakeLists.txtを読み込むだけ                                         | 管理対象 |
+| .ide/clion/.idea/                     | CLionの設定。CMakeのプロファイル、プロジェクトのルート、除外フォルダ                            | 管理外   |
+| .ide/clion/cmake-build-wsl-*/         | C++のビルド結果                                                                                 | 管理外   |
+| .ide/pycharm/.idea/                   | PyCharmの設定。Python SDK(.venv)、リポジトリ全体を対象にするモジュール                          | 管理外   |
 
 コンテストごとのJavaモジュール(*.iml)は、各コンテストのフォルダに置く。
 codeStyles・inspectionProfiles・scopes・dictionariesは、各.ideaに同じ内容を置く。IDEで変更しても、他のIDEへは自動で反映されない。
-scripts/sync-ide-project-settings.pyが、.ide/ideaを正として他の.ide/*/.ideaへ写す。codeStyles・inspectionProfiles・scopesは.ide/ideaと同じ内容にそろえ、.ide/ideaにないファイルは削除する。dictionariesは全IDEの単語を合わせて、すべてに書き込む。
-コードスタイルなどはIntelliJ IDEAで変更してから同期する。IDEを閉じた状態で実行する。反映状況だけ確認する場合は--checkを指定する。変更前の内容はout/ide-settings-backupsに退避する。
-ファイルテンプレートは、scripts/sync-jetbrains-templates.pyが.ide/idea/.idea/fileTemplatesとIDE側の設定へ同期する。
+
+改行コードはLFにそろえる(.bat・.cmd・.ps1だけCRLF)。.editorconfigのend_of_lineは、IDEで新しく作るファイルには効かない。そのため、codeStylesのLine separatorを「Unix and macOS (\n)」にしている(Settings → Editor → Code Style → Line separator)。
+IDEは既存のファイルを開いたときの改行コードで保存し続ける。CRLFのファイルがあれば、ステータスバーの改行コードの表示か、File → File Properties → Line Separatorsで変える。フォルダを選ぶと配下のファイルをまとめて変えられる。
+
+## テンプレートと共通設定の同期
+
+scripts/sync-jetbrains.pyが、次の2つをまとめて同期する。リポジトリからIDEへの一方向の同期であり、IDEでの編集をリポジトリへ取り込む機能はない。
+
+| 対象                 | 同期元                                                                | 同期先                                                                        |
+|----------------------|-----------------------------------------------------------------------|-------------------------------------------------------------------------------|
+| ファイルテンプレート | templates/java・templates/python・templates/cpp                       | IntelliJ IDEA・PyCharm・CLionの、最新バージョンのIDE全体の設定(fileTemplates) |
+| 共通設定             | .ide/idea/.ideaのcodeStyles・inspectionProfiles・scopes・dictionaries | 他の.ide/*/.idea                                                              |
+
+- テンプレートはフォルダでIDEが決まり、ファイル名がテンプレート名になる。templates/javaのClass.javaだけはIDE標準のテンプレートを上書きするため、fileTemplates/internalに置く。READMEとtemplates/headerは同期しない。
+- Java以外のテンプレートは、#や$を含む行をVelocityが解釈しないよう、そのまま出力される形に変換して書き込む。
+- codeStyles・inspectionProfiles・scopesは.ide/ideaと同じ内容にそろえ、.ide/ideaにないファイルは削除する。コードスタイルなどはIntelliJ IDEAで変更してから同期する。
+- dictionariesは全IDEの単語を合わせて、すべてに書き込む。単語がそろっていれば書き換えない。
+
+実行はリポジトリのルートで `.venv\Scripts\python.exe scripts\sync-jetbrains.py` とする。
+
+| オプション | 動作                                                                                                                                                                             |
+|------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| --check    | 変更する内容を表示するだけで、書き込まない。変更があれば終了コード1                                                                                                              |
+| --prune    | templatesにないテンプレートをIDE側から削除する。名前を変えたり削除したりしたテンプレートを消すときに使う。IDEで自分で作ったテンプレートも消えるため、先に--checkと併せて確認する |
+| --force    | JetBrainsのIDEが起動していても書き込む。通常は、起動中だと書き込まずに終了する                                                                                                   |
+
+IDEは起動中の設定を終了時に保存し直すため、IDEを閉じてから実行する。変更前の内容はout/jetbrains-sync-backup/backup.jsonに退避し、前回の退避は実行のたびに消す。
 
 ## 最初に一度行う設定
 

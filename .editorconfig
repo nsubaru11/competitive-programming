@@ -63,6 +63,6 @@ trim_trailing_whitespace = false
 [templates/**/*.{java,py,cpp}]
 ij_formatter_enabled = false
 
-[templates/python/TemplateCode.py]
+[templates/python/Debug.py]
 ij_python_blank_lines_around_top_level_classes_functions = 0
 ij_python_keep_blank_lines_in_declarations = 0

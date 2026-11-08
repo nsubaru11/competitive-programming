@@ -1,42 +1,48 @@
 # Java テンプレート
 
-| 正本                | IDEのテンプレート名       | 対象                                 |
-|---------------------|---------------------------|--------------------------------------|
-| TemplateCode.java   | Class（標準のJavaクラス） | Java 24・AtCoder                     |
-| TemplateCode17.java | Class17                   | Java 17以降                          |
-| AOJ.java            | AOJ                       | Java 11・標準Scanner/PrintWriter     |
-| ICPC.java           | ICPC                      | Java 11・内蔵FastScanner/FastPrinter |
-| Judge.java          | Judge                     | Java 17以降・ライブラリの検証用      |
-| Test.java           | Test                      | 最小のmainクラス                     |
+ファイル名がIDEのテンプレート名になる。IntelliJ IDEAへの同期は[IDE_SETUP.md](../../docs/IDE_SETUP.md#テンプレートと共通設定の同期)を参照する。
 
-拡張子は言語ごとの `.java`・`.py`・`.cpp` を使う。
-Javaの6件はすべて `${NAME}` や `#if` を含むVelocityテンプレートとして保存し、そのままjavacへ渡さず、IDEで展開して使う。
-テンプレート構文はコメントアウトせずに記述し、同期スクリプトもJavaのコメント解除・クラス名置換を行わず、そのままコピーする。
+| ファイル       | IDEのテンプレート名       | 用途                                                   |
+|----------------|---------------------------|--------------------------------------------------------|
+| Class.java     | Class（標準のJavaクラス） | Java 24・AtCoderの解答                                 |
+| Class17.java   | Class17                   | Java 17以降の解答                                      |
+| AOJ.java       | AOJ                       | Java 11・標準Scanner/PrintWriter                       |
+| ICPC.java      | ICPC                      | Java 24・libのFastScanner/FastPrinterを使う            |
+| Judge.java     | Judge                     | ライブラリの検証用。オンラインジャッジの問題を解く     |
+| Example.java   | Example                   | ライブラリの利用例。最小のmainクラス                   |
+| Test.java      | Test                      | ライブラリの単体テスト（JUnit Jupiter）                |
+| Benchmark.java | Benchmark                 | ライブラリのマイクロベンチマーク（JMH）                |
+
+Classは標準の「Java Class」テンプレートを上書きするため、`File → New → Java Class` でこの雛形が使われる。
+
+## ライブラリのテスト用
+
+library/javaの `test/` の用途に合わせて4種類を用意する。
+
+| テンプレート | 置き場所            | クラス名の例      | 実行方法                       |
+|--------------|---------------------|-------------------|--------------------------------|
+| Example      | `test/example/`     | `Example`         | mainを個別に実行する           |
+| Judge        | `test/judge/`       | `Judge`、`Judge2` | 問題の入力を標準入力から与える |
+| Test         | `test/unit/`        | `IntBITTest`      | JUnitで実行する                |
+| Benchmark    | JMHのソースフォルダ | `IntBITBenchmark` | JMHで実行する                  |
+
+TestとBenchmarkは、library/javaにGradle・JUnit・JMHを導入した後に使う。導入前に作成するとimportが解決しない。
+
+- Test: クラス名を `Test` にしない。`@Test` が自分自身のクラスを指してコンパイルエラーになる。境界値を表で検査する `@ParameterizedTest` と、シードを固定して愚直解と照合する `@RepeatedTest` の雛形を含む。未実装のテストは `fail` で失敗させる。
+- Benchmark: JMHはクラスを継承して計測コードを生成するため、`public` かつ `final` にしない。入力は `@Setup` でシードを固定して作り、結果は `Blackhole` で消費する。
+
+## テンプレートの書き方
+
+すべて `${NAME}` や `#if` を含むVelocityテンプレートとして保存する。そのままjavacへ渡さず、IDEで展開して使う。
+テンプレート構文はコメントアウトせずに記述する。同期スクリプトはJavaのテンプレートをそのままコピーする。
 `${NAME}` の置換や `#if` の条件分岐を処理するのは、新規ファイルを作成するときのIDEである。
 
-6件とも先頭に `## @formatter:off` を置く。`##` はVelocityの行コメントであり、生成したJavaファイルには残らない。
-元ファイルの整形停止は `.editorconfig` の `[templates/**/*.{java,py,cpp}]` に指定した `ij_formatter_enabled = false` で行う。
-この設定はJava・Python・C++のテンプレートだけに適用され、生成した解答ファイルでは通常の整形を使える。
+先頭に `## @formatter:off` を置く。`##` はVelocityの行コメントであり、生成したJavaファイルには残らない。
+元ファイルの整形停止は `.editorconfig` の `[templates/**]` に指定した `ij_formatter_enabled = false` で行う。
+この設定はテンプレートだけに適用され、生成した解答ファイルでは通常の整形を使える。
 構文エラーや検査を抑制するものではなく、通常のJavaとして開くとテンプレート構文はエラー表示される。
+
+importは「標準ライブラリなど → lib → static import」の順に並べる。自動整形の並び順と同じにする。
 
 `#if (${NAME} == "E")` の分岐を維持し、クラス名が `E` ならラムダ式、それ以外なら `${NAME}::stringify` を生成する。
 例えば `Main` では `Main::stringify` になる。
-
-C++の `#include` などはVelocityのディレクティブと衝突しないよう、同期時にリテラルとして保護する。
-
-リポジトリのルートで次を実行して反映する。
-
-```powershell
-.venv\Scripts\python.exe scripts\sync-jetbrains-templates.py
-```
-
-同期対象はスクリプトの `TEMPLATES` に登録した11件（Java 6件・Python 4件・C++ 1件）。
-`templates/header/*.txt` とREADMEは対象外。新しいテンプレートは `TEMPLATES` に追加する必要がある。
-
-IntelliJ IDEAのプロジェクト設定 `.ide/idea/.idea/fileTemplates` へ11件を同期し、IntelliJ IDEA・PyCharm・CLionでは製品ごとに見つかった最新バージョンの設定へ同期する。
-各IDEでは担当言語のテンプレートを追加し、既に存在する管理対象のテンプレートも更新する。
-リポジトリからIDEへの一方向の同期で、IDEでの編集をリポジトリへ取り込む機能や常時監視はない。
-キーマップ・External Tools・SDKなどのIDE設定は同期しない。プロジェクトのコードスタイルなどは[IDE_SETUP.md](../../docs/IDE_SETUP.md)の同期スクリプトで扱う。
-管理対象以外のテンプレートは変更しない。変更前の内容は `out/jetbrains-template-backups` に退避する。
-反映状況だけ確認する場合は `--check`、プロジェクトだけへ反映する場合は `--project-only` を指定する。
-IDE側で以前の内容が表示される場合は、IDEを開き直してから確認する。

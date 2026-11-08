@@ -16,7 +16,7 @@ tools/local-runner/bin/setheader.cmd java templates/header/java.txt
 
 Local Runner経由（`run`、`test`、`toclip`、CP ToolkitのJavaの提出補助とEasy Test+）では、importを書かずに`FastScanner`や`UnionFind`を使用しても、Java Compiler APIが一意なlibrary型を自動importします。コードの可読性とIDE補完のため、ローカル解答では通常どおり明示importする運用を推奨します。
 
-雛形は[TemplateCode.java](../templates/java/TemplateCode.java)です。IntelliJではFile Templateの`Class`に登録しておくと、`File → New → Java Class`から作成できます。`lib.*`に対して補完、定義ジャンプ、Find Usages、Renameが利用できます。
+雛形は[Class.java](../templates/java/Class.java)です。IntelliJではFile Templateの`Class`に登録しておくと、`File → New → Java Class`から作成できます。`lib.*`に対して補完、定義ジャンプ、Find Usages、Renameが利用できます。
 
 `src/patterns`は読む・写経する資料であり、importや自動バンドルの対象ではありません。
 

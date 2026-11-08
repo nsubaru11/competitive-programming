@@ -21,7 +21,8 @@
 | C++のCMake構成とCLionの設定 | [docs/CMAKE_SETUP.md](docs/CMAKE_SETUP.md) |
 | C++の提出先ごとの言語規格 | [docs/CPP_JUDGE_ENVIRONMENTS.md](docs/CPP_JUDGE_ENVIRONMENTS.md) |
 | Javaライブラリの使い方 | [docs/LIBRARY_USAGE.md](docs/LIBRARY_USAGE.md) |
-| テンプレートとIDEへの同期 | [templates/java/README.md](templates/java/README.md)、[templates/python/README.md](templates/python/README.md)、[templates/cpp/README.md](templates/cpp/README.md) |
+| テンプレートの用途と書き方 | [templates/java/README.md](templates/java/README.md)、[templates/python/README.md](templates/python/README.md)、[templates/cpp/README.md](templates/cpp/README.md) |
+| テンプレートと共通設定のIDEへの同期(scripts/sync-jetbrains.py) | [docs/IDE_SETUP.md](docs/IDE_SETUP.md#テンプレートと共通設定の同期) |
 
 ## 守ること
 

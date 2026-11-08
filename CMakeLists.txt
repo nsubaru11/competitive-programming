@@ -34,5 +34,5 @@ foreach (cpp_directory IN LISTS cpp_directories)
 	endforeach ()
 endforeach ()
 
-add_executable(template_cpp EXCLUDE_FROM_ALL templates/cpp/TemplateCode.cpp)
+add_executable(template_cpp EXCLUDE_FROM_ALL templates/cpp/Competitive.cpp)
 cp_configure_solution(template_cpp atcoder)

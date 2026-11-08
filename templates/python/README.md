@@ -1,10 +1,13 @@
 # Python 実行環境別テンプレート
 
-| テンプレート                                     | 対象の実行環境            |
-|--------------------------------------------------|---------------------------|
-| [TemplateCodeCPython.py](TemplateCodeCPython.py) | CPython 3.13.7            |
-| [TemplateCodePyPy.py](TemplateCodePyPy.py)       | Python 3.11 / PyPy 7.3.20 |
-| [TemplateCodeCodon.py](TemplateCodeCodon.py)     | Codon 0.19.3              |
+ファイル名がPyCharmのテンプレート名になる。同期は[IDE_SETUP.md](../../docs/IDE_SETUP.md#テンプレートと共通設定の同期)を参照する。
+
+| テンプレート             | 対象の実行環境・用途                      |
+|--------------------------|-------------------------------------------|
+| [CPython.py](CPython.py) | CPython 3.13.7                            |
+| [PyPy.py](PyPy.py)       | Python 3.11 / PyPy 7.3.20                 |
+| [Codon.py](Codon.py)     | Codon 0.19.3                              |
+| [Debug.py](Debug.py)     | コンテスト中の確認用。短く保つ（CPython） |
 
 ## 問題に応じた実行環境の選び方
 

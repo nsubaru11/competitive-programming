@@ -3,12 +3,12 @@
 #end
 #parse("File Header.java")
 
-import static java.util.Arrays.*;
-
 import java.util.*;
 import java.util.stream.*;
 
 import lib.io.compat17.*;
+
+import static java.util.Arrays.*;
 
 public final class ${NAME} {
 

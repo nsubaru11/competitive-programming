@@ -29,6 +29,6 @@
 ## JDKバージョン
 
 - 基本の開発・実行環境は JDK 24.0.2（Java 24）。
-- templates/java/TemplateCode17.java と library/java/src/lib/io/compat17/ は Java 17互換を維持する。
+- templates/java/Class17.java と library/java/src/lib/io/compat17/ は Java 17互換を維持する。
 - ライブラリを編集する場合は library/java/AGENTS.md と配下の指示に従う。
 - 提出時は tools/local-runner による lib.* のバンドルを使用する。詳細は docs/LIBRARY_USAGE.md を参照する。

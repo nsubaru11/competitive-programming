@@ -1,6 +1,8 @@
 # C++ テンプレート
 
-[TemplateCode.cpp](TemplateCode.cpp) はAtCoderではGNU C++23 / GCC 15.2.0を使う単一ファイルのテンプレートである。
+ファイル名がCLionのテンプレート名になる。同期は[IDE_SETUP.md](../../docs/IDE_SETUP.md#テンプレートと共通設定の同期)を参照する。
+
+[Competitive.cpp](Competitive.cpp) はAtCoderではGNU C++23 / GCC 15.2.0を使う単一ファイルのテンプレートである。
 テンプレート自身はC++20で使える構文にし、paizaやICPCのC++20設定でも利用できる。
 ライブラリや追加のソースファイルを必要としない。
 
@@ -43,7 +45,7 @@ C++23の `std::print` や範囲formatterには依存しない。
 
 ```bash
 "$HOME/.local/share/competitive-programming/runtimes/gcc-15.2.0/bin/g++" \
-  -std=gnu++23 -O2 -Wall -Wextra TemplateCode.cpp -o main
+  -std=gnu++23 -O2 -Wall -Wextra Competitive.cpp -o main
 ./main
 ```
 
