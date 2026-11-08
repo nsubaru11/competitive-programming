@@ -1,650 +1,820 @@
-import static java.lang.Math.*;
-
 import java.io.*;
-import java.math.*;
 import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
+
+import static java.util.Arrays.*;
 
 public class A {
 
-	private static void solve(final FastScanner sc, final FastPrinter out) {
+	private static void solve(final Scanner sc, final PrintWriter out) {
 		int v = sc.nextInt();
 		int e = sc.nextInt();
-		Prim prim = new Prim(v);
+		UndirectedGraph g = new UndirectedGraph(v, e);
 		while (e-- > 0) {
 			int s = sc.nextInt();
 			int t = sc.nextInt();
 			int w = sc.nextInt();
-			prim.addEdge(s, t, w);
+			g.add(s, t, w);
 		}
-		out.println(prim.solve());
-	}
-
-	/**
-	 * Prim法を用いた全域木（MST）問題のソルバー。 最小全域木または最大全域木を求めることができます。 時間計算量: O(|E|log|V|)
-	 * 空間計算量: O(|V| + |E|)
-	 */
-	@SuppressWarnings("unused")
-	private static final class Prim {
-		private final int v;
-		private final boolean isMinimum;
-		private final List<List<Edge>> edges;
-
-		/**
-		 * 指定された頂点数と最小/最大フラグでソルバーを初期化します。
-		 *
-		 * @param v         頂点数（0からv-1までの頂点番号が使用される）
-		 * @param isMinimum trueの場合は最小全域木、falseの場合は最大全域木を求めます
-		 */
-		public Prim(int v, final boolean isMinimum) {
-			this.v = v;
-			this.isMinimum = isMinimum;
-			this.edges = new ArrayList<>(v);
-			while (v-- > 0) {
-				edges.add(new ArrayList<>());
-			}
-		}
-
-		/**
-		 * 最小全域木を求めるソルバーを初期化します。
-		 *
-		 * @param v 頂点数（0からv-1までの頂点番号が使用される）
-		 */
-		public Prim(final int v) {
-			this(v, true);
-		}
-
-		/**
-		 * グラフに無向辺を追加します。
-		 *
-		 * @param u    辺の始点（0からv-1までの値）
-		 * @param v    辺の終点（0からv-1までの値）
-		 * @param cost 辺の重み
-		 */
-		public void addEdge(final int u, final int v, final long cost) {
-			edges.get(u).add(new Edge(u, v, cost));
-			edges.get(v).add(new Edge(v, u, cost));
-		}
-
-		/**
-		 * Prim法を実行し、全域木の総コストを計算します。 設定に応じて最小全域木または最大全域木を求めます。 グラフが連結でない場合は-1を返します。
-		 *
-		 * @return 全域木の総コスト、または連結グラフでない場合は-1
-		 */
-		public long solve() {
-			int start = 0;
-			long ans = 0;
-			int size = 0;
-			BitSet visited = new BitSet(v);
-			Comparator<Edge> comparator = isMinimum ? Comparator.comparingLong(Edge::cost)
-					: Comparator.comparingLong(Edge::cost).reversed();
-			PriorityQueue<Edge> heap = new PriorityQueue<>(comparator);
-			visited.set(start);
-			size++;
-			heap.addAll(edges.get(start));
-			while (!heap.isEmpty() && size < v) {
-				Edge e = heap.poll();
-				int v = e.v();
-				if (visited.get(v))
-					continue;
-				visited.set(v);
-				size++;
-				ans += e.cost();
-				for (Edge edge : edges.get(v)) {
-					if (!visited.get(edge.v())) {
-						heap.add(edge);
-					}
-				}
-			}
-			return size == v ? ans : -1;
-		}
-
-		/**
-		 * グラフの辺を表すレコード。
-		 */
-		private static final class Edge {
-			private final int u;
-			private final int v;
-			private final long cost;
-
-			public Edge(int u, int v, long cost) {
-				this.u = u;
-				this.v = v;
-				this.cost = cost;
-			}
-
-			public int u() {
-				return u;
-			}
-
-			public int v() {
-				return v;
-			}
-
-			public long cost() {
-				return cost;
-			}
-		}
+		out.println(minimumCost(g));
 	}
 
 	public static void main(String[] args) {
-		try (final FastScanner sc = new FastScanner(); final FastPrinter out = new FastPrinter()) {
+		try (final PrintWriter out = new PrintWriter(System.out, false)) {
+			final Scanner sc = new Scanner(System.in);
 			solve(sc, out);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	@SuppressWarnings("unused")
-	private static final class FastScanner implements AutoCloseable {
-		private static final int DEFAULT_BUFFER_SIZE = 65536;
-		private final InputStream in;
-		private final byte[] buffer;
-		private int pos = 0, bufferLength = 0;
+	/**
+	 * 最小全域森の総コストだけを求めます。
+	 * 採用辺IDと親辺の配列を確保しません。
+	 *
+	 * @param graph 対象の無向グラフ
+	 * @return 最小全域森の総コスト
+	 */
+	public static long minimumCost(final UndirectedGraph graph) {
+		return solveCost(graph, true);
+	}
 
-		public FastScanner() {
-			this(System.in, DEFAULT_BUFFER_SIZE);
-		}
+	private static long solveCost(final UndirectedGraph graph, final boolean isMinimum) {
+		final int n = graph.n;
+		final int[] dest = graph.dest, next = graph.next, first = graph.first;
+		final long[] cost = graph.cost;
 
-		public FastScanner(final InputStream in) {
-			this(in, DEFAULT_BUFFER_SIZE);
-		}
-
-		public FastScanner(final int bufferSize) {
-			this(System.in, bufferSize);
-		}
-
-		public FastScanner(final InputStream in, final int bufferSize) {
-			this.in = in;
-			this.buffer = new byte[bufferSize];
-		}
-
-		private static boolean isWhitespace(final int c) {
-			return c == ' ' || c == '\n' || c == '\r' || c == '\t';
-		}
-
-		@Override
-		public void close() throws IOException {
-			if (in != System.in)
-				in.close();
-		}
-
-		private byte read() {
-			if (pos >= bufferLength) {
-				try {
-					bufferLength = in.read(buffer, pos = 0, buffer.length);
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-				}
-				if (bufferLength < 0)
-					throw new RuntimeException(new IOException("End of input reached"));
-			}
-			return buffer[pos++];
-		}
-
-		public final int nextInt() {
-			int b = read();
-			while (isWhitespace(b))
-				b = read();
-			boolean negative = b == '-';
-			if (negative)
-				b = read();
-			int result = 0;
-			while ('0' <= b && b <= '9') {
-				result = result * 10 + b - '0';
-				b = read();
-			}
-			return negative ? -result : result;
-		}
-
-		public final long nextLong() {
-			int b = read();
-			while (isWhitespace(b))
-				b = read();
-			boolean negative = b == '-';
-			if (negative)
-				b = read();
-			long result = 0;
-			while ('0' <= b && b <= '9') {
-				result = result * 10 + b - '0';
-				b = read();
-			}
-			return negative ? -result : result;
-		}
-
-		public final double nextDouble() {
-			int b = read();
-			while (isWhitespace(b))
-				b = read();
-			boolean negative = b == '-';
-			if (negative)
-				b = read();
-			double result = 0;
-			while ('0' <= b && b <= '9') {
-				result = result * 10 + b - '0';
-				b = read();
-			}
-			if (b == '.') {
-				b = read();
-				double factor = 10;
-				while ('0' <= b && b <= '9') {
-					result += (b - '0') / factor;
-					factor *= 10;
-					b = read();
+		long total = 0;
+		final LongIndexedPriorityQueue pq = new LongIndexedPriorityQueue(n, !isMinimum);
+		for (int i = 0; i < n; i++) {
+			if (pq.hasCost(i)) continue;
+			pq.add(i, 0);
+			while (!pq.isEmpty()) {
+				final int u = pq.pollIndex();
+				total += pq.getCost(u);
+				for (int e = first[u]; e != -1; e = next[e]) {
+					pq.relax(dest[e], cost[e]);
 				}
 			}
-			return negative ? -result : result;
+		}
+		return total;
+	}
+
+	/**
+	 * 前方スター形式の隣接リストを保持するグラフの基底クラス。
+	 * <p>
+	 * 辺の終点・重み・次の辺番号をプリミティブ配列に保持します。
+	 * 無向グラフでは、1本の無向辺を向きの異なる2本の内部辺として保持します。
+	 * 配列の容量は構築時に固定され、辺追加時の自動拡張は行いません。
+	 * <p>
+	 * {@link #m} は現在の辺数ではなく、辺数引数を持たない {@link #setAll(IntSupplier, IntSupplier)}
+	 * および {@link #setAll(IntSupplier, IntSupplier, LongSupplier)} が読み込む入力辺数です。
+	 * 現在の論理辺数は {@link #edgeCount()} で取得します。
+	 */
+	private static abstract class Graph {
+		public final int n, m;
+		protected final int[] dest, next, first;
+		protected final long[] cost;
+		protected int edgePtr = 0;
+
+		/**
+		 * グラフの内部配列を確保します。
+		 *
+		 * @param n            頂点数
+		 * @param m            {@code setAll} が読み込む入力辺数
+		 * @param edgeCapacity 内部辺の最大数。有向グラフでは論理辺数、無向グラフではその2倍が必要
+		 */
+		protected Graph(final int n, final int m, final int edgeCapacity) {
+			this.n = n;
+			this.m = m;
+			dest = new int[edgeCapacity];
+			next = new int[edgeCapacity];
+			first = new int[n];
+			fill(first, -1);
+			cost = new long[edgeCapacity];
 		}
 
-		public final char nextChar() {
-			byte b = read();
-			while (isWhitespace(b))
-				b = read();
-			return (char) b;
+		/**
+		 * 現在の辺をすべて削除し、重み1の辺を {@link #m} 本読み込みます。
+		 *
+		 * @param u 辺の始点を返すサプライヤ
+		 * @param v 辺の終点を返すサプライヤ
+		 */
+		public void setAll(final IntSupplier u, final IntSupplier v) {
+			clear();
+			addAll(m, u, v);
 		}
 
-		public final String next() {
-			return nextStringBuilder().toString();
+		/**
+		 * 現在の辺をすべて削除し、重み付き辺を {@link #m} 本読み込みます。
+		 *
+		 * @param u 辺の始点を返すサプライヤ
+		 * @param v 辺の終点を返すサプライヤ
+		 * @param c 辺の重みを返すサプライヤ
+		 */
+		public void setAll(final IntSupplier u, final IntSupplier v, final LongSupplier c) {
+			clear();
+			addAll(m, u, v, c);
 		}
 
-		public final StringBuilder nextStringBuilder() {
-			final StringBuilder sb = new StringBuilder();
-			byte b = read();
-			while (isWhitespace(b))
-				b = read();
-			while (!isWhitespace(b)) {
-				sb.appendCodePoint(b);
-				b = read();
+		/**
+		 * 重み1の辺を1本追加します。
+		 *
+		 * @param u 辺の始点
+		 * @param v 辺の終点
+		 */
+		public void add(final int u, final int v) {
+			add(u, v, 1);
+		}
+
+		/**
+		 * 重み付き辺を1本追加します。
+		 *
+		 * @param u 辺の始点
+		 * @param v 辺の終点
+		 * @param c 辺の重み
+		 */
+		public abstract void add(final int u, final int v, final long c);
+
+		/**
+		 * 前方スター形式の内部辺を1本追加します。
+		 *
+		 * @param u 内部辺の始点
+		 * @param v 内部辺の終点
+		 * @param c 内部辺の重み
+		 */
+		protected final void addEdge(final int u, final int v, final long c) {
+			dest[edgePtr] = v;
+			next[edgePtr] = first[u];
+			cost[edgePtr] = c;
+			first[u] = edgePtr++;
+		}
+
+		/**
+		 * 現在の辺に続けて、重み1の辺を {@code count} 本追加します。
+		 *
+		 * @param count 追加する辺数
+		 * @param u     辺の始点を返すサプライヤ
+		 * @param v     辺の終点を返すサプライヤ
+		 */
+		public void addAll(int count, final IntSupplier u, final IntSupplier v) {
+			while (count-- > 0) add(u.getAsInt(), v.getAsInt(), 1);
+		}
+
+		/**
+		 * 現在の辺に続けて、重み付き辺を {@code count} 本追加します。
+		 *
+		 * @param count 追加する辺数
+		 * @param u     辺の始点を返すサプライヤ
+		 * @param v     辺の終点を返すサプライヤ
+		 * @param c     辺の重みを返すサプライヤ
+		 */
+		public void addAll(int count, final IntSupplier u, final IntSupplier v, final LongSupplier c) {
+			while (count-- > 0) add(u.getAsInt(), v.getAsInt(), c.getAsLong());
+		}
+
+		/**
+		 * 現在保持している辺をすべて削除します。
+		 */
+		public void clear() {
+			if (edgePtr == 0) return;
+			fill(first, -1);
+			edgePtr = 0;
+		}
+
+		/**
+		 * 現在保持している論理辺数を返します。
+		 *
+		 * @return 論理辺数
+		 */
+		public abstract int edgeCount();
+
+		/**
+		 * 指定した論理辺の重みを返します。
+		 *
+		 * @param e 辺ID
+		 * @return 辺の重み
+		 */
+		public abstract long cost(final int e);
+
+		/**
+		 * 指定した頂点に接続する辺数を返します。
+		 * 有向グラフでは入次数と出次数の合計です。
+		 *
+		 * @param v 頂点
+		 * @return 次数
+		 */
+		public abstract int degree(final int v);
+
+		/**
+		 * 指定した頂点から隣接する頂点を返します。
+		 * 有向グラフでは出辺の終点のみを返します。
+		 *
+		 * @param u 頂点
+		 * @return 隣接頂点の配列
+		 */
+		public abstract int[] adj(final int u);
+
+		/**
+		 * 指定した頂点に接続する辺IDを返します。
+		 * 有向グラフでは出辺のIDのみを返します。
+		 *
+		 * @param u 頂点
+		 * @return 辺IDの配列
+		 */
+		public abstract int[] adjEdgeIds(final int u);
+	}
+
+	/**
+	 * 前方スター形式の隣接リストで、自己ループを含まない無向グラフを保持するクラス。
+	 * <p>
+	 * 無向辺は追加順に0始まりの辺IDが割り当てられます。
+	 * 内部表現では1本の無向辺を2本の内部辺として保持しますが、
+	 * 外部には無向辺IDとして公開します。
+	 * <p>
+	 * {@link #adjEdgeIds(int)} で取得した辺IDは {@link #to(int, int)} と
+	 * {@link #cost(int)} にそのまま渡せます。
+	 * {@link #to(int, int)} は「頂点 {@code u} から見た接続先頂点」を返します。
+	 */
+	private static class UndirectedGraph extends Graph {
+		private final int[] degree;
+
+		/**
+		 * {@code n} 頂点、{@code m} 辺分の領域を確保します。
+		 * 内部では各無向辺を2本の内部辺として保持します。
+		 *
+		 * @param n 頂点数
+		 * @param m 入力辺数
+		 */
+		public UndirectedGraph(final int n, final int m) {
+			super(n, m, m << 1);
+			degree = new int[n];
+		}
+
+		public void add(final int u, final int v, final long c) {
+			addEdge(u, v, c);
+			degree[u]++;
+			addEdge(v, u, c);
+			degree[v]++;
+		}
+
+		/**
+		 * 無向辺 {@code e} について、頂点 {@code u} と反対側の端点を返します。
+		 *
+		 * @param u 辺 {@code e} の一方の端点
+		 * @param e 無向辺ID
+		 * @return 反対側の端点
+		 */
+		public int to(final int u, final int e) {
+			final int v1 = dest[e << 1];
+			final int v2 = dest[e << 1 | 1];
+			return u != v1 ? v1 : v2;
+		}
+
+		public int edgeCount() {
+			return edgePtr >> 1;
+		}
+
+		public long cost(final int e) {
+			return cost[e << 1];
+		}
+
+		public int degree(final int i) {
+			return degree[i];
+		}
+
+		public int[] adj(final int u) {
+			final int[] adj = new int[degree[u]];
+			for (int e = first[u], i = 0; e != -1; e = next[e], i++) {
+				adj[i] = dest[e];
 			}
-			return sb;
+			return adj;
 		}
 
-		public final String nextLine() {
-			final StringBuilder sb = new StringBuilder();
-			int b = read();
-			while (b != 0 && b != '\r' && b != '\n') {
-				sb.appendCodePoint(b);
-				b = read();
+		public int[] adjEdgeIds(final int u) {
+			final int[] ids = new int[degree[u]];
+			for (int e = first[u], i = 0; e != -1; e = next[e], i++) {
+				ids[i] = e >> 1;
 			}
+			return ids;
+		}
+
+		public void clear() {
+			if (edgePtr == 0) return;
+			fill(degree, 0);
+			super.clear();
+		}
+	}
+
+	/**
+	 * 添字 {@code 0 <= i < n} に long のコストを対応付ける優先度キュー。Dijkstra 法などで、添字ごとのコストを更新しながら優先されるものから取り出す用途に使う。
+	 * n は構築時に決め、添字の範囲は検査しない。比較順は昇順・降順・LongComparator から選ぶ。同順位のコストを持つ添字の取り出し順は規定しない。
+	 * 各添字は「未追加」「キュー内」「取り出し済み」のいずれかの状態を持つ。poll 系と remove で取り出した添字は取り出し済みになり、clear で全添字が未追加に戻る。
+	 * 空の peek・poll 系は NoSuchElementException を投げ、OrDefault 系は指定した既定値を返す。走査と toString はキュー内のコストを内部配列の順に返す。
+	 */
+	private static final class LongIndexedPriorityQueue implements LongCollection {
+		public final int indexCount;
+		private final boolean isDescendingOrder;
+		private final LongComparator comparator;
+		private final int[] heap, position;
+		private final long[] cost;
+		private int size, unsortedCount, stamp;
+
+		public LongIndexedPriorityQueue(final int n) {
+			this(n, false, null);
+		}
+
+		public LongIndexedPriorityQueue(final int n, final boolean isDescendingOrder) {
+			this(n, isDescendingOrder, null);
+		}
+
+		public LongIndexedPriorityQueue(final int n, final LongComparator comparator) {
+			this(n, false, Objects.requireNonNull(comparator));
+		}
+
+		/**
+		 * costs[i] を添字 i のコストとして、全添字をキューに入れる。
+		 */
+		public LongIndexedPriorityQueue(final long[] costs) {
+			this(costs, false);
+		}
+
+		public LongIndexedPriorityQueue(final long[] costs, final boolean isDescendingOrder) {
+			this(costs.length, isDescendingOrder, null);
+			System.arraycopy(costs, 0, cost, 0, costs.length);
+			build();
+		}
+
+		public LongIndexedPriorityQueue(final long[] costs, final LongComparator comparator) {
+			this(costs.length, false, Objects.requireNonNull(comparator));
+			System.arraycopy(costs, 0, cost, 0, costs.length);
+			build();
+		}
+
+		/**
+		 * iterator の j 番目の値を添字 j のコストとして、全添字をキューに入れる。
+		 */
+		public LongIndexedPriorityQueue(final LongCollection costs) {
+			this(costs, false);
+		}
+
+		public LongIndexedPriorityQueue(final LongCollection costs, final boolean isDescendingOrder) {
+			this(costs.size(), isDescendingOrder, null);
+			copyCosts(costs);
+		}
+
+		public LongIndexedPriorityQueue(final LongCollection costs, final LongComparator comparator) {
+			this(costs.size(), false, Objects.requireNonNull(comparator));
+			copyCosts(costs);
+		}
+
+		public LongIndexedPriorityQueue(final LongIndexedPriorityQueue other) {
+			isDescendingOrder = other.isDescendingOrder;
+			comparator = other.comparator;
+			indexCount = other.indexCount;
+			heap = other.heap.clone();
+			position = other.position.clone();
+			cost = other.cost.clone();
+			size = other.size;
+			unsortedCount = other.unsortedCount;
+			stamp = other.stamp;
+		}
+
+		private LongIndexedPriorityQueue(final int n, final boolean isDescendingOrder, final LongComparator comparator) {
+			this.isDescendingOrder = isDescendingOrder;
+			this.comparator = comparator;
+			indexCount = n;
+			heap = new int[n];
+			position = new int[n];
+			cost = new long[n];
+			stamp = -1;
+		}
+
+		/**
+		 * キュー内にある添字の数を返す。
+		 */
+		public int size() {
+			return size;
+		}
+
+		/**
+		 * 使用できる添字の数 n を返す。
+		 */
+		public int indexCount() {
+			return indexCount;
+		}
+
+		/**
+		 * 添字 i がキュー内にあるか判定する。コストを探す contains とは異なる。
+		 */
+		public boolean containsIndex(final int i) {
+			return isActive(i);
+		}
+
+		/**
+		 * 添字 i がキュー内にあるか、取り出し済みか判定する。true なら getCost でコストを取得できる。
+		 */
+		public boolean hasCost(final int i) {
+			return !isUnseen(i);
+		}
+
+		/**
+		 * キュー内にある添字 i のコストを返す。キュー内になければ NoSuchElementException を投げる。
+		 */
+		public long get(final int i) {
+			if (!isActive(i)) throw new NoSuchElementException();
+			return cost[i];
+		}
+
+		public long getOrDefault(final int i, final long defaultValue) {
+			return isActive(i) ? cost[i] : defaultValue;
+		}
+
+		/**
+		 * 添字 i が最後に持っていたコストを返す。取り出し済みの添字にも使え、Dijkstra 法の確定距離の取得に使える。
+		 * 未追加の添字では NoSuchElementException を投げる。
+		 */
+		public long getCost(final int i) {
+			if (isUnseen(i)) throw new NoSuchElementException();
+			return cost[i];
+		}
+
+		public long getCostOrDefault(final int i, final long defaultValue) {
+			return isUnseen(i) ? defaultValue : cost[i];
+		}
+
+		public long peek() {
+			if (isEmpty()) throw new NoSuchElementException();
+			if (unsortedCount > 0) ensureHeapProperty();
+			return cost[heap[0]];
+		}
+
+		public long peekOrDefault(final long defaultValue) {
+			return isEmpty() ? defaultValue : peek();
+		}
+
+		public int peekIndex() {
+			if (isEmpty()) throw new NoSuchElementException();
+			if (unsortedCount > 0) ensureHeapProperty();
+			return heap[0];
+		}
+
+		public int peekIndexOrDefault(final int defaultIndex) {
+			return isEmpty() ? defaultIndex : peekIndex();
+		}
+
+		/**
+		 * 2番目に優先されるコストを返す。要素数は2以上とする。
+		 */
+		public long peekSecond() {
+			if (size < 2) throw new NoSuchElementException();
+			if (unsortedCount > 0) ensureHeapProperty();
+			if (size == 2) return cost[heap[1]];
+			return compare(cost[heap[1]], cost[heap[2]]) <= 0 ? cost[heap[1]] : cost[heap[2]];
+		}
+
+		/**
+		 * 添字 i のコストを c にする。キュー内になければ c でキューに入れる。キューに入れた場合に true を返す。
+		 */
+		public boolean set(final int i, final long c) {
+			if (!isActive(i)) {
+				append(i, c);
+				return true;
+			}
+			final int order = compare(c, cost[i]);
+			cost[i] = c;
+			if (order == 0) return false;
+			final int p = position[i];
+			final int sortedSize = size - unsortedCount;
+			if (p >= sortedSize) return false;
+			if (order < 0) siftUp(i, p);
+			else siftDown(i, p, sortedSize);
+			return false;
+		}
+
+		/**
+		 * 添字 i がキュー内になければ c でキューに入れて true を返す。キュー内なら何もせず false を返す。取り出し済みの添字も入れ直す。
+		 */
+		public boolean add(final int i, final long c) {
+			if (isActive(i)) return false;
+			append(i, c);
+			return true;
+		}
+
+		/**
+		 * c が添字 i の現在のコストより優先される場合だけ更新し、未追加の添字はキューに入れる。更新した場合に true を返す。
+		 * 取り出し済みの添字は入れ直さずに false を返す。
+		 */
+		public boolean relax(final int i, final long c) {
+			if (isRemoved(i)) return false;
+			if (!isActive(i)) {
+				append(i, c);
+				return true;
+			}
+			if (compare(c, cost[i]) >= 0) return false;
+			final int p = position[i];
+			cost[i] = c;
+			if (p < size - unsortedCount) siftUp(i, p);
+			return true;
+		}
+
+		public long poll() {
+			if (isEmpty()) throw new NoSuchElementException();
+			if (unsortedCount > 0) ensureHeapProperty();
+			final int i = heap[0];
+			final long c = cost[i];
+			position[i] = stamp;
+			if (--size > 0) siftDown(heap[size], 0, size);
+			return c;
+		}
+
+		public long pollOrDefault(final long defaultValue) {
+			return isEmpty() ? defaultValue : poll();
+		}
+
+		public int pollIndex() {
+			if (isEmpty()) throw new NoSuchElementException();
+			if (unsortedCount > 0) ensureHeapProperty();
+			final int i = heap[0];
+			position[i] = stamp;
+			if (--size > 0) siftDown(heap[size], 0, size);
+			return i;
+		}
+
+		public int pollIndexOrDefault(final int defaultIndex) {
+			return isEmpty() ? defaultIndex : pollIndex();
+		}
+
+		/**
+		 * 添字 i がキュー内にあれば取り出し済みにして true、なければ false を返す。
+		 */
+		public boolean remove(final int i) {
+			if (!isActive(i)) return false;
+			if (position[i] >= size - unsortedCount) {
+				removeUnsorted(i);
+				return true;
+			}
+			if (unsortedCount > 0) ensureHeapProperty();
+			final int p = position[i];
+			position[i] = stamp;
+			if (--size != p) {
+				final int j = heap[size];
+				if (compare(cost[j], cost[i]) < 0) siftUp(j, p);
+				else siftDown(j, p, size);
+			}
+			return true;
+		}
+
+		/**
+		 * 全添字の状態を消去し、{@code init(i)} を添字 i のコストとして全添字をキューに入れる。
+		 */
+		public LongIndexedPriorityQueue setAll(final IntToLongFunction init) {
+			clear();
+			for (int i = 0; i < indexCount; i++) cost[i] = init.applyAsLong(i);
+			build();
+			return this;
+		}
+
+		public void clear() {
+			size = unsortedCount = 0;
+			stamp--;
+		}
+
+		public PrimitiveIterator.OfLong iterator() {
+			return new PrimitiveIterator.OfLong() {
+				private int i;
+
+				public boolean hasNext() {
+					return i < size;
+				}
+
+				public long nextLong() {
+					if (!hasNext()) throw new NoSuchElementException();
+					return cost[heap[i++]];
+				}
+			};
+		}
+
+		public String toString() {
+			if (isEmpty()) return "";
+			final StringBuilder sb = new StringBuilder(21 * size - 1);
+			sb.append(cost[heap[0]]);
+			for (int i = 1; i < size; i++) sb.append(' ').append(cost[heap[i]]);
 			return sb.toString();
 		}
 
-		public final BigInteger nextBigInteger() {
-			return new BigInteger(next());
+		private void build() {
+			size = unsortedCount = indexCount;
+			for (int i = 0; i < size; i++) heap[i] = position[i] = i;
 		}
 
-		public final BigDecimal nextBigDecimal() {
-			return new BigDecimal(next());
+		private void copyCosts(final LongCollection costs) {
+			final PrimitiveIterator.OfLong it = costs.iterator();
+			for (int i = 0; i < indexCount; i++) cost[i] = it.nextLong();
+			build();
 		}
 
+		private int compare(final long a, final long b) {
+			if (comparator != null) return comparator.compare(a, b);
+			return isDescendingOrder ? Long.compare(b, a) : Long.compare(a, b);
+		}
+
+		private void append(final int i, final long c) {
+			cost[i] = c;
+			heap[size] = i;
+			position[i] = size++;
+			unsortedCount++;
+		}
+
+		private void removeUnsorted(final int i) {
+			final int p = position[i];
+			position[i] = stamp;
+			unsortedCount--;
+			if (--size != p) {
+				final int j = heap[size];
+				heap[p] = j;
+				position[j] = p;
+			}
+		}
+
+		private boolean isActive(final int i) {
+			final int p = position[i];
+			return p >= 0 && p < size && heap[p] == i;
+		}
+
+		private boolean isRemoved(final int i) {
+			return position[i] == stamp;
+		}
+
+		private boolean isUnseen(final int i) {
+			return !isActive(i) && !isRemoved(i);
+		}
+
+		private void ensureHeapProperty() {
+			final int log2N = 31 - Integer.numberOfLeadingZeros(size);
+			final int heapifyCost = size * 2 - 2 * log2N;
+			final int incrementalCost = unsortedCount <= 100 ? getIncrementalCostStrict() : getIncrementalCostApprox();
+			if (heapifyCost < incrementalCost) heapify();
+			else for (int p = size - unsortedCount; p < size; p++) siftUp(heap[p], p);
+			unsortedCount = 0;
+		}
+
+		private int getIncrementalCostStrict() {
+			int c = 0;
+			final int sortedSize = size - unsortedCount;
+			for (int i = 1; i <= unsortedCount; i++) c += 31 - Integer.numberOfLeadingZeros(sortedSize + i);
+			return c;
+		}
+
+		private int getIncrementalCostApprox() {
+			final int averageSize = size - unsortedCount + (unsortedCount >> 1);
+			if (averageSize == 0) return 0;
+			return unsortedCount * (31 - Integer.numberOfLeadingZeros(averageSize));
+		}
+
+		private void heapify() {
+			for (int p = (size >> 1) - 1; p >= 0; p--) siftDown(heap[p], p, size);
+		}
+
+		private void siftUp(final int i, int p) {
+			final long c = cost[i];
+			while (p > 0) {
+				final int q = (p - 1) >> 1;
+				final int j = heap[q];
+				if (compare(c, cost[j]) >= 0) break;
+				heap[p] = j;
+				position[j] = p;
+				p = q;
+			}
+			heap[p] = i;
+			position[i] = p;
+		}
+
+		private void siftDown(final int i, int p, final int n) {
+			final long c = cost[i];
+			final int half = n >> 1;
+			while (p < half) {
+				int q = (p << 1) + 1;
+				if (q + 1 < n && compare(cost[heap[q]], cost[heap[q + 1]]) > 0) q++;
+				final int j = heap[q];
+				if (compare(c, cost[j]) <= 0) break;
+				heap[p] = j;
+				position[j] = p;
+				p = q;
+			}
+			heap[p] = i;
+			position[i] = p;
+		}
 	}
 
-	@SuppressWarnings("unused")
-	private static final class FastPrinter implements AutoCloseable {
-		protected static final int MAX_INT_DIGITS = 11;
-		protected static final int MAX_LONG_DIGITS = 20;
-		private static final int DEFAULT_BUFFER_SIZE = 65536;
-		private static final byte[] TWO_DIGIT_NUMBERS = new byte[200];
-		static {
-			byte tens = '0', ones = '0';
-			for (int i = 0; i < 100; i++) {
-				TWO_DIGIT_NUMBERS[i << 1] = tens;
-				TWO_DIGIT_NUMBERS[(i << 1) + 1] = ones;
-				if (++ones > '9') {
-					ones = '0';
-					tens++;
-				}
+	/**
+	 * long値を保持するコレクションの読み取り用インターフェースである。
+	 * 走査とそれを使う一括処理の実行中は、要素数や走査順を変更しないこと。
+	 */
+	private interface LongCollection extends Iterable<Long> {
+
+		int size();
+
+		/**
+		 * プリミティブ値を走査する iterator を返す。走査順は実装に依存する。
+		 */
+		PrimitiveIterator.OfLong iterator();
+
+		default boolean isEmpty() {
+			return size() == 0;
+		}
+
+		/**
+		 * 指定値を含むかを線形探索で判定する。
+		 */
+		default boolean contains(final long v) {
+			for (final PrimitiveIterator.OfLong it = iterator(); it.hasNext(); ) {
+				if (it.nextLong() == v) return true;
 			}
-		}
-		protected final byte[] buffer;
-		protected final boolean autoFlush;
-		private final OutputStream out;
-		protected int pos = 0;
-
-		public FastPrinter() {
-			this(System.out, DEFAULT_BUFFER_SIZE, false);
+			return false;
 		}
 
-		public FastPrinter(final OutputStream out) {
-			this(out, DEFAULT_BUFFER_SIZE, false);
+		/**
+		 * iterator の走査順で各要素に action を適用する。
+		 */
+		default void forEachLong(final LongConsumer action) {
+			iterator().forEachRemaining(action);
 		}
 
-		public FastPrinter(final int bufferSize) {
-			this(System.out, bufferSize, false);
+		/**
+		 * SIZED・SUBSIZED の spliterator を返す。既定実装は ORDERED を指定しない。
+		 */
+		default Spliterator.OfLong spliterator() {
+			return Spliterators.spliterator(iterator(), size(), 0);
 		}
 
-		public FastPrinter(final boolean autoFlush) {
-			this(System.out, DEFAULT_BUFFER_SIZE, autoFlush);
+		/**
+		 * 逐次実行のプリミティブ Stream を返す。
+		 */
+		default LongStream longStream() {
+			return StreamSupport.longStream(spliterator(), false);
 		}
 
-		public FastPrinter(final OutputStream out, final boolean autoFlush) {
-			this(out, DEFAULT_BUFFER_SIZE, autoFlush);
+		/**
+		 * iterator の走査順にボックス化した、変更不可の List を返す。
+		 */
+		default List<Long> toList() {
+			return longStream().boxed().collect(Collectors.toList());
 		}
 
-		public FastPrinter(final int bufferSize, final boolean autoFlush) {
-			this(System.out, bufferSize, autoFlush);
+		/**
+		 * iterator の走査順で独立したプリミティブ配列へコピーする。
+		 */
+		default long[] toArray() {
+			final int len = size();
+			final long[] a = new long[len];
+			final PrimitiveIterator.OfLong it = iterator();
+			for (int i = 0; i < len; i++) a[i] = it.nextLong();
+			return a;
 		}
-
-		public FastPrinter(final OutputStream out, final int bufferSize) {
-			this(out, bufferSize, false);
-		}
-
-		public FastPrinter(final OutputStream out, final int bufferSize, final boolean autoFlush) {
-			this.out = out;
-			buffer = new byte[max(bufferSize, 64)];
-			this.autoFlush = autoFlush;
-		}
-
-		@Override
-		public void close() throws IOException {
-			flush();
-			if (out != System.out)
-				out.close();
-		}
-
-		public void flush() {
-			try {
-				if (pos > 0)
-					out.write(buffer, 0, pos);
-				out.flush();
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-			pos = 0;
-		}
-
-		public final void println() {
-			ensureBufferSpace(1);
-			buffer[pos++] = '\n';
-			if (autoFlush)
-				flush();
-		}
-
-		public final void println(final int i) {
-			ensureBufferSpace(MAX_INT_DIGITS + 1);
-			fillBuffer(i);
-			buffer[pos++] = '\n';
-			if (autoFlush)
-				flush();
-		}
-
-		public final void println(final long l) {
-			ensureBufferSpace(MAX_LONG_DIGITS + 1);
-			fillBuffer(l);
-			buffer[pos++] = '\n';
-			if (autoFlush)
-				flush();
-		}
-
-		public final void println(final double d) {
-			print(Double.toString(d), true);
-		}
-
-		public final void println(final char c) {
-			ensureBufferSpace(2);
-			buffer[pos++] = (byte) c;
-			buffer[pos++] = '\n';
-			if (autoFlush)
-				flush();
-		}
-
-		public final void println(final boolean b) {
-			ensureBufferSpace(4);
-			fillBuffer(b);
-			buffer[pos++] = '\n';
-			if (autoFlush)
-				flush();
-		}
-
-		public final void println(final String s) {
-			print(s, true);
-		}
-
-		public final void println(final BigInteger bi) {
-			print(bi.toString(), true);
-		}
-
-		public final void println(final BigDecimal bd) {
-			print(bd.toString(), true);
-		}
-
-		public final void print(final int i) {
-			ensureBufferSpace(MAX_INT_DIGITS);
-			fillBuffer(i);
-			if (autoFlush)
-				flush();
-		}
-
-		public final void print(final long l) {
-			ensureBufferSpace(MAX_LONG_DIGITS);
-			fillBuffer(l);
-			if (autoFlush)
-				flush();
-		}
-
-		public final void print(final double d) {
-			print(Double.toString(d), false);
-		}
-
-		public final void print(final char c) {
-			ensureBufferSpace(1);
-			buffer[pos++] = (byte) c;
-			if (autoFlush)
-				flush();
-		}
-
-		public final void print(final boolean b) {
-			ensureBufferSpace(3);
-			fillBuffer(b);
-			if (autoFlush)
-				flush();
-		}
-
-		public final void print(final String s) {
-			print(s, false);
-		}
-
-		public final void print(final BigInteger bi) {
-			print(bi.toString(), false);
-		}
-
-		public final void print(final BigDecimal bd) {
-			print(bd.toString(), false);
-		}
-
-		public final void printf(final String format, final Object... args) {
-			print(String.format(format, args), false);
-		}
-
-		public final void printf(final Locale locale, final String format, final Object... args) {
-			print(String.format(locale, format, args), false);
-		}
-
-		protected final void ensureBufferSpace(final int size) {
-			if (pos + size > buffer.length) {
-				try {
-					out.write(buffer, 0, pos);
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-				}
-				pos = 0;
-			}
-		}
-
-		protected final void print(final String s, final boolean newline) {
-			fillBuffer(s);
-			if (newline) {
-				ensureBufferSpace(1);
-				buffer[pos++] = '\n';
-			}
-			if (autoFlush)
-				flush();
-		}
-
-		protected final void fillBuffer(final String s) {
-			if (s == null)
-				return;
-			final int len = s.length();
-			for (int i = 0; i < len;) {
-				ensureBufferSpace(1);
-				int limit = min(buffer.length - pos, len - i);
-				while (limit-- > 0) {
-					buffer[pos++] = (byte) s.charAt(i++);
-				}
-			}
-		}
-
-		protected final void fillBuffer(final boolean b) {
-			if (b) {
-				buffer[pos++] = 'Y';
-				buffer[pos++] = 'e';
-				buffer[pos++] = 's';
-			} else {
-				buffer[pos++] = 'N';
-				buffer[pos++] = 'o';
-			}
-		}
-
-		protected final void fillBuffer(int i) {
-			if (i == Integer.MIN_VALUE) {
-				buffer[pos++] = '-';
-				buffer[pos++] = '2';
-				buffer[pos++] = '1';
-				buffer[pos++] = '4';
-				buffer[pos++] = '7';
-				buffer[pos++] = '4';
-				buffer[pos++] = '8';
-				buffer[pos++] = '3';
-				buffer[pos++] = '6';
-				buffer[pos++] = '4';
-				buffer[pos++] = '8';
-				return;
-			}
-
-			boolean negative = (i < 0);
-			if (negative) {
-				i = -i;
-				buffer[pos++] = '-';
-			}
-
-			int numOfDigits = countDigits(i);
-			int writePos = pos + numOfDigits;
-			while (i >= 100) {
-				int quotient = i / 100;
-				int remainder = (i - quotient * 100) << 1;
-				buffer[--writePos] = TWO_DIGIT_NUMBERS[remainder + 1];
-				buffer[--writePos] = TWO_DIGIT_NUMBERS[remainder];
-				i = quotient;
-			}
-
-			if (i < 10) {
-				buffer[--writePos] = (byte) ('0' + i);
-			} else {
-				buffer[--writePos] = TWO_DIGIT_NUMBERS[(i << 1) + 1];
-				buffer[--writePos] = TWO_DIGIT_NUMBERS[i << 1];
-			}
-
-			pos += numOfDigits;
-		}
-
-		protected final void fillBuffer(long l) {
-			if ((int) l == l) {
-				fillBuffer((int) l);
-				return;
-			}
-			if (l == Long.MIN_VALUE) {
-				buffer[pos++] = '-';
-				buffer[pos++] = '9';
-				buffer[pos++] = '2';
-				buffer[pos++] = '2';
-				buffer[pos++] = '3';
-				buffer[pos++] = '3';
-				buffer[pos++] = '7';
-				buffer[pos++] = '2';
-				buffer[pos++] = '0';
-				buffer[pos++] = '3';
-				buffer[pos++] = '6';
-				buffer[pos++] = '8';
-				buffer[pos++] = '5';
-				buffer[pos++] = '4';
-				buffer[pos++] = '7';
-				buffer[pos++] = '7';
-				buffer[pos++] = '5';
-				buffer[pos++] = '8';
-				buffer[pos++] = '0';
-				buffer[pos++] = '8';
-				return;
-			}
-
-			boolean negative = (l < 0);
-			if (negative) {
-				l = -l;
-				buffer[pos++] = '-';
-			}
-
-			int numOfDigits = countDigits(l);
-			int writePos = pos + numOfDigits;
-			while (l >= 100) {
-				long quotient = l / 100;
-				int remainder = (int) (l - quotient * 100) << 1;
-				buffer[--writePos] = TWO_DIGIT_NUMBERS[remainder + 1];
-				buffer[--writePos] = TWO_DIGIT_NUMBERS[remainder];
-				l = quotient;
-			}
-
-			if (l < 10) {
-				buffer[--writePos] = (byte) ('0' + l);
-			} else {
-				buffer[--writePos] = TWO_DIGIT_NUMBERS[(int) (l << 1) + 1];
-				buffer[--writePos] = TWO_DIGIT_NUMBERS[(int) l << 1];
-			}
-
-			pos += numOfDigits;
-		}
-
-		private int countDigits(final int i) {
-			if (i < 10)
-				return 1;
-			if (i < 100)
-				return 2;
-			if (i < 1000)
-				return 3;
-			if (i < 10000)
-				return 4;
-			if (i < 100000)
-				return 5;
-			if (i < 1000000)
-				return 6;
-			if (i < 10000000)
-				return 7;
-			if (i < 100000000)
-				return 8;
-			if (i < 1000000000)
-				return 9;
-			return 10;
-		}
-
-		private int countDigits(final long l) {
-			if (l < 10000000000L)
-				return 10;
-			if (l < 100000000000L)
-				return 11;
-			if (l < 1000000000000L)
-				return 12;
-			if (l < 10000000000000L)
-				return 13;
-			if (l < 100000000000000L)
-				return 14;
-			if (l < 1000000000000000L)
-				return 15;
-			if (l < 10000000000000000L)
-				return 16;
-			if (l < 100000000000000000L)
-				return 17;
-			if (l < 1000000000000000000L)
-				return 18;
-			return 19;
-		}
-
 	}
 
+	/**
+	 * 2つのlong値を比較する関数です。
+	 */
+	@FunctionalInterface
+	private interface LongComparator {
+
+		/**
+		 * 昇順のComparatorを返します。
+		 *
+		 * @return 昇順のComparator
+		 */
+		static LongComparator naturalOrder() {
+			return Long::compare;
+		}
+
+		/**
+		 * 降順のComparatorを返します。
+		 *
+		 * @return 降順のComparator
+		 */
+		static LongComparator reverseOrder() {
+			return (a, b) -> Long.compare(b, a);
+		}
+
+		/**
+		 * 2つの値を比較します。
+		 *
+		 * @param a 1つ目の値
+		 * @param b 2つ目の値
+		 * @return aが先なら負、同順位なら0、bが先なら正
+		 */
+		int compare(long a, long b);
+
+		/**
+		 * 比較順序を反転したComparatorを返します。
+		 *
+		 * @return 反転したComparator
+		 */
+		default LongComparator reversed() {
+			return (a, b) -> compare(b, a);
+		}
+	}
 }

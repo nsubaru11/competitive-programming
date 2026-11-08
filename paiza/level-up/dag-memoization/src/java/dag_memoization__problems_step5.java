@@ -1,7 +1,5 @@
 import java.io.*;
-import java.math.*;
 import java.util.*;
-import java.util.function.*;
 
 import static java.lang.Math.*;
 import static java.util.Arrays.*;

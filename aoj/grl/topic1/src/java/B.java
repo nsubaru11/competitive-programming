@@ -1,30 +1,34 @@
-import java.io.*;
 import java.util.*;
+import java.util.function.*;
+
 import static java.util.Arrays.*;
-import static java.lang.Math.*;
 
 public class B {
 
-	public static void main(String[] args){
+	private static final Scanner sc = new Scanner(System.in);
+
+	public static void main(String[] args) {
 		int v = sc.nextInt();
 		int e = sc.nextInt();
 		int r = sc.nextInt();
 
-		BellmanFord bf = new BellmanFord(v, e);
+		DirectedGraph g = new DirectedGraph(v, e);
 		for (int i = 0; i < e; i++) {
 			int s = sc.nextInt();
 			int t = sc.nextInt();
 			int d = sc.nextInt();
-			bf.addEdge(s, t, d);
+			g.add(s, t, d);
 		}
 
+		PathResult result = solve(g, r);
+		if (result.hasNegCycle) {
+			System.out.println("NEGATIVE CYCLE");
+			return;
+		}
 		StringJoiner sj = new StringJoiner("\n");
 		for (int i = 0; i < v; i++) {
-			long temp = bf.getShortestPathWeight(r, i);
-			if (temp == -bf.INF) {
-				System.out.println("NEGATIVE CYCLE");
-				return;
-			} else if (temp == bf.INF) {
+			long temp = result.dist[i];
+			if (temp == Long.MAX_VALUE) {
 				sj.add("INF");
 			} else {
 				sj.add(Long.toString(temp));
@@ -33,185 +37,442 @@ public class B {
 		System.out.println(sj);
 	}
 
-	@SuppressWarnings("unused")
-	private static class BellmanFord {
-		private int used;
-		private final int v, e;
-		private final int[] path;
-		private final long[] ans;
-		private final ArrayList<Edge> edges;
-		private final long INF = Long.MAX_VALUE;
+	private static final long INF = Long.MAX_VALUE;
+	private static final long NINF = Long.MIN_VALUE;
 
-		BellmanFord(int v, int e) {
-			this.v = v;
-			this.e = e;
-			used = -1;
-			path = new int[v];
-			ans = new long[v];
-			edges = new ArrayList<>(e);
-		}
-
-		public void addEdge(int i, int j, int cost) {
-			edges.add(new Edge(i, j, cost));
-		}
-
-		/*
-		 * 負の重みをもつ頂点の始点iから終点jまでの最小コストを求める
-		 * まずansをINFで初期化し、始点を0とする
-		 * 
-		 * 全ての頂点から全ての辺に対して最短距離を更新する。		 
-		 * 更新可能でなくなった時点で終了
-		 * 最後の頂点でのループで更新可能な点が残っているならば
-		 * 負の閉路があるため-INFを返す。
-		 * 
-		 * O(V * E)
-		 */
-		public long getShortestPathWeight(int i, int j) {
-			if (used != i) {
-				used = i;
-				Arrays.fill(ans, INF);
-				ans[i] = 0;
-				Arrays.fill(path, -1);
-				boolean update = false;
-				for (int vtx = 0; vtx < v; vtx++) {
-					update = false;
-					for (Edge e: edges) {
-						int from = e.from;
-						int to = e.to;
-						int cost = e.cost;
-						if (ans[from] != INF && ans[to] > ans[from] + cost) {
-							ans[to] = ans[from] + cost;
-							path[to] = from;
-							update = true;
-						}
-					}
-					if (!update) break;
-				}
-				if (update) return -INF;
-			}
-			return ans[j];
-		}
-
-		public List<Integer> getShortestPath(int i, int j) {
-			if (used != i) {
-				if (getShortestPathWeight(i, j) == -INF) return null;
-			}
-			if (ans[j] == INF) return null;
-			List<Integer> shortestPath = new ArrayList<>();
-			shortestPath.add(j);
-			while (path[j] >= 0) {
-				j = path[j];
-				shortestPath.add(j);
-			}
-			Collections.reverse(shortestPath);
-			return shortestPath;
-		}
-
-		private class Edge {
-			public int from, to, cost;
-			public Edge(int i, int j, int c) {
-				this.from = i;
-				this.to = j;
-				this.cost = c;
-			}
-		}
-
+	/**
+	 * 始点 {@code s} から全頂点への最短距離を計算します。
+	 *
+	 * @param graph 探索対象のグラフ
+	 * @param s     始点（0-indexed）
+	 * @return 計算結果
+	 */
+	public static PathResult solve(final Graph graph, final int s) {
+		return solveInternal(graph, new int[]{s});
 	}
 
-	private static final FastScanner sc = new FastScanner();
-	@SuppressWarnings("unused")
-	private static class FastScanner {
-		private static final BufferedInputStream reader=new BufferedInputStream(System.in);
-		private static final byte[]buffer=new byte[0x10000];
-		private static int i=0,len=0;private long sum,low,high;
+	private static PathResult solveInternal(final Graph graph, final int[] s) {
+		final int n = graph.n;
+		final int[] dest = graph.dest, next = graph.next, first = graph.first;
+		final long[] cost = graph.cost;
+		final int[] parent = new int[n];
+		fill(parent, -1);
+		final long[] dist = new long[n];
+		fill(dist, INF);
+		for (final int si : s) {
+			parent[si] = si;
+			dist[si] = 0;
+		}
 
-		public int read(){if(i==len){i=0;try{len=reader.read(buffer);}catch(IOException ignored){}
-			if(len==-1)return 0;}if(len<=i)throw new RuntimeException();return buffer[i++];}
+		for (int k = 1; k < n; k++) {
+			boolean updated = false;
+			for (int u = 0; u < n; u++) {
+				final long du = dist[u];
+				if (du == INF) continue;
+				for (int e = first[u]; e != -1; e = next[e]) {
+					final int v = dest[e];
+					final long c = cost[e];
+					if (dist[v] > du + c) {
+						dist[v] = du + c;
+						parent[v] = u;
+						updated = true;
+					}
+				}
+			}
+			if (!updated) break;
+		}
 
-		String next(){StringBuilder sb=new StringBuilder();int b=read();while(b<'!'||'~'<b){b=read();}
-			while('!'<=b&&b<='~'){sb.appendCodePoint(b);b=read();}return sb.toString();}
+		final boolean[] affected = new boolean[n];
+		final int[] q = new int[n];
+		int tail = 0;
+		for (int u = 0; u < n; u++) {
+			final long du = dist[u];
+			if (du == INF) continue;
+			for (int e = first[u]; e != -1; e = next[e]) {
+				final int v = dest[e];
+				if (dist[v] > du + cost[e] && !affected[v]) {
+					affected[v] = true;
+					q[tail++] = v;
+				}
+			}
+		}
 
-		String nextLine(){StringBuilder sb=new StringBuilder();int b=read();while(b!=0&&b!='\r'&&b!='\n'){
-			sb.appendCodePoint(b);b=read();}if(b=='\r')read();return sb.toString();}
+		for (int head = 0; head < tail; head++) {
+			final int u = q[head];
+			for (int e = first[u]; e != -1; e = next[e]) {
+				final int v = dest[e];
+				if (affected[v]) continue;
+				affected[v] = true;
+				q[tail++] = v;
+			}
+		}
 
-		int nextInt(){return(int)nextLong();}
+		for (int i = 0; i < tail; i++) {
+			final int v = q[i];
+			dist[v] = NINF;
+			parent[v] = -1;
+		}
+		return new PathResult(s, tail > 0, dist, parent);
+	}
 
-		long nextLong(){int b=read(),c=0;while(b<'!'||'~'<b){b=read();}boolean neg=false;
-			if(b=='-'){neg=true;b=read();}long n=0;while('0'<=b&&b<='9'){n=n*10+b-'0';b=read();c++;}
-			if(c==0||c>=2&&n==0)throw new NumberFormatException();return neg?-n:n;}
+	/**
+	 * 前方スター形式の隣接リストを保持するグラフの基底クラス。
+	 * <p>
+	 * 辺の終点・重み・次の辺番号をプリミティブ配列に保持します。
+	 * 無向グラフでは、1本の無向辺を向きの異なる2本の内部辺として保持します。
+	 * 配列の容量は構築時に固定され、辺追加時の自動拡張は行いません。
+	 * <p>
+	 * {@link #m} は現在の辺数ではなく、辺数引数を持たない {@link #setAll(IntSupplier, IntSupplier)}
+	 * および {@link #setAll(IntSupplier, IntSupplier, LongSupplier)} が読み込む入力辺数です。
+	 * 現在の論理辺数は {@link #edgeCount()} で取得します。
+	 */
+	private static abstract class Graph {
+		public final int n, m;
+		protected final int[] dest, next, first;
+		protected final long[] cost;
+		protected int edgePtr = 0;
 
-		double nextDouble(){return Double.parseDouble(next());}
+		/**
+		 * グラフの内部配列を確保します。
+		 *
+		 * @param n            頂点数
+		 * @param m            {@code setAll} が読み込む入力辺数
+		 * @param edgeCapacity 内部辺の最大数。有向グラフでは論理辺数、無向グラフではその2倍が必要
+		 */
+		protected Graph(final int n, final int m, final int edgeCapacity) {
+			this.n = n;
+			this.m = m;
+			dest = new int[edgeCapacity];
+			next = new int[edgeCapacity];
+			first = new int[n];
+			fill(first, -1);
+			cost = new long[edgeCapacity];
+		}
 
-		String[]nextStrings(int n){String[]s=new String[n];setAll(s,x->next());return s;}
+		/**
+		 * 現在の辺をすべて削除し、重み1の辺を {@link #m} 本読み込みます。
+		 *
+		 * @param u 辺の始点を返すサプライヤ
+		 * @param v 辺の終点を返すサプライヤ
+		 */
+		public void setAll(final IntSupplier u, final IntSupplier v) {
+			clear();
+			addAll(m, u, v);
+		}
 
-		String[][]nextStringMat(int n,int m){String[][]s=new String[n][m];setAll(s,x->nextStrings(m));return s;}
+		/**
+		 * 現在の辺をすべて削除し、重み付き辺を {@link #m} 本読み込みます。
+		 *
+		 * @param u 辺の始点を返すサプライヤ
+		 * @param v 辺の終点を返すサプライヤ
+		 * @param c 辺の重みを返すサプライヤ
+		 */
+		public void setAll(final IntSupplier u, final IntSupplier v, final LongSupplier c) {
+			clear();
+			addAll(m, u, v, c);
+		}
 
-		char nextChar(){return next().charAt(0);}
+		/**
+		 * 重み1の辺を1本追加します。
+		 *
+		 * @param u 辺の始点
+		 * @param v 辺の終点
+		 */
+		public void add(final int u, final int v) {
+			add(u, v, 1);
+		}
 
-		char[]nextChars(){return next().toCharArray();}
+		/**
+		 * 重み付き辺を1本追加します。
+		 *
+		 * @param u 辺の始点
+		 * @param v 辺の終点
+		 * @param c 辺の重み
+		 */
+		public abstract void add(final int u, final int v, final long c);
 
-		char[]nextChars(int n){char[]c=new char[n];for(int i=0;i<n;i++)c[i]=nextChar();return c;}
+		/**
+		 * 前方スター形式の内部辺を1本追加します。
+		 *
+		 * @param u 内部辺の始点
+		 * @param v 内部辺の終点
+		 * @param c 内部辺の重み
+		 */
+		protected final void addEdge(final int u, final int v, final long c) {
+			dest[edgePtr] = v;
+			next[edgePtr] = first[u];
+			cost[edgePtr] = c;
+			first[u] = edgePtr++;
+		}
 
-		char[]nextSortedChars(){char[]c=nextChars();sort(c);return c;}
+		/**
+		 * 現在の辺に続けて、重み1の辺を {@code count} 本追加します。
+		 *
+		 * @param count 追加する辺数
+		 * @param u     辺の始点を返すサプライヤ
+		 * @param v     辺の終点を返すサプライヤ
+		 */
+		public void addAll(int count, final IntSupplier u, final IntSupplier v) {
+			while (count-- > 0) add(u.getAsInt(), v.getAsInt(), 1);
+		}
 
-		char[]nextSortedChars(int n){char[]c=nextChars(n);sort(c);return c;}
+		/**
+		 * 現在の辺に続けて、重み付き辺を {@code count} 本追加します。
+		 *
+		 * @param count 追加する辺数
+		 * @param u     辺の始点を返すサプライヤ
+		 * @param v     辺の終点を返すサプライヤ
+		 * @param c     辺の重みを返すサプライヤ
+		 */
+		public void addAll(int count, final IntSupplier u, final IntSupplier v, final LongSupplier c) {
+			while (count-- > 0) add(u.getAsInt(), v.getAsInt(), c.getAsLong());
+		}
 
-		char[][]nextCharMat(int n){char[][]c=new char[n][];setAll(c,x->nextChars());return c;}
+		/**
+		 * 現在保持している辺をすべて削除します。
+		 */
+		public void clear() {
+			if (edgePtr == 0) return;
+			fill(first, -1);
+			edgePtr = 0;
+		}
 
-		char[][]nextCharMat(int n,int m){char[][]c=new char[n][m];setAll(c,x->nextChars(m));return c;}
+		/**
+		 * 現在保持している論理辺数を返します。
+		 *
+		 * @return 論理辺数
+		 */
+		public abstract int edgeCount();
 
-		int[]nextInts(int n){low=0x7fffffff;high=0x80000000;sum=0;int[]a=new int[n];
-			for(int i=0;i<n;i++){a[i]=nextInt();sum+=a[i];low=min(low,a[i]);high=max(high,a[i]);}return a;}
+		/**
+		 * 指定した論理辺の重みを返します。
+		 *
+		 * @param e 辺ID
+		 * @return 辺の重み
+		 */
+		public abstract long cost(final int e);
 
-		Integer[]nextIntegers(int n){low=0x7fffffff;high=0x80000000;sum=0;Integer[]a=new Integer[n];
-			for (int i=0;i<n;i++){a[i]=nextInt();sum+=a[i];low=min(low,a[i]);high=max(high,a[i]);}return a;}
+		/**
+		 * 指定した頂点に接続する辺数を返します。
+		 * 有向グラフでは入次数と出次数の合計です。
+		 *
+		 * @param v 頂点
+		 * @return 次数
+		 */
+		public abstract int degree(final int v);
 
-		int[]nextSortedInts(int n){int[]a=nextInts(n);sort(a);return a;}
+		/**
+		 * 指定した頂点から隣接する頂点を返します。
+		 * 有向グラフでは出辺の終点のみを返します。
+		 *
+		 * @param u 頂点
+		 * @return 隣接頂点の配列
+		 */
+		public abstract int[] adj(final int u);
 
-		Integer[]nextSortedIntegers(int n){Integer[]a=nextIntegers(n);sort(a);return a;}
+		/**
+		 * 指定した頂点に接続する辺IDを返します。
+		 * 有向グラフでは出辺のIDのみを返します。
+		 *
+		 * @param u 頂点
+		 * @return 辺IDの配列
+		 */
+		public abstract int[] adjEdgeIds(final int u);
+	}
 
-		int[]nextIntSum(int n){int[]a=new int[n];a[0]=nextInt();low=high=a[0];for(int i=1;i<n;i++)
-			{a[i]=nextInt();low=min(low,a[i]);high=max(high,a[i]);a[i]+=a[i-1];}return a;}
+	/**
+	 * 前方スター形式の隣接リストで有向グラフを保持するクラス。
+	 * <p>
+	 * 辺は追加順に0始まりの辺IDが割り当てられます。
+	 * {@link #adjEdgeIds(int)} で取得した辺IDは {@link #to(int)} と {@link #cost(int)} にそのまま渡せます。
+	 */
+	private static final class DirectedGraph extends Graph {
+		final int[] inDegree, outDegree;
 
-		int[]nextSortedIntSum(int n){int[]a=nextSortedInts(n);for(int i=1;i<n;i++)a[i]+=a[i-1];return a;}
+		/**
+		 * {@code n} 頂点、{@code m} 辺分の領域を確保します。
+		 * {@code m} は {@code setAll} が読み込む辺数でもあります。
+		 *
+		 * @param n 頂点数
+		 * @param m 入力辺数
+		 */
+		public DirectedGraph(final int n, final int m) {
+			super(n, m, m);
+			inDegree = new int[n];
+			outDegree = new int[n];
+		}
 
-		int[][]nextIntMat(int h,int w){int[][]a=new int[h][w];setAll(a,x->nextInts(w));return a;}
+		public void add(final int u, final int v, final long c) {
+			addEdge(u, v, c);
+			outDegree[u]++;
+			inDegree[v]++;
+		}
 
-		int[][]nextIntMatSum(int h,int w){int[][]a=new int[h+1][w+1];for(int i=1;i<=h;i++)for(int j=1;j<=w;j++)
-			a[i][j]=nextInt()+a[i-1][j]+a[i][j-1]-a[i-1][j-1];return a;}
+		/**
+		 * 指定した辺の終点を返します。
+		 *
+		 * @param e 辺ID
+		 * @return 辺の終点
+		 */
+		public int to(final int e) {
+			return dest[e];
+		}
 
-		int[][][]nextInts3D(int x,int y,int z){
-			int[][][]a=new int[x][y][z];setAll(a,b->nextIntMat(y,z));return a;}
+		public int edgeCount() {
+			return edgePtr;
+		}
 
-		int[][][]nextInts3DSum(int x,int y,int z){int[][][]e=new int[x+1][y+1][z+1];for(int a=1;a<=x;a++){
-			for(int b=1;b<=y;b++){for(int c=1;c<=z;c++){e[a][b][c]=nextInt()+e[a-1][b][c]+e[a][b-1][c]+e[a][b][c-1];
-					e[a][b][c]-=e[a-1][b-1][c]+e[a-1][b][c-1]+e[a][b-1][c-1]-e[a-1][b-1][c-1];}}}return e;}
+		public long cost(final int e) {
+			return cost[e];
+		}
 
-		long[]nextlongs(int n){low=0x7fffffffffffffffL;high=0x8000000000000000L;sum=0;long[]a=new long[n];
-			for(int i=0;i<n;i++){a[i]=nextLong();sum+=a[i];low=min(low,a[i]);high=max(high,a[i]);}return a;}
+		/**
+		 * 指定した頂点の入次数と出次数の合計を返します。
+		 * 自己ループは入次数と出次数にそれぞれ1本ずつ数えます。
+		 *
+		 * @param i 頂点
+		 * @return 入次数と出次数の合計
+		 */
+		public int degree(final int i) {
+			return inDegree[i] + outDegree[i];
+		}
 
-		Long[]nextLongs(int n){low=0x7fffffffffffffffL;high=0x8000000000000000L;sum=0;Long[]a=new Long[n];
-			for(int i=0;i<n;i++){a[i]=nextLong();sum+=a[i];low=min(low,a[i]);high=max(high,a[i]);}return a;}
+		/**
+		 * 指定した頂点の入次数を返します。
+		 *
+		 * @param i 頂点
+		 * @return 入次数
+		 */
+		public int inDegree(final int i) {
+			return inDegree[i];
+		}
 
-		long[]nextSortedlongs(int n){long[]a=nextlongs(n);sort(a);return a;}
+		/**
+		 * 指定した頂点の出次数を返します。
+		 *
+		 * @param i 頂点
+		 * @return 出次数
+		 */
+		public int outDegree(final int i) {
+			return outDegree[i];
+		}
 
-		Long[]nextSortedLongs(int n){Long[]a=nextLongs(n);sort(a);return a;}
+		public int[] adj(final int u) {
+			final int[] adj = new int[outDegree[u]];
+			for (int e = first[u], i = 0; e != -1; e = next[e], i++) {
+				adj[i] = dest[e];
+			}
+			return adj;
+		}
 
-		long[]nextlongSum(int n){long[]a=new long[n];a[0]=nextLong();low=high=a[0];for(int i=1;i<n;i++){
-			a[i]=nextLong();low=min(low,a[i]);high=max(high,a[i]);a[i]+=a[i-1];}return a;}
+		public int[] adjEdgeIds(final int u) {
+			final int[] ids = new int[outDegree[u]];
+			for (int e = first[u], i = 0; e != -1; e = next[e], i++) {
+				ids[i] = e;
+			}
+			return ids;
+		}
 
-		long[]nextSortedlongSum(int n){long[]a=nextSortedlongs(n);for(int i=1;i<n;i++)a[i]+=a[i-1];return a;}
+		public void clear() {
+			if (edgePtr == 0) return;
+			fill(inDegree, 0);
+			fill(outDegree, 0);
+			super.clear();
+		}
+	}
 
-		long[][]nextlongMat(int h,int w){long[][]a=new long[h][w];setAll(a,x->nextlongs(w));return a;}
+	/**
+	 * 単一始点または複数始点の経路計算結果。
+	 * <p>
+	 * 負閉路を扱わないアルゴリズム（BFS・Dijkstra・0-1BFS等）では {@link #hasNegCycle} は常に
+	 * {@code false} で、負閉路の影響を受ける頂点は現れません。
+	 * Bellman-Ford法など負閉路を検出するアルゴリズムでは、到達不能な頂点の距離は
+	 * {@link Long#MAX_VALUE}、到達可能な負閉路の影響を受ける頂点は {@link Long#MIN_VALUE} です。
+	 */
+	private static final class PathResult {
+		private static final long INF = Long.MAX_VALUE, NINF = Long.MIN_VALUE;
 
-		long[][]nextlongMatSum(int h,int w){long[][]a=new long[h+1][w+1];for(int i=1;i<=h;i++)for(int j=1;j<=w;j++)
-			a[i][j]=nextLong()+a[i-1][j]+a[i][j-1]-a[i-1][j-1];return a;}
+		public final int[] s;
+		public final boolean hasNegCycle;
+		public final long[] dist;
+		public final int[] parent;
 
-		long[][][]nextlongs3D(int x,int y,int z){long[][][]a=new long[x][y][z];setAll(a,b->nextlongMat(y,z));return a;}
+		PathResult(final int s, final long[] dist, final int[] parent) {
+			this(new int[]{s}, false, dist, parent);
+		}
 
-		long[][][]nextlongs3DSum(int x,int y,int z){long[][][]e=new long[x+1][y+1][z+1];for(int a=1;a<=x;a++){
-			for(int b=1;b<=y;b++){for(int c=1;c<=z;c++){e[a][b][c]=nextLong()+e[a-1][b][c]+e[a][b-1][c]+e[a][b][c-1];
-			e[a][b][c]-=e[a-1][b-1][c]+e[a-1][b][c-1]+e[a][b-1][c-1]-e[a-1][b-1][c-1];}}}return e;}
+		PathResult(final int[] s, final long[] dist, final int[] parent) {
+			this(s, false, dist, parent);
+		}
 
+		PathResult(final int s, final boolean hasNegCycle, final long[] dist, final int[] parent) {
+			this(new int[]{s}, hasNegCycle, dist, parent);
+		}
+
+		PathResult(final int[] s, final boolean hasNegCycle, final long[] dist, final int[] parent) {
+			this.s = s;
+			this.hasNegCycle = hasNegCycle;
+			this.dist = dist;
+			this.parent = parent;
+		}
+
+		/**
+		 * 指定した頂点への距離を返します。
+		 *
+		 * @param v 終点
+		 * @return 距離。到達不能は {@link Long#MAX_VALUE}、負閉路の影響下は {@link Long#MIN_VALUE}
+		 */
+		public long distTo(final int v) {
+			return dist[v];
+		}
+
+		/**
+		 * 指定した頂点へ到達可能かを返します。
+		 * 負閉路の影響下でも到達可能なら {@code true} です。
+		 *
+		 * @param v 終点
+		 * @return 到達可能なら {@code true}
+		 */
+		public boolean reachable(final int v) {
+			return dist[v] != INF;
+		}
+
+		/**
+		 * 経路復元用の親を返します。
+		 *
+		 * @param v 頂点
+		 * @return 親。始点自身は始点、到達不能または負閉路の影響下では {@code -1}
+		 */
+		public int parent(final int v) {
+			return parent[v];
+		}
+
+		/**
+		 * 始点から指定した頂点までの経路を頂点列として返します。
+		 *
+		 * @param v 終点
+		 * @return 始点と終点を含む頂点列。到達不能または負閉路の影響下では {@code null}
+		 */
+		public int[] pathTo(final int v) {
+			final long d = distTo(v);
+			if (d == INF || d == NINF) return null;
+			final int[] temp = new int[dist.length];
+			int len = 0, p = v;
+			for (; p != parent[p]; p = parent[p]) temp[len++] = p;
+			temp[len++] = p;
+			final int[] res = new int[len];
+			for (int i = 0; i < len; i++) res[i] = temp[len - i - 1];
+			return res;
+		}
+
+		/**
+		 * 始点、負閉路の有無、距離配列、親配列を複数行の文字列として返します。
+		 *
+		 * @return 計算結果の文字列表現
+		 */
+		@Override
+		public String toString() {
+			return "s: " + Arrays.toString(s) + '\n' + "hasNegCycle: " + hasNegCycle + '\n' + "dist: " + Arrays.toString(dist) + '\n' + "parent: " + Arrays.toString(parent);
+		}
 	}
 }
