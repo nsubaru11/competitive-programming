@@ -1,7 +1,6 @@
-import static java.lang.Long.*;
-
 import java.util.*;
 
+import lib.graph.*;
 import lib.io.*;
 
 public class E {
@@ -23,13 +22,20 @@ public class E {
 		int n = sc.nextInt();
 		int m = sc.nextInt();
 		x = sc.nextInt();
-		Dijkstra dijkstra = new Dijkstra(n);
+		// 頂点 i は辺の向きがそのままの状態、頂点 n + i は辺の向きを反転した状態を表す
+		DirectedGraph g = new DirectedGraph(2 * n, 2 * m + 2 * n);
 		while (m-- > 0) {
 			int u = sc.nextInt() - 1;
 			int v = sc.nextInt() - 1;
-			dijkstra.addEdge(u, v);
+			g.add(u, v, 1);
+			g.add(n + v, n + u, 1);
 		}
-		out.println(dijkstra.getShortestPathWeight(0, n - 1));
+		for (int i = 0; i < n; i++) {
+			g.add(i, n + i, x);
+			g.add(n + i, i, x);
+		}
+		long[] dist = Dijkstra.dist(g, 0);
+		out.println(Math.min(dist[n - 1], dist[2 * n - 1]));
 	}
 
 	public static void main(final String[] args) {
@@ -37,69 +43,6 @@ public class E {
 			solve();
 		} finally {
 			out.close();
-		}
-	}
-
-	private static final class Dijkstra {
-		private static final long INF = MAX_VALUE;
-		private final int v;
-		private final long[][] ans;
-		private final List<List<Edge>> edges;
-
-		public Dijkstra(int v) {
-			this.v = v;
-			edges = new ArrayList<>(v);
-			ans = new long[v][2];
-			for (int i = 0; i < v; i++) {
-				edges.add(new ArrayList<>());
-				ans[i][0] = ans[i][1] = INF;
-			}
-		}
-
-		public void addEdge(int i, int j) {
-			edges.get(i).add(new Edge(i, j, false));
-			edges.get(j).add(new Edge(j, i, true));
-		}
-
-		public long getShortestPathWeight(int i, int j) {
-			ans[i][0] = ans[i][1] = 0;
-			PriorityQueue<Vertex> pq = new PriorityQueue<>();
-			pq.add(new Vertex(i, ans[i][0], false));
-			while (!pq.isEmpty()) {
-				Vertex vertex = pq.poll();
-				int from = vertex.index;
-				boolean flip = vertex.flip;
-				int i2 = !flip ? 0 : 1;
-				long cost = vertex.cost;
-				if (ans[from][i2] < vertex.cost) continue;  // すでにより良い経路が見つかっている場合はスキップ
-				for (Edge e : edges.get(from)) {
-					int to = e.to;
-					boolean flag = e.flag;
-					if (flag == flip) {
-						int f = !flip ? 0 : 1;
-						if (ans[to][f] > cost + 1) {
-							ans[to][f] = cost + 1;
-							pq.add(new Vertex(to, cost + 1, flip));
-						}
-					} else {
-						int f = !flip ? 0 : 1;
-						if (ans[to][f] > cost + x + 1) {
-							ans[to][f] = cost + x + 1;
-							pq.add(new Vertex(to, cost + x + 1, !flip));
-						}
-					}
-				}
-			}
-			return Math.min(ans[j][0], ans[j][1]);
-		}
-
-		private record Edge(int from, int to, boolean flag) {}
-
-		private record Vertex(int index, long cost, boolean flip) implements Comparable<Vertex> {
-			@Override
-			public int compareTo(Vertex o) {
-				return compare(cost, o.cost);
-			}
 		}
 	}
 }

@@ -1,7 +1,8 @@
-import static java.util.Arrays.*;
-
-import java.io.*;
 import java.util.concurrent.*;
+
+import lib.io.*;
+
+import static java.util.Arrays.*;
 
 public final class Main3 {
 
@@ -130,7 +131,6 @@ public final class Main3 {
 				beamSearch(100, 10000);
 			}
 		} finally {
-			sc.close();
 			out.close();
 		}
 	}
@@ -537,97 +537,5 @@ public final class Main3 {
 		}
 	}
 
-	private static final class FastScanner implements AutoCloseable {
-		private final InputStream in;
-		private final byte[] buffer;
-		private int pos = 0;
-
-		public FastScanner() {
-			this.in = System.in;
-			try {
-				buffer = in.readAllBytes();
-			} catch (final IOException e) {
-				throw new RuntimeException(e);
-			}
-		}
-
-		private int skipSpaces() {
-			int p = pos, b;
-			do {
-				b = buffer[p++];
-			} while (b <= 32);
-			pos = p;
-			return b;
-		}
-
-		@Override
-		public void close() {
-			try {
-				in.close();
-			} catch (final IOException e) {
-				throw new RuntimeException(e);
-			}
-		}
-
-		public char nextChar() {
-			return (char) skipSpaces();
-		}
-
-		public int nextInt() {
-			int b = skipSpaces();
-			boolean negative = false;
-			if (b == '-') {
-				negative = true;
-				b = buffer[pos++];
-			}
-			int p = pos;
-			int n = 0;
-			do {
-				n = (n << 3) + (n << 1) + (b & 15);
-				b = buffer[p++];
-			} while (b > 32);
-			pos = p;
-			return negative ? -n : n;
-		}
-	}
-
-	private static final class FastPrinter implements AutoCloseable {
-		private final OutputStream out;
-		private final byte[] buffer;
-		private int pos = 0;
-
-		public FastPrinter() {
-			this.out = System.out;
-			this.buffer = new byte[200000];
-		}
-
-		public void println(final byte[] arr) {
-			for (byte b : arr) {
-				buffer[pos++] = b;
-				buffer[pos++] = '\n';
-			}
-		}
-
-		@Override
-		public void close() {
-			try {
-				flush();
-				out.close();
-			} catch (final IOException e) {
-				throw new RuntimeException(e);
-			}
-		}
-
-		public void flush() {
-			if (pos == 0) return;
-			try {
-				out.write(buffer, 0, pos);
-				pos = 0;
-			} catch (final IOException e) {
-				throw new RuntimeException(e);
-			}
-		}
-
-	}
 	// endregion
 }

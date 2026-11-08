@@ -1,14 +1,13 @@
+import java.io.*;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
+
+import lib.util.*;
+
 import static java.lang.Math.*;
 import static java.util.Arrays.*;
 import static java.util.Comparator.*;
-import static java.util.stream.Collectors.*;
-
-import java.io.*;
-import java.math.*;
-import java.util.*;
-import java.util.Map.*;
-import java.util.function.*;
-import java.util.stream.*;
 
 public final class D {
 
@@ -47,7 +46,7 @@ public final class D {
 			for (int i = 0; i < n; i++) {
 				if ((flag >> i & 1) == 0) continue;
 				for (int j = 2, k = 0; j < 6; j++, k++) {
-					int c = dices[i].udfblr[j];
+					int c = dices[i].dice()[j];
 					mn[k] = min(mn[k], c);
 					mx[k] = max(mx[k], c);
 				}
@@ -96,44 +95,6 @@ public final class D {
 		dices[p].rotateUR();
 		dices[p].rotateFR();
 		return ans;
-	}
-
-	private static class Dice {
-		public int[] udfblr;
-
-		public Dice(int u, int d, int f, int b, int l, int r) {
-			udfblr = new int[6];
-			this.udfblr[0] = u;
-			this.udfblr[1] = d;
-			this.udfblr[2] = f;
-			this.udfblr[3] = b;
-			this.udfblr[4] = l;
-			this.udfblr[5] = r;
-		}
-
-		public void rotateUR() {
-			int temp = udfblr[5];
-			udfblr[5] = udfblr[0];
-			udfblr[0] = udfblr[4];
-			udfblr[4] = udfblr[1];
-			udfblr[1] = temp;
-		}
-
-		public void rotateFR() {
-			int temp = udfblr[2];
-			udfblr[2] = udfblr[5];
-			udfblr[5] = udfblr[3];
-			udfblr[3] = udfblr[4];
-			udfblr[4] = temp;
-		}
-
-		public void rotateUF() {
-			int temp = udfblr[2];
-			udfblr[2] = udfblr[0];
-			udfblr[0] = udfblr[3];
-			udfblr[3] = udfblr[1];
-			udfblr[1] = temp;
-		}
 	}
 
 	// region < Utility Methods >
@@ -511,7 +472,6 @@ public final class D {
 		if (i1 > 0 && j1 > 0) ans += a[i1 - 1][j1 - 1];
 		return ans;
 	}
-	// endregion
 
 	// region < main & debug >
 	public static void main(final String[] args) {
@@ -522,6 +482,7 @@ public final class D {
 			out.close();
 		}
 	}
+	// endregion
 
 	private static void debugln(final Object... args) {
 		if (DEBUG) {
@@ -581,5 +542,6 @@ public final class D {
 		}
 		return obj.toString();
 	}
+
 	// endregion
 }
