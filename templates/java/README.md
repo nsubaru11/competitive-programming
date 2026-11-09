@@ -26,9 +26,12 @@ library/javaの `test/` の用途に合わせて4種類を用意する。
 | Test         | `test/unit/`        | `IntBITTest`      | JUnitで実行する                |
 | Benchmark    | JMHのソースフォルダ | `IntBITBenchmark` | JMHで実行する                  |
 
-TestとBenchmarkは、library/javaにGradle・JUnit・JMHを導入した後に使う。導入前に作成するとimportが解決しない。
+Testはlibrary/javaのGradleが依存に持つJUnit Jupiterを使う。BenchmarkはJMHを導入した後に使う。導入前に作成するとimportが解決しない。
 
-- Test: クラス名を `Test` にしない。`@Test` が自分自身のクラスを指してコンパイルエラーになる。境界値を表で検査する `@ParameterizedTest` と、シードを固定して愚直解と照合する `@RepeatedTest` の雛形を含む。未実装のテストは `fail` で失敗させる。
+- Test: クラス名を `Test` にしない。`@Test` が自分自身のクラスを指してコンパイルエラーになる。次の3つの雛形を含み、どれも未実装のうちは `fail` で失敗する。不要なものは削除する。
+	- 境界値: `@ParameterizedTest` と `@CsvSource` で1行1ケースの表にする。
+	- 愚直解との照合: `@RepeatedTest` の回数をシードにし、配列などの単純な実装と同じ操作列を適用して比べる。失敗メッセージにシードと操作番号を含める。
+	- TLE検出: `@Tag("slow")` と `@Timeout` を付け、最大制約の入力で実行する。`./gradlew test` は実行せず、`./gradlew slowTest` だけが実行する。
 - Benchmark: JMHはクラスを継承して計測コードを生成するため、`public` かつ `final` にしない。入力は `@Setup` でシードを固定して作り、結果は `Blackhole` で消費する。
 
 ## テンプレートの書き方
