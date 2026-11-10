@@ -9,7 +9,6 @@ int main() {
 		int x, y;
 		cin >> x >> y;
 		// ここから処理を書く
-
 	}
 	return 0;
 }
