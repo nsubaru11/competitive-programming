@@ -24,6 +24,12 @@
 *.cc diff=cpp
 *.h diff=cpp
 *.hpp diff=cpp
+*.cxx diff=cpp
+*.hh diff=cpp
+*.hxx diff=cpp
+*.ipp diff=cpp
+*.tpp diff=cpp
+*.inl diff=cpp
 *.py diff=python
 *.html diff=html
 *.css diff=css

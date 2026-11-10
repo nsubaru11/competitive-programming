@@ -31,6 +31,18 @@ codeStyles・inspectionProfiles・scopes・dictionariesは、各.ideaに同じ�
 改行コードはLFにそろえる（.bat・.cmd・.ps1だけCRLF）。.editorconfigのend_of_lineは、IDEで新しく作るファイルには効かない。そのため、codeStylesのLine separatorを「Unix and macOS (\n)」にしている（Settings → Editor → Code Style → Line separator）。
 IDEは既存のファイルを開いたときの改行コードで保存し続ける。CRLFのファイルがあれば、ステータスバーの改行コードの表示か、File → File Properties → Line Separatorsで変える。フォルダを選ぶと配下のファイルをまとめて変えられる。
 
+## コード整形の方針
+
+C++とPythonも、Javaに近い書式にそろえる。
+
+- インデントは4幅のタブ、行の長さは120。折り返した行は、Javaと同じ8（タブ2つ分）で字下げする。括弧の位置には揃えない。
+- 波括弧は文の末尾に置き、`} else {` の形にする。`case` は字下げし、C++のnamespaceは字下げしない。
+- 三項演算子を折り返すときは、`?` と `:` を行頭に置く。
+- C++の整形は.clang-formatを正とする。CLionのコードスタイル（Project.xml）は、clang-formatを使えないときの補助で、同じ内容にそろえる。
+- C++のポインタと参照は、`T* a`、`T& a` の形にする。
+- C++の命名は標準ライブラリに合わせ、関数・変数・conceptはスネークケース、クラスはパスカルケースにする。
+- 過去のコンテストで書いた解答は、整形し直さない。
+
 ## library/javaのGradle連携
 
 IDEAは、library/javaのbuild.gradle.ktsを読み込み、次の3つのモジュールを自動で作る。

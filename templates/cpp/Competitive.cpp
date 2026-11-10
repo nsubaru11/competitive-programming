@@ -58,10 +58,22 @@ constexpr bool chmax(T& a, const U& v) {
 
 // region < Entry Point & Debug >
 template <class T>
+concept pair_like = requires(const T& v) {
+	v.first;
+	v.second;
+};
+
+template <class T>
+concept iterable = requires(const T& v) {
+	begin(v);
+	end(v);
+};
+
+template <class T>
 void write_debug(const T& value) {
 	if constexpr (is_same_v<T, bool>) {
 		cerr << (value ? "true" : "false");
-	} else if constexpr (requires { value.first; value.second; }) {
+	} else if constexpr (pair_like<T>) {
 		cerr << '(';
 		write_debug(value.first);
 		cerr << ", ";
@@ -69,7 +81,7 @@ void write_debug(const T& value) {
 		cerr << ')';
 	} else if constexpr (is_convertible_v<const T&, string_view>) {
 		cerr << value;
-	} else if constexpr (requires { begin(value); end(value); }) {
+	} else if constexpr (iterable<T>) {
 		cerr << '[';
 		bool first = true;
 		for (const auto& item : value) {

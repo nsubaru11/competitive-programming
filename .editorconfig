@@ -15,7 +15,7 @@ ij_formatter_tags_enabled = true
 ij_formatter_off_tag = @formatter:off
 ij_formatter_on_tag = @formatter:on
 
-[*.{java,py,pyw,c,cc,cpp,cxx,h,hpp,js,mjs,cjs,jsx,ts,tsx,mts,cts,json,jsonc,xml,sh,bash,zsh,cmake}]
+[*.{java,py,pyw,c,cc,cpp,cxx,h,hh,hpp,hxx,ipp,tpp,inl,js,mjs,cjs,jsx,ts,tsx,mts,cts,json,jsonc,xml,sh,bash,zsh,cmake}]
 trim_trailing_whitespace = true
 
 [*.java]
@@ -29,8 +29,11 @@ ij_java_imports_layout = java.**, |, javax.**, |, com.**, |, org.**, |, *, |, li
 # 中身のない record・class・メソッドは「{}」で1行に保つ。
 ij_java_keep_simple_classes_in_one_line = true
 ij_java_keep_simple_methods_in_one_line = true
+# 三項演算子を折り返すときは、? と : を行頭に置く。
+ij_java_ternary_operation_signs_on_next_line = true
 
 [*.{py,pyw}]
+ij_continuation_indent_size = 8
 ij_python_blank_lines_around_top_level_classes_functions = 1
 ij_python_blank_lines_around_class = 1
 ij_python_blank_lines_around_method = 1
