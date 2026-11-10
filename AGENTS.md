@@ -15,14 +15,14 @@
 
 ## 仕様の置き場所
 
-| 内容 | 文書 |
-|---|---|
-| IDEごとのプロジェクト設定(開くフォルダ、Gitの管理対象) | [docs/IDE_SETUP.md](docs/IDE_SETUP.md) |
-| C++のCMake構成とCLionの設定 | [docs/CMAKE_SETUP.md](docs/CMAKE_SETUP.md) |
-| C++の提出先ごとの言語規格 | [docs/CPP_JUDGE_ENVIRONMENTS.md](docs/CPP_JUDGE_ENVIRONMENTS.md) |
-| Javaライブラリの使い方 | [docs/LIBRARY_USAGE.md](docs/LIBRARY_USAGE.md) |
-| テンプレートの用途と書き方 | [templates/java/README.md](templates/java/README.md)、[templates/python/README.md](templates/python/README.md)、[templates/cpp/README.md](templates/cpp/README.md) |
-| テンプレートと共通設定のIDEへの同期(scripts/sync-jetbrains.py) | [docs/IDE_SETUP.md](docs/IDE_SETUP.md#テンプレートと共通設定の同期) |
+| 内容                                                           | 文書                                                                                                                                                               |
+|----------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| IDEごとのプロジェクト設定(開くフォルダ、Gitの管理対象)         | [docs/IDE_SETUP.md](docs/IDE_SETUP.md)                                                                                                                             |
+| C++のCMake構成とCLionの設定                                    | [docs/CMAKE_SETUP.md](docs/CMAKE_SETUP.md)                                                                                                                         |
+| C++の提出先ごとの言語規格                                      | [docs/CPP_JUDGE_ENVIRONMENTS.md](docs/CPP_JUDGE_ENVIRONMENTS.md)                                                                                                   |
+| Javaライブラリの使い方                                         | [docs/LIBRARY_USAGE.md](docs/LIBRARY_USAGE.md)                                                                                                                     |
+| テンプレートの用途と書き方                                     | [templates/java/README.md](templates/java/README.md)、[templates/python/README.md](templates/python/README.md)、[templates/cpp/README.md](templates/cpp/README.md) |
+| テンプレートと共通設定のIDEへの同期(scripts/sync-jetbrains.py) | [docs/IDE_SETUP.md](docs/IDE_SETUP.md#テンプレートと共通設定の同期)                                                                                                |
 
 ## 守ること
 
@@ -38,6 +38,6 @@
 
 ## Git
 
-- コミットメッセージは日本語で `feat:`・`fix:`・`refactor:`・`chore:`・`docs:` を付ける。解答は `Solved: ABC000 [A ~ G]` の形式。
-- pushは依頼されたときだけ行う。submoduleを先に、本体を後にpushする。force pushと履歴の書き換えはしない。
+- コミットメッセージは日本語で `feat:`・`fix:`・`refactor:`・`chore:`・`docs:` を付ける。解答は `Solved: ABC000 [A ~ G]` の形式。submoduleの参照だけを更新するコミットは `chore: library/java を更新` の形式で、複数ある場合は `、` で繋ぐ(例: `chore: library/java、tools を更新`)。
+- pushは依頼されたときだけ行う。submoduleを先に、本体を後にpushする。force pushはせず、push済みの履歴は書き換えない。
 - 公開リポジトリなので、コミット前に秘密情報が含まれていないか確認する。
