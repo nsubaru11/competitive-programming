@@ -1,4 +1,4 @@
-# C++ テンプレート
+# C++テンプレート
 
 ファイル名がCLionのテンプレート名になる。同期は[IDE_SETUP.md](../../docs/IDE_SETUP.md#テンプレートと共通設定の同期)を参照する。
 
@@ -49,9 +49,9 @@ C++23の `std::print` や範囲formatterには依存しない。
 ./main
 ```
 
-デバッグ時は `-Og -g3 -DLOCAL`、通常のローカル実行は `-O2 -g3 -DLOCAL` を使う。
+デバッグ用と通常のローカル実行用のオプションは [CMAKE_SETUP.md](../../docs/CMAKE_SETUP.md#最初に一度確認するclion設定) の表に合わせ、単独でコンパイルするときも `-DLOCAL` を付ける。
 提出先ごとのコンパイル条件は [CPP_JUDGE_ENVIRONMENTS.md](../../docs/CPP_JUDGE_ENVIRONMENTS.md) を参照。
 最適化レベルはビルド設定で指定し、テンプレートに `#pragma GCC optimize` やCPU命令を固定する設定は追加しない。
 
-- [GCC: C/C++入出力の同期](https://gcc.gnu.org/onlinedocs/libstdc++/manual/io_and_c.html)
-- [GCC 15.2: 最適化オプション](https://gcc.gnu.org/onlinedocs/gcc-15.2.0/gcc/Optimize-Options.html)
+- [GCC：C/C++入出力の同期](https://gcc.gnu.org/onlinedocs/libstdc++/manual/io_and_c.html)
+- [GCC 15.2：最適化オプション](https://gcc.gnu.org/onlinedocs/gcc-15.2.0/gcc/Optimize-Options.html)
