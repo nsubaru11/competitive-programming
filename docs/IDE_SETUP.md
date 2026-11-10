@@ -36,11 +36,11 @@ IDEは既存のファイルを開いたときの改行コードで保存し続�
 IntelliJ IDEAは、library/javaのbuild.gradle.ktsを読み込み、次の3つのモジュールを自動で作る。
 IDEは、これらのモジュールとJUnitなどのライブラリの定義を.ideaではなくIDEのキャッシュ(%LOCALAPPDATA%\JetBrains\<IDE>\projects\)に保存する。.ide/idea/.idea/gradle.xmlやモジュールの定義を手で書かない。手で書くと、ライブラリの定義が保存されず、IDEでのビルドがJUnitを見つけられなくなることがある。
 
-| モジュール   | 対象                | 依存                                |
-|--------------|---------------------|-------------------------------------|
-| library      | library/java全体    | なし。build・.gradle・outを除外する |
-| library.main | library/java/src    | JDKだけ                             |
-| library.test | library/java/test   | library.main、JUnit                 |
+| モジュール   | 対象              | 依存                                |
+|--------------|-------------------|-------------------------------------|
+| library      | library/java全体  | なし。build・.gradle・outを除外する |
+| library.main | library/java/src  | JDKだけ                             |
+| library.test | library/java/test | library.main、JUnit                 |
 
 - リンクは、Gradleツールウィンドウ(右端の象のアイコン)の+(Link Gradle Project)で、library/java/build.gradle.ktsを選んで行う。モジュールがおかしくなったときは、libraryを右クリックしてUnlink Gradle Projectを選び、リンクし直す。
 - コンテストのモジュール、ルートのモジュール、toolsのモジュールは、library.mainに依存する。解答から`lib.*`をimportできるのはこの依存による。
