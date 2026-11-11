@@ -35,13 +35,16 @@ IDEは既存のファイルを開いたときの改行コードで保存し続�
 
 C++とPythonも、Javaに近い書式にそろえる。
 
-- インデントは4幅のタブ、行の長さは120。折り返した行は、Javaと同じ8（タブ2つ分）で字下げする。括弧の位置には揃えない。
+- インデントは4幅のタブ、行の長さは120。折り返した行の字下げは、Java・C++・Pythonが8（タブ2つ分）、CMake・TypeScriptなどそれ以外が4（タブ1つ分）。括弧の位置には揃えない。
 - 波括弧は文の末尾に置き、`} else {` の形にする。`case` は字下げし、C++のnamespaceは字下げしない。
 - 三項演算子を折り返すときは、`?` と `:` を行頭に置く。
+- CMakeとPowerShellは、.editorconfigのタブ指定を受け取らないため、codeStylesに直接タブを指定している。TOMLは空白4つ（uvの形式に合わせる）とし、uv.lockは整形しない。
+- .editorconfigの`ij_java_*`や`ij_python_*`は、その言語のプラグインがないIDEでは「The property is not supported」と警告される。整形には影響しないため、検査EditorConfigKeyCorrectnessを無効にして出さない。
 - C++の整形は.clang-formatを正とする。CLionのコードスタイル（Project.xml）は、clang-formatを使えないときの補助で、同じ内容にそろえる。
 - C++のポインタと参照は、`T* a`、`T& a` の形にする。
 - C++の命名は標準ライブラリに合わせ、関数・変数・conceptはスネークケース、クラスはパスカルケースにする。
-- 過去のコンテストで書いた解答は、整形し直さない。
+- 過去のコンテストで書いた解答は、基本的に整形し直さない。PythonとC++の解答はファイル数が少ないため、整形の対象にする。
+- Reformat Codeのダイアログは、Rearrange entriesをオン、Optimize importsをオフ、Code cleanupをオンにする。この設定はIDEごとに保存され、リポジトリでは共有できないため、使うIDEそれぞれで合わせる。
 
 ## library/javaのGradle連携
 
@@ -91,6 +94,7 @@ IDEは起動中の設定を終了時に保存し直すため、IDEを閉じて�
 - 各IDEの最近のプロジェクトにリポジトリのルートが残っていれば削除する。起動時に前回のプロジェクトとして開かれるのを防ぐ。
 - IDEA：.ide/ideaを開く。新しいコンテストのモジュールは.ide/idea/.idea/modules.xmlへ登録する。パスは$PROJECT_DIR$/../../から始める。libを使うモジュール（AtCoder、ICPC）には、依存として`<orderEntry type="module" module-name="library.main" />`を入れる。AOJ・paiza・Codeforcesのモジュールは言語レベルがJDK 24より低いため入れない。
 - CLion：.ide/clionを開き、CMakeの設定を[CMAKE_SETUP.md](CMAKE_SETUP.md)の表と照らし合わせる。
+- CLion：EditorConfigプラグイン（JetBrains公式）を入れる。IDEAとPyCharmには同梱されているが、CLionには入っていないため、入れないと.editorconfigが無視される。Settings → Plugins → MarketplaceでEditorConfigを検索してInstallし、IDEを再起動する。導入後、PythonやCMakeのファイルを開き、右下の字下げ表示が「Tab」になることを確かめる。
 - PyCharm：.ide/pycharmを開く。pyproject.tomlからプロジェクト構成を自動生成するWorkspaceモードは無効にする。.ide/pycharm/.idea/pyProjectModel.xmlのusePyprojectTomlをfalseにする。Settings → Project Structureの切り替えと同じ設定である。有効にすると、モジュールが作り直されて除外設定が失われることがあり、パッケージの導入やpyproject.tomlへの追記も自動で提案される。
 
 - [PyCharm: Workspaces and monorepos](https://www.jetbrains.com/help/pycharm/python-workspaces.html)

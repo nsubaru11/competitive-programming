@@ -52,6 +52,7 @@ ij_javascript_keep_blank_lines_in_code = 1
 ij_javascript_keep_indents_on_empty_lines = false
 
 [*.{ts,tsx,mts,cts}]
+ij_typescript_spaces_within_object_type_braces = false
 ij_typescript_blank_lines_around_function = 1
 ij_typescript_blank_lines_around_method = 1
 ij_typescript_keep_blank_lines_in_code = 1
@@ -78,9 +79,16 @@ ij_powershell_catch_on_new_line = false
 ij_powershell_finally_on_new_line = false
 
 # YAMLのインデントと、Markdownのリスト・コードブロックはスペースで管理する。
-[*.{yml,yaml,md}]
+[{.clang-format,*.{yml,yaml,md}}]
 indent_style = space
 indent_size = 2
+
+# TOMLは、uvが書く形式に合わせて空白4つにする。uv.lockはuvが生成するため整形しない。
+[*.toml]
+indent_style = space
+
+[uv.lock]
+ij_formatter_enabled = false
 
 # Markdownの改行記法と、入出力データの末尾空白を保持する。
 [*.{md,txt,in,out,ans}]
