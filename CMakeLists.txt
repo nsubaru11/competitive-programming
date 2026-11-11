@@ -13,8 +13,8 @@ include(cmake/LocalOptions.cmake)
 find_package(Python3 COMPONENTS Interpreter REQUIRED)
 execute_process(
 	COMMAND "${Python3_EXECUTABLE}"
-		"${CMAKE_CURRENT_SOURCE_DIR}/scripts/list-cpp-directories.py"
-		"${CMAKE_CURRENT_SOURCE_DIR}"
+	"${CMAKE_CURRENT_SOURCE_DIR}/scripts/list-cpp-directories.py"
+	"${CMAKE_CURRENT_SOURCE_DIR}"
 	OUTPUT_VARIABLE cpp_directories
 	OUTPUT_STRIP_TRAILING_WHITESPACE
 	COMMAND_ERROR_IS_FATAL ANY

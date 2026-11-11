@@ -27,7 +27,6 @@ DICTIONARY = "dictionaries/project.xml"
 WORD = re.compile(r"<w>(.*?)</w>")
 PROCESSES = ("idea64.exe", "pycharm64.exe", "clion64.exe", "webstorm64.exe", "rustrover64.exe")
 
-
 def latest_config(config_root, product):
 	candidates = []
 	for path in config_root.glob(product + "*"):
@@ -35,7 +34,6 @@ def latest_config(config_root, product):
 		if path.is_dir() and match:
 			candidates.append(((int(match[1]), int(match[2])), path))
 	return max(candidates)[1] if candidates else None
-
 
 def template_content(path):
 	text = path.read_text(encoding="utf-8").replace("\r\n", "\n")
@@ -49,7 +47,6 @@ def template_content(path):
 			line = "#[[" + line + "]]#"
 		lines.append(line)
 	return "\n".join(lines).encode("utf-8")
-
 
 def template_plan(config_root, prune, notes):
 	result = {}
@@ -73,13 +70,11 @@ def template_plan(config_root, prune, notes):
 					result[existing] = None
 	return result
 
-
 def dictionary_xml(words):
 	lines = ['<component name="ProjectDictionaryState">', '  <dictionary name="project">', "    <words>"]
 	lines += ["      <w>" + word + "</w>" for word in sorted(words)]
 	lines += ["    </words>", "  </dictionary>", "</component>"]
 	return ("\n".join(lines) + "\n").encode("utf-8")
-
 
 def settings_plan():
 	result = {}
@@ -103,14 +98,12 @@ def settings_plan():
 			result[path] = dictionary_xml(words)
 	return result
 
-
 def running_ides():
 	if sys.platform != "win32":
 		return []
 	output = subprocess.run(["tasklist", "/FO", "CSV", "/NH"], capture_output=True, text=True, errors="replace").stdout
 	names = {row[0].lower() for row in csv.reader(io.StringIO(output)) if row}
 	return [name for name in PROCESSES if name in names]
-
 
 def display(path):
 	for base, label in ((REPO, ""), (DEFAULT_CONFIG_ROOT, "<JetBrains>/")):
@@ -120,11 +113,11 @@ def display(path):
 			pass
 	return str(path)
 
-
 def main():
 	parser = argparse.ArgumentParser(description="Sync templates and shared project settings to JetBrains IDEs.")
 	parser.add_argument("--check", action="store_true", help="Only show what would change.")
-	parser.add_argument("--prune", action="store_true", help="Also remove IDE templates that no longer exist in templates/.")
+	parser.add_argument("--prune", action="store_true",
+		help="Also remove IDE templates that no longer exist in templates/.")
 	parser.add_argument("--force", action="store_true", help="Write even while a JetBrains IDE is running.")
 	parser.add_argument("--config-root", type=Path, default=DEFAULT_CONFIG_ROOT)
 	args = parser.parse_args()
@@ -167,7 +160,6 @@ def main():
 		path.parent.mkdir(parents=True, exist_ok=True)
 		path.write_bytes(desired)
 	print("Done. Backup: " + display(BACKUP_DIR / "backup.json"))
-
 
 if __name__ == "__main__":
 	main()
