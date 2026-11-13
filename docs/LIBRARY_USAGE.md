@@ -28,7 +28,7 @@ Local Runner経由の実行では、importを書かなくても、単純名が�
 
 ## libraryが見つからない場合
 
-ライブラリの場所は自動では探さない。`setlib`で設定し、`status`で読み込まれているかを確認する。未設定でもLocal Runnerは起動するが、`lib.*`を使うコードは設定を促すエラーになる。設定を保存するファイルと項目は[Local Runnerの設定](../tools/local-runner/SETTINGS.md)を参照する。
+ライブラリの場所は自動では探さない。`setlib`で設定するか、`tools/local-runner.settings.json`の`languages.java.library`に書く。読み込まれているかは`status`で確認する。未設定でもLocal Runnerは起動するが、`lib.*`を使うコードは設定を促すエラーになる。設定ファイルの項目は[Local Runnerの設定](../tools/local-runner/SETTINGS.md)を参照する。
 
 ## バンドラの制約
 
