@@ -15,7 +15,7 @@
 
 Classは標準の「Java Class」テンプレートを上書きするため、`File → New → Java Class` でこの雛形が使われる。
 
-Class・Class17・ICPC・Judgeは `lib.*` をimportする。libraryに依存できないモジュール（AOJ・paiza・Codeforces）では、importせず使う部分を解答へ貼り付ける。詳細は [LIBRARY_USAGE.md](../../docs/LIBRARY_USAGE.md#解答を書く) を参照する。
+Class・Class17・ICPC・Judgeは `lib.*` をimportする。libraryに依存できないモジュール（AOJ・paiza・Codeforces）では、importせず使う部分を解答へ貼り付ける。詳細は [LIBRARY_USAGE.md](../../docs/LIBRARY_USAGE.md#サイトごとの使い分け) を参照する。
 
 ## ライブラリのテスト用
 
