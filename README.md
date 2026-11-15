@@ -1,6 +1,21 @@
+![Java 24](https://img.shields.io/badge/Java-24-ED8B00?style=flat-square)
+![C++23](https://img.shields.io/badge/C%2B%2B-23-00599C?style=flat-square)
+![Python 3.13](https://img.shields.io/badge/Python-3.13-3776AB?style=flat-square)
+[![License: 0BSD](https://img.shields.io/badge/license-0BSD-blue?style=flat-square)](./LICENSE)
+
 # Competitive Programming
 
 競技プログラミングの解答、ライブラリ、テンプレート、補助ツールのソースコードを管理するリポジトリです。
+
+- Author: nsubaru（[AtCoder](https://atcoder.jp/users/nsubaru) / [Codeforces](https://codeforces.com/profile/nsubaru)）
+
+## 関連リポジトリ
+
+次のリポジトリは、このリポジトリのsubmoduleとして取り込んでいます。
+
+- [Java Library](https://github.com/nsubaru11/competitive-programming-java-library)：Javaのアルゴリズム・データ構造（`library/java`）
+- [C++ Library](https://github.com/nsubaru11/competitive-programming-cpp-library)：C++のアルゴリズム・データ構造（`library/cpp`）
+- [Tools](https://github.com/nsubaru11/competitive-programming-tools)：解答を手元で実行・判定・提出する Local Runner と、ジャッジサイトの補助機能を足す CP Toolkit（`tools`）
 
 ## フォルダ構成
 
@@ -24,8 +39,6 @@ competitive-programming/
 ├── .ide/             # IDEごとのプロジェクト（各IDEはここから開く）
 └── docs/             # 設定・仕様の資料
 ```
-
-解答は基本的にコンテストごとの `src/<言語>/` に配置します。
 
 ## 使用環境
 
