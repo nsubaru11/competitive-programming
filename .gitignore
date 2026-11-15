@@ -57,3 +57,6 @@ paiza/other/
 .env
 .env.*
 session.txt
+
+# Local Runnerの配布物を展開し、リリースと同じ状態で使う場所
+.competitive-programming/
