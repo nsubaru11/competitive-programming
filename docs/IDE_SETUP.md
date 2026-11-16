@@ -106,7 +106,7 @@ Argumentsは次の形にする。`<コマンド>` と `<引数>` は下の表に
 | CP: 提出用コードをコピー | `toclip`    | `"$FileName$"`                             |
 | CP: ローカルテスト       | `localtest` | `"$FileName$"`                             |
 
-Runコンソールでも色を出すため、`FORCE_COLOR=1` をこのcmdの子プロセスだけに設定する。Local Runnerの利用中のexeにも、この変数への対応が必要。空でない `NO_COLOR` が設定されている場合は無色になる。このExternal Tools設定は `scripts/sync-jetbrains.py` の同期対象ではない。
+Runコンソールでも色を出すため、`FORCE_COLOR=1` をこのcmdの子プロセスだけに設定する。空でない `NO_COLOR` が設定されている場合は無色になる。このExternal Tools設定は `scripts/sync-jetbrains.py` の同期対象ではない。
 
 ## 最初に一度行う設定
 
