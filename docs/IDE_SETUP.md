@@ -89,6 +89,25 @@ scripts/sync-jetbrains.pyが、次の2つをまとめて同期する。リポジ
 
 IDEは起動中の設定を終了時に保存し直すため、IDEを閉じてから実行する。変更前の内容はout/jetbrains-sync-backup/backup.jsonに退避し、前回の退避は実行のたびに消す。
 
+## External Tools
+
+IDEAの `%APPDATA%\JetBrains\IntelliJIdea<バージョン>\tools\Competitive Programming.xml` に、Local Runnerを呼ぶ4件を登録する。Programは `C:\Windows\System32\cmd.exe`、Working directoryは `$FileDir$` とし、Open console for tool outputをオンにする。`$ProjectFileDir$` は `.ide/idea` を指す。
+
+Argumentsは次の形にする。`<コマンド>` と `<引数>` は下の表に従う。
+
+```text
+/d /e:on /v:off /c set "FORCE_COLOR=1" & "$ProjectFileDir$\..\..\.competitive-programming\competitive-programming-tools\local-runner\bin\<コマンド>.cmd" <引数>
+```
+
+| ツール                   | コマンド    | 引数                                       |
+|--------------------------|-------------|--------------------------------------------|
+| CP: サンプルテスト       | `test`      | `"$FileNameWithoutExtension$" --lang=java` |
+| CP: 提出                 | `submit`    | `"$FileNameWithoutExtension$" --lang=java` |
+| CP: 提出用コードをコピー | `toclip`    | `"$FileName$"`                             |
+| CP: ローカルテスト       | `localtest` | `"$FileName$"`                             |
+
+Runコンソールでも色を出すため、`FORCE_COLOR=1` をこのcmdの子プロセスだけに設定する。Local Runnerの利用中のexeにも、この変数への対応が必要。空でない `NO_COLOR` が設定されている場合は無色になる。このExternal Tools設定は `scripts/sync-jetbrains.py` の同期対象ではない。
+
 ## 最初に一度行う設定
 
 - 各IDEの最近のプロジェクトにリポジトリのルートが残っていれば削除する。起動時に前回のプロジェクトとして開かれるのを防ぐ。
