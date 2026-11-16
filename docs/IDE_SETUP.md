@@ -118,3 +118,24 @@ Runコンソールでも色を出すため、`FORCE_COLOR=1` をこのcmdの子�
 
 - [PyCharm: Workspaces and monorepos](https://www.jetbrains.com/help/pycharm/python-workspaces.html)
 - [CLion: Change project root](https://www.jetbrains.com/help/clion/change-project-root-directory.html)
+
+## AtCoderのコンテスト名と教材のファイル名
+
+コンテストのフォルダ名はAtCoderのURLの `/contests/` 以降の公式IDに合わせる。Javaの `.iml` 名もフォルダ名とそろえ、移動・改名時は `.ide/idea/.idea/modules.xml` の参照も更新する。コンテスト専用のローカル別名は増やさない。
+
+- `atcoder/other/codequeen2024-final-N9tn8QqD`・`codequeen2025-final-Public` は各年の決勝の公式IDを使う
+- `atcoder/ahc/001-050/ahc040` は3桁の開催番号にそろえる
+- `atcoder/ahc/intro-heuristics` は公式IDを使う
+- サークル内のバーチャルコンテストである `wcpc2025`・`wcpc20260917`・`wcpc2026first` は独自名を維持する
+
+典型90問のJavaは、問題番号を3桁で残した `Q001.java`〜`Q090.java` とし、クラス名も `Q001`〜`Q090` にそろえる。`Q` は、数字から始まるクラス名を避けるために付ける。
+
+ABSは公式コンテストIDの `abs` をフォルダ名に使い、ファイル名・クラス名は公式問題一覧の記号（`PracticeA`・`ABC086A` など）に合わせる。`No0` のような独自の通し番号は使わない。同じ問題の別実装は `ABC081B_2.java` のように末尾へ `_2` などを付けて区別する。
+
+Local Runnerでは、たとえば `test typical90_a Q001.java` のように正式なタスクIDと実際のファイル名を指定する。
+
+## 解答の別実装のファイル名
+
+別実装は、問題記号の後ろに `_` と識別名を付ける。数字なら `A_2.java`、解法の特徴なら `C_deque.java`・`A_mountain.java` のようにする。Javaのクラス名もファイル名に合わせる。`A2.java` のように番号を直接続けた別実装名は使わない。`A01`・`Q001` など、問題自体の番号は維持する。
+
+Local Runnerの `test`・`submit` は、ファイル名から拡張子を除き、最後の `_` 以降だけを除いて問題記号を決める。`test C_deque.java` と `test c_deque` はどちらもC問題で `C_deque.java` を実行する。`A15_1.java` はA15問題、`D_2.java` はD問題として扱う。識別名に複数の `_` を使うと最後のものだけが除かれるため、問題を推定して使う識別名は `_` を増やさずに付ける。
