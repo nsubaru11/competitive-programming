@@ -26,11 +26,7 @@ public final class C {
 		sort(rc[1]);
 		while (q-- > 0) {
 			int t = sc.nextInt0(), a = sc.nextInt(), b = sc.nextInt();
-			int l = ArrayBinarySearch.lowerBound(rc[t], a);
-			int r = ArrayBinarySearch.upperBound(rc[t], b);
-			if (l < 0) l = ~l;
-			if (r < 0) r = ~r - 1;
-			out.println(r - l + 1);
+			out.println(ArrayBinarySearch.count(rc[t], a, b + 1));
 		}
 	}
 
