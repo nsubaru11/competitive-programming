@@ -30,16 +30,16 @@ C++フォルダの探索は構成時だけ行い、毎回リポジトリ全体�
 `solution_`・`src/cpp`・拡張子の`.cpp`は含めず、区切りやハイフンなどは`_`に変換する。
 コンテスト名や問題名に含まれる分類は、サイトごとの構成に合わせて省く。
 
-| サイト     | ソースの相対パスの例                                      | 実行ターゲット名              |
-|------------|----------------------------------------------------------|-------------------------------|
-| AtCoder    | atcoder/abc/051-100/abc059/src/cpp/B.cpp                    | atcoder_abc059_B               |
-| AtCoder    | atcoder/other/dp/src/cpp/A.cpp                             | atcoder_dp_A                  |
-| AOJ        | aoj/alds1/topic01/src/cpp/A.cpp                            | aoj_alds1_topic01_A            |
-| Codeforces | codeforces/div3/round1103/src/cpp/A.cpp                    | codeforces_round1103_A        |
-| ICPC       | icpc/prelim/prelim2025/src/cpp/A.cpp                       | icpc_prelim2025_A             |
-| ICPC JAG   | icpc/jag/prelim/jagprelim2025/src/cpp/A.cpp                 | icpc_jagprelim2025_A          |
-| paiza      | paiza/skill-check/a/src/cpp/A060.cpp                       | paiza_skill_check_A060        |
-| paiza      | paiza/level-up/binary-search/src/cpp/A.cpp                 | paiza_level_up_binary_search_A |
+| サイト     | ソースの相対パスの例                        | 実行ターゲット名               |
+|------------|---------------------------------------------|--------------------------------|
+| AtCoder    | atcoder/abc/051-100/abc059/src/cpp/B.cpp    | atcoder_abc059_B               |
+| AtCoder    | atcoder/other/dp/src/cpp/A.cpp              | atcoder_dp_A                   |
+| AOJ        | aoj/alds1/topic01/src/cpp/A.cpp             | aoj_alds1_topic01_A            |
+| Codeforces | codeforces/div3/round1103/src/cpp/A.cpp     | codeforces_round1103_A         |
+| ICPC       | icpc/prelim/prelim2025/src/cpp/A.cpp        | icpc_prelim2025_A              |
+| ICPC JAG   | icpc/jag/prelim/jagprelim2025/src/cpp/A.cpp | icpc_jagprelim2025_A           |
+| paiza      | paiza/skill-check/a/src/cpp/A060.cpp        | paiza_skill_check_A060         |
+| paiza      | paiza/level-up/binary-search/src/cpp/A.cpp  | paiza_level_up_binary_search_A |
 
 - AtCoderのabc・agc・ahc・arc・awcは、末尾が同じ分類名と数字からなるコンテスト名の場合、分類と番号範囲を省く。other直下のコンテストはotherを省く。
 - Codeforcesはroundと数字からなるコンテスト名の場合、div1〜div4を省く。
@@ -101,15 +101,15 @@ Apply → OK後、Reload CMake Projectを実行する。
 
 ## 設定の場所
 
-| ファイル                        | 役割                                                                              |
-|---------------------------------|-----------------------------------------------------------------------------------|
-| .ide/clion/CMakeLists.txt       | CLion用の入口。リポジトリのCMakeLists.txtを読み込むだけ                           |
-| CMakeLists.txt                  | 解答とテンプレートだけを登録する                                                  |
-| cmake/LocalOptions.cmake        | 言語規格、ローカル実行・デバッグ用オプション、GCCの標準ライブラリの実行時検索パス |
-| scripts/list-cpp-directories.py | CMake構成時にC++用フォルダを見つける補助処理                                      |
-| scripts/sync-clion-run-configurations.py | CLionの実行設定を生成し、サイト・コンテストごとのフォルダへ振り分ける       |
-| library/cpp/CMakeLists.txt      | ライブラリ単独の開発・サンプル用。親からは読み込まない                            |
-| .ide/clion/.idea/workspace.xml  | このPCのWSL Debug / WSL Run設定                                                   |
+| ファイル                                 | 役割                                                                              |
+|------------------------------------------|-----------------------------------------------------------------------------------|
+| .ide/clion/CMakeLists.txt                | CLion用の入口。リポジトリのCMakeLists.txtを読み込むだけ                           |
+| CMakeLists.txt                           | 解答とテンプレートだけを登録する                                                  |
+| cmake/LocalOptions.cmake                 | 言語規格、ローカル実行・デバッグ用オプション、GCCの標準ライブラリの実行時検索パス |
+| scripts/list-cpp-directories.py          | CMake構成時にC++用フォルダを見つける補助処理                                      |
+| scripts/sync-clion-run-configurations.py | CLionの実行設定を生成し、サイト・コンテストごとのフォルダへ振り分ける             |
+| library/cpp/CMakeLists.txt               | ライブラリ単独の開発・サンプル用。親からは読み込まない                            |
+| .ide/clion/.idea/workspace.xml           | このPCのWSL Debug / WSL Run設定                                                   |
 
 ## ライブラリの開発
 
