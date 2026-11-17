@@ -1,11 +1,23 @@
+import java.io.*;
+import java.math.*;
+import java.util.*;
+import java.util.Map.*;
+import java.util.function.*;
+import java.util.stream.*;
+
 import lib.io.*;
+import lib.math.*;
+import lib.util.*;
 
 import static java.lang.Math.*;
 import static java.util.Arrays.*;
+import static java.util.Comparator.*;
+import static java.util.stream.Collectors.*;
+import static java.util.stream.Gatherers.*;
 
 public final class A {
 
-	// region < Constants & Globals >
+	// region < Runtime Setup & Constants >
 	private static final boolean DEBUG = true;
 	private static final int MOD = 998244353;
 	// private static final int MOD = 1_000_000_007;
@@ -17,13 +29,12 @@ public final class A {
 	// endregion
 
 	private static void solve() {
-		int x = sc.nextInt0();
-		int y = sc.nextInt0();
-		int[] group = {1, 3, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1};
+		int x = sc.nextInt0(), y = sc.nextInt0();
+		int[] group = {0, 2, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0};
 		out.println(group[x] == group[y]);
 	}
 
-	// region < Utility Methods >
+	// region < Utilities >
 	private static boolean isValidRange(final int i, final int from, final int to) {
 		return ((i - from) | (to - 1 - i)) >= 0;
 	}
@@ -176,130 +187,40 @@ public final class A {
 		return max;
 	}
 
-	private static long lModPow(long a, long b, final long mod) {
-		if (b == 0) return 1;
-		long ans = 1;
-		for (a %= mod; b > 1; b >>= 1) {
-			if ((b & 1) == 1) ans = ans * a % mod;
-			a = a * a % mod;
-		}
-		return ans * a % mod;
+	private static void fill2D(final char[][] a, final char v) {
+		for (final char[] ai : a) fill(ai, v);
 	}
 
-	private static int iModPow(int a, int b, final int mod) {
-		if (b == 0) return 1;
-		int ans = 1;
-		for (a %= mod; b > 1; b >>= 1) {
-			if ((b & 1) == 1) ans = (int) ((long) ans * a % mod);
-			a = (int) ((long) a * a % mod);
-		}
-		return (int) ((long) ans * a % mod);
+	private static void fill2D(final int[][] a, final int v) {
+		for (final int[] ai : a) fill(ai, v);
 	}
 
-	private static long lcmLong(final long x, final long y) {
-		return x == 0 || y == 0 ? 0 : x / gcdLong(x, y) * y;
+	private static void fill2D(final long[][] a, final long v) {
+		for (final long[] ai : a) fill(ai, v);
 	}
 
-	private static int lcmInt(final int x, final int y) {
-		return x == 0 || y == 0 ? 0 : x / gcdInt(x, y) * y;
+	private static void fill2D(final double[][] a, final double v) {
+		for (final double[] ai : a) fill(ai, v);
 	}
 
-	private static long gcdLong(long a, long b) {
-		a = abs(a);
-		b = abs(b);
-		if (a == 0) return b;
-		if (b == 0) return a;
-		int commonShift = Long.numberOfTrailingZeros(a | b);
-		a >>= Long.numberOfTrailingZeros(a);
-		while (b != 0) {
-			b >>= Long.numberOfTrailingZeros(b);
-			if (a > b) {
-				long tmp = a;
-				a = b;
-				b = tmp;
-			}
-			b -= a;
-		}
-		return a << commonShift;
+	private static void fill3D(final char[][][] a, final char v) {
+		for (final char[][] ai : a) fill2D(ai, v);
 	}
 
-	private static int gcdInt(int a, int b) {
-		a = abs(a);
-		b = abs(b);
-		if (a == 0) return b;
-		if (b == 0) return a;
-		int commonShift = Integer.numberOfTrailingZeros(a | b);
-		a >>= Integer.numberOfTrailingZeros(a);
-		while (b != 0) {
-			b >>= Integer.numberOfTrailingZeros(b);
-			if (a > b) {
-				int tmp = a;
-				a = b;
-				b = tmp;
-			}
-			b -= a;
-		}
-		return a << commonShift;
+	private static void fill3D(final int[][][] a, final int v) {
+		for (final int[][] ai : a) fill2D(ai, v);
 	}
 
-	private static void compression(final int[] a, final int len) {
-		final int[] b = copyOf(a, len);
-		sort(b);
-		int n = 1;
-		for (int i = 1; i < len; i++) {
-			if (b[i] == b[i - 1]) continue;
-			b[n++] = b[i];
-		}
-		for (int i = 0; i < len; i++) {
-			a[i] = binarySearch(b, 0, n, a[i]);
-		}
+	private static void fill3D(final long[][][] a, final long v) {
+		for (final long[][] ai : a) fill2D(ai, v);
 	}
 
-	private static void compression(final int[][] a, final int n, final int m) {
-		final int len = n * m;
-		final int[] b = new int[len];
-		for (int i = 0, j = 0; i < n; i++, j += m) {
-			System.arraycopy(a[i], 0, b, j, m);
-		}
-		sort(b);
-		int nm = 1;
-		for (int i = 1; i < len; i++) {
-			if (b[i] == b[i - 1]) continue;
-			b[nm++] = b[i];
-		}
-		for (int i = 0; i < n; i++) {
-			int[] ai = a[i];
-			for (int j = 0; j < m; j++) {
-				ai[j] = binarySearch(b, 0, nm, ai[j]);
-			}
-		}
-	}
-
-	private static void compression(final int[][] a, final int n) {
-		int len = 0;
-		for (int i = 0; i < n; i++) len += a[i].length;
-		final int[] b = new int[len];
-		for (int i = 0, j = 0; i < n; i++) {
-			int m = a[i].length;
-			System.arraycopy(a[i], 0, b, j, m);
-			j += m;
-		}
-		sort(b);
-		int nm = 1;
-		for (int i = 1; i < len; i++) {
-			if (b[i] == b[i - 1]) continue;
-			b[nm++] = b[i];
-		}
-		for (int i = 0; i < n; i++) {
-			int[] ai = a[i];
-			for (int j = 0, m = ai.length; j < m; j++) {
-				ai[j] = binarySearch(b, 0, nm, ai[j]);
-			}
-		}
+	private static void fill3D(final double[][][] a, final double v) {
+		for (final double[][] ai : a) fill2D(ai, v);
 	}
 	// endregion
 
-	// region < I/O & Debug >
+	// region < Entry Point & Debug >
 	public static void main(final String[] args) {
 		try {
 			solve();
@@ -308,12 +229,44 @@ public final class A {
 		}
 	}
 
-	private static void debug(final Object... args) {
+	private static void debugln(final Object... args) {
 		if (DEBUG) {
 			out.flush();
-			System.err.println(deepToString(args));
+			if (args == null) System.err.println("null");
+			else if (args.getClass().getComponentType().isArray()) System.err.println(stringify(args));
+			else System.err.println(stream(args).map(A::stringify).collect(Collectors.joining("\n", "\n", "")));
 		}
 	}
 
+	private static void debug(final Object... args) {
+		if (DEBUG) {
+			out.flush();
+			if (args == null) System.err.println("null");
+			else if (args.getClass().getComponentType().isArray()) System.err.println(stringify(args));
+			else System.err.println(stream(args).map(A::stringify).collect(Collectors.joining(", ", "", "")));
+		}
+	}
+
+	private static String stringify(final Object obj) {
+		return switch (obj) {
+			case null -> "null";
+			case int[][] arr -> "\n" + stream(arr).map(Arrays::toString).collect(Collectors.joining("\n"));
+			case long[][] arr -> "\n" + stream(arr).map(Arrays::toString).collect(Collectors.joining("\n"));
+			case char[][] arr -> "\n" + stream(arr).map(String::valueOf).collect(Collectors.joining("\n"));
+			case Object[][] arr -> "\n" + stream(arr).map(Arrays::deepToString).collect(Collectors.joining("\n"));
+			case int[] arr -> Arrays.toString(arr);
+			case long[] arr -> Arrays.toString(arr);
+			case double[] arr -> Arrays.toString(arr);
+			case char[] arr -> Arrays.toString(arr);
+			case boolean[] arr -> Arrays.toString(arr);
+			case Object[] arr -> deepToString(arr);
+			case Iterable<?> it -> {
+				final StringJoiner sj = new StringJoiner(", ", "[", "]");
+				for (final Object e : it) sj.add(stringify(e));
+				yield sj.toString();
+			}
+			default -> obj.toString();
+		};
+	}
 	// endregion
 }

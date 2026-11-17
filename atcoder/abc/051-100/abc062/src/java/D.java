@@ -1,12 +1,24 @@
+import java.io.*;
+import java.math.*;
+import java.util.*;
+import java.util.Map.*;
+import java.util.function.*;
+import java.util.stream.*;
+
 import lib.ds.priorityqueue.*;
 import lib.io.*;
+import lib.math.*;
+import lib.util.*;
 
 import static java.lang.Math.*;
 import static java.util.Arrays.*;
+import static java.util.Comparator.*;
+import static java.util.stream.Collectors.*;
+import static java.util.stream.Gatherers.*;
 
 public final class D {
 
-	// region < Constants & Globals >
+	// region < Runtime Setup & Constants >
 	private static final boolean DEBUG = true;
 	private static final int MOD = 998244353;
 	// private static final int MOD = 1_000_000_007;
@@ -19,47 +31,36 @@ public final class D {
 
 	private static void solve() {
 		int n = sc.nextInt();
-		int[] a = sc.nextInt(n * 3);
-		long[] score = new long[n + 1];
+		int[] a1 = sc.nextInt(n);
+		int[] a2 = sc.nextInt(n);
+		int[] a3 = sc.nextInt(n);
 
-		long s = 0;
-		IntPriorityQueue pq1 = new IntPriorityQueue(n);
+		long[] ans = new long[n + 1];
+		long sum = 0;
+		for (int i = 0; i < n; i++) sum += a1[i];
+		ans[0] = sum;
+		IntPriorityQueue mn = new IntPriorityQueue(n);
+		mn.addAll(a1);
 		for (int i = 0; i < n; i++) {
-			int ai = a[i];
-			s += ai;
-			pq1.add(ai);
-		}
-		score[0] = s;
-		for (int i = n, idx = 1; idx <= n; i++, idx++) {
-			int ai = a[i], p = pq1.peek();
-			if (p < ai) {
-				pq1.replaceTop(ai);
-				s += ai - p;
-			}
-			score[idx] = s;
+			int ai = a2[i];
+			ans[i + 1] = ans[i];
+			if (mn.peek() < ai) ans[i + 1] += ai - mn.replaceTop(ai);
 		}
 
-		s = 0;
-		IntPriorityQueue pq2 = new IntPriorityQueue(n, true);
-		for (int i = n * 2; i < n * 3; i++) {
-			int ai = a[i];
-			s += ai;
-			pq2.add(ai);
+		sum = 0;
+		for (int i = 0; i < n; i++) sum += a3[i];
+		ans[n] -= sum;
+		IntPriorityQueue mx = new IntPriorityQueue(n, true);
+		mx.addAll(a3);
+		for (int i = n - 1; i >= 0; i--) {
+			int ai = a2[i];
+			if (mx.peek() > ai) sum += ai - mx.replaceTop(ai);
+			ans[i] -= sum;
 		}
-		long ans = score[n] - s;
-		for (int i = n * 2 - 1, idx = n - 1; idx >= 0; i--, idx--) {
-			int ai = a[i], p = pq2.peek();
-			if (p > ai) {
-				pq2.replaceTop(ai);
-				s += ai - p;
-			}
-			ans = max(ans, score[idx] - s);
-		}
-
-		out.println(ans);
+		out.println(max(ans));
 	}
 
-	// region < Utility Methods >
+	// region < Utilities >
 	private static boolean isValidRange(final int i, final int from, final int to) {
 		return ((i - from) | (to - 1 - i)) >= 0;
 	}
@@ -212,130 +213,40 @@ public final class D {
 		return max;
 	}
 
-	private static long lModPow(long a, long b, final long mod) {
-		if (b == 0) return 1;
-		long ans = 1;
-		for (a %= mod; b > 1; b >>= 1) {
-			if ((b & 1) == 1) ans = ans * a % mod;
-			a = a * a % mod;
-		}
-		return ans * a % mod;
+	private static void fill2D(final char[][] a, final char v) {
+		for (final char[] ai : a) fill(ai, v);
 	}
 
-	private static int iModPow(int a, int b, final int mod) {
-		if (b == 0) return 1;
-		int ans = 1;
-		for (a %= mod; b > 1; b >>= 1) {
-			if ((b & 1) == 1) ans = (int) ((long) ans * a % mod);
-			a = (int) ((long) a * a % mod);
-		}
-		return (int) ((long) ans * a % mod);
+	private static void fill2D(final int[][] a, final int v) {
+		for (final int[] ai : a) fill(ai, v);
 	}
 
-	private static long lcmLong(final long x, final long y) {
-		return x == 0 || y == 0 ? 0 : x / gcdLong(x, y) * y;
+	private static void fill2D(final long[][] a, final long v) {
+		for (final long[] ai : a) fill(ai, v);
 	}
 
-	private static int lcmInt(final int x, final int y) {
-		return x == 0 || y == 0 ? 0 : x / gcdInt(x, y) * y;
+	private static void fill2D(final double[][] a, final double v) {
+		for (final double[] ai : a) fill(ai, v);
 	}
 
-	private static long gcdLong(long a, long b) {
-		a = abs(a);
-		b = abs(b);
-		if (a == 0) return b;
-		if (b == 0) return a;
-		int commonShift = Long.numberOfTrailingZeros(a | b);
-		a >>= Long.numberOfTrailingZeros(a);
-		while (b != 0) {
-			b >>= Long.numberOfTrailingZeros(b);
-			if (a > b) {
-				long tmp = a;
-				a = b;
-				b = tmp;
-			}
-			b -= a;
-		}
-		return a << commonShift;
+	private static void fill3D(final char[][][] a, final char v) {
+		for (final char[][] ai : a) fill2D(ai, v);
 	}
 
-	private static int gcdInt(int a, int b) {
-		a = abs(a);
-		b = abs(b);
-		if (a == 0) return b;
-		if (b == 0) return a;
-		int commonShift = Integer.numberOfTrailingZeros(a | b);
-		a >>= Integer.numberOfTrailingZeros(a);
-		while (b != 0) {
-			b >>= Integer.numberOfTrailingZeros(b);
-			if (a > b) {
-				int tmp = a;
-				a = b;
-				b = tmp;
-			}
-			b -= a;
-		}
-		return a << commonShift;
+	private static void fill3D(final int[][][] a, final int v) {
+		for (final int[][] ai : a) fill2D(ai, v);
 	}
 
-	private static void compression(final int[] a, final int len) {
-		final int[] b = copyOf(a, len);
-		sort(b);
-		int n = 1;
-		for (int i = 1; i < len; i++) {
-			if (b[i] == b[i - 1]) continue;
-			b[n++] = b[i];
-		}
-		for (int i = 0; i < len; i++) {
-			a[i] = binarySearch(b, 0, n, a[i]);
-		}
+	private static void fill3D(final long[][][] a, final long v) {
+		for (final long[][] ai : a) fill2D(ai, v);
 	}
 
-	private static void compression(final int[][] a, final int n, final int m) {
-		final int len = n * m;
-		final int[] b = new int[len];
-		for (int i = 0, j = 0; i < n; i++, j += m) {
-			System.arraycopy(a[i], 0, b, j, m);
-		}
-		sort(b);
-		int nm = 1;
-		for (int i = 1; i < len; i++) {
-			if (b[i] == b[i - 1]) continue;
-			b[nm++] = b[i];
-		}
-		for (int i = 0; i < n; i++) {
-			int[] ai = a[i];
-			for (int j = 0; j < m; j++) {
-				ai[j] = binarySearch(b, 0, nm, ai[j]);
-			}
-		}
-	}
-
-	private static void compression(final int[][] a, final int n) {
-		int len = 0;
-		for (int i = 0; i < n; i++) len += a[i].length;
-		final int[] b = new int[len];
-		for (int i = 0, j = 0; i < n; i++) {
-			int m = a[i].length;
-			System.arraycopy(a[i], 0, b, j, m);
-			j += m;
-		}
-		sort(b);
-		int nm = 1;
-		for (int i = 1; i < len; i++) {
-			if (b[i] == b[i - 1]) continue;
-			b[nm++] = b[i];
-		}
-		for (int i = 0; i < n; i++) {
-			int[] ai = a[i];
-			for (int j = 0, m = ai.length; j < m; j++) {
-				ai[j] = binarySearch(b, 0, nm, ai[j]);
-			}
-		}
+	private static void fill3D(final double[][][] a, final double v) {
+		for (final double[][] ai : a) fill2D(ai, v);
 	}
 	// endregion
 
-	// region < I/O & Debug >
+	// region < Entry Point & Debug >
 	public static void main(final String[] args) {
 		try {
 			solve();
@@ -344,12 +255,44 @@ public final class D {
 		}
 	}
 
-	private static void debug(final Object... args) {
+	private static void debugln(final Object... args) {
 		if (DEBUG) {
 			out.flush();
-			System.err.println(deepToString(args));
+			if (args == null) System.err.println("null");
+			else if (args.getClass().getComponentType().isArray()) System.err.println(stringify(args));
+			else System.err.println(stream(args).map(D::stringify).collect(Collectors.joining("\n", "\n", "")));
 		}
 	}
 
+	private static void debug(final Object... args) {
+		if (DEBUG) {
+			out.flush();
+			if (args == null) System.err.println("null");
+			else if (args.getClass().getComponentType().isArray()) System.err.println(stringify(args));
+			else System.err.println(stream(args).map(D::stringify).collect(Collectors.joining(", ", "", "")));
+		}
+	}
+
+	private static String stringify(final Object obj) {
+		return switch (obj) {
+			case null -> "null";
+			case int[][] arr -> "\n" + stream(arr).map(Arrays::toString).collect(Collectors.joining("\n"));
+			case long[][] arr -> "\n" + stream(arr).map(Arrays::toString).collect(Collectors.joining("\n"));
+			case char[][] arr -> "\n" + stream(arr).map(String::valueOf).collect(Collectors.joining("\n"));
+			case Object[][] arr -> "\n" + stream(arr).map(Arrays::deepToString).collect(Collectors.joining("\n"));
+			case int[] arr -> Arrays.toString(arr);
+			case long[] arr -> Arrays.toString(arr);
+			case double[] arr -> Arrays.toString(arr);
+			case char[] arr -> Arrays.toString(arr);
+			case boolean[] arr -> Arrays.toString(arr);
+			case Object[] arr -> deepToString(arr);
+			case Iterable<?> it -> {
+				final StringJoiner sj = new StringJoiner(", ", "[", "]");
+				for (final Object e : it) sj.add(stringify(e));
+				yield sj.toString();
+			}
+			default -> obj.toString();
+		};
+	}
 	// endregion
 }
