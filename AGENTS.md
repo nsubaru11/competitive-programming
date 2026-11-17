@@ -4,7 +4,7 @@
 
 - 競技プログラミングの解答・テンプレート・補助ツールのソースを管理する。継続的な開発は `library/`（Java・C++のsubmodule）と `tools/`（submodule）で行う。
 - 解答はコンテストごとの `src/<言語>/` に置く。JavaはコンテストごとのIDEAモジュール（`*.iml`）として扱う。
-- `library/java` と `library/cpp` には個別の `AGENTS.md` がある。それぞれの作業ではそちらを優先する。
+- `library/java`・`library/cpp`・`tools` には個別の `AGENTS.md` がある。それぞれの作業ではそちらを優先する。
 
 ## 作業の進め方
 
@@ -23,10 +23,15 @@
 | このリポジトリでのJavaライブラリの設定と、サイトごとの使い分け   | [docs/LIBRARY_USAGE.md](docs/LIBRARY_USAGE.md)                                                                                                                     |
 | テンプレートの用途と書き方                                       | [templates/java/README.md](templates/java/README.md)、[templates/python/README.md](templates/python/README.md)、[templates/cpp/README.md](templates/cpp/README.md) |
 | テンプレートと共通設定のIDEへの同期（scripts/sync-jetbrains.py） | [docs/IDE_SETUP.md](docs/IDE_SETUP.md#テンプレートと共通設定の同期)                                                                                                |
+| 変更した場所ごとの検証コマンド                                   | [.claude/skills/verify/SKILL.md](.claude/skills/verify/SKILL.md)                                                                                                   |
+| コミット・push・解答のコミットの手順                             | [commit](.claude/skills/commit/SKILL.md)、[push](.claude/skills/push/SKILL.md)、[solved](.claude/skills/solved/SKILL.md)                                           |
+| Claude Codeの設定（hook、subagent）                              | [.claude/README.md](.claude/README.md)                                                                                                                             |
 
 ## 守ること
 
 - 解答はユーザーが自分で書く。指示が無い限り、解答のリファクタリングや解法の作成はしない。頼まれるのは主に、コンテストの後に、より良い解法を探すとき。
+- `library/java`・`library/cpp`・`tools` の `AGENTS.md` と文書は、そのリポジトリだけをクローンしても成り立つように書く。親リポジトリのファイル（`.clang-format` など）を参照せず、必要な内容は本文に書くか、GitHub のリンクにする。
+- `.claude/` は共有する設定だけを置く。個人用のファイルは `.claude/local/` に置く（Gitの管理外）。
 - JetBrainsのIDEでリポジトリのルートを開かない。各IDEは `.ide/<IDE名>` を開く。ルートに `.idea` を作らない。
 - 実行環境はAtCoder基準のものを全サイトで共通利用する。サイトごとのコンパイラ追加や、速度の完全な再現は目指さない。
 - C++の命名は標準ライブラリに合わせ、関数・変数・conceptはスネークケース、クラスはパスカルケースにする。自作ライブラリのメソッド名は、Javaのライブラリ（`library/java`）の名前をスネークケースにしたものに合わせる。

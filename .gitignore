@@ -8,7 +8,6 @@ desktop.ini
 .idea/
 .vscode/
 .cursor/
-.claude/
 .settings/
 .classpath
 .project
@@ -16,6 +15,13 @@ desktop.ini
 *.ipr
 *.iws
 *.code-workspace
+
+# Claude Code：共有する設定は .claude/ に置き、個人用のファイルは .claude/local/ に置く
+.claude/local/
+.claude/settings.local.json
+.claude/scheduled_tasks.lock
+.claude/worktrees/
+CLAUDE.local.md
 
 # ビルド成果物
 out/

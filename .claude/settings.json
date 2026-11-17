@@ -1,0 +1,35 @@
+{
+	"permissions": {
+		"deny": [
+			"Read(/.atcoder/**)",
+			"Read(/.aoj/**)",
+			"Read(/.codeforces/**)",
+			"Read(/.icpc/**)",
+			"Read(.env)",
+			"Read(.env.*)",
+			"Read(session.txt)",
+			"Edit(/.atcoder/**)",
+			"Edit(/.aoj/**)",
+			"Edit(/.codeforces/**)",
+			"Edit(/.icpc/**)",
+			"Edit(.env)",
+			"Edit(.env.*)",
+			"Edit(session.txt)"
+		]
+	},
+	"hooks": {
+		"PreToolUse": [
+			{
+				"matcher": "Bash|PowerShell|mcp__desktop-commander__start_process|mcp__terminal__run_in_terminal",
+				"hooks": [
+					{
+						"type": "command",
+						"command": "python",
+						"args": ["${CLAUDE_PROJECT_DIR}/.claude/hooks/git_guard.py", "pre"],
+						"timeout": 30
+					}
+				]
+			}
+		]
+	}
+}
