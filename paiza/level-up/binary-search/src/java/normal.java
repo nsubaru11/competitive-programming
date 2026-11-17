@@ -64,14 +64,12 @@ public class normal {
 		// region count
 		public static int count(final int l, final int r, final CompareFunction comparator) {
 			final int up = upperBound(l, r, comparator);
-			if (up < l || up >= r || comparator.compare(up) != 0) return 0;
-			return up - lowerBound(l, r, comparator) + 1;
+			return up < l || up >= r || comparator.compare(up) != 0 ? 0 : up - lowerBound(l, r, comparator) + 1;
 		}
 
 		public static long count(final long l, final long r, final CompareFunction comparator) {
 			final long up = upperBound(l, r, comparator);
-			if (up < l || up >= r || comparator.compare(up) != 0) return 0;
-			return up - lowerBound(l, r, comparator) + 1;
+			return up < l || up >= r || comparator.compare(up) != 0 ? 0 : up - lowerBound(l, r, comparator) + 1;
 		}
 		// endregion
 
