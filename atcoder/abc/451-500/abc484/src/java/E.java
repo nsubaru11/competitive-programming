@@ -38,15 +38,7 @@ public final class E {
 		LongAVLMultiset ms = new LongAVLMultiset();
 		long ans = 0;
 		for (int i = n; i >= 0; i--) {
-			long xl = ms.lowerBound(ps.sum(i) + l);
-			if (xl < 0) xl = ~xl;
-			long xr = ms.upperBound(ps.sum(i) + r);
-			if (xr < 0) xr = ~xr - 1;
-			Long ceil = ms.ceiling(ps.sum(i) + l);
-			if (ceil != null && ceil - ps.sum(i) <= r) {
-				ans += xr - xl + 1;
-			}
-			debug(i, xr, xl, xr - xl, ans);
+			ans += ms.count(ps.sum(i) + l, ps.sum(i) + r + 1);
 			ms.add(ps.sum(i));
 		}
 		out.println(ans);
