@@ -25,7 +25,7 @@ public final class E {
 		int len = 0;
 		for (int i = 0; i < n; i++) {
 			final int v = ab[i][1];
-			int pos = ArrayBinarySearch.upperBoundSearch(dp, 0, len, v);
+			int pos = ArrayBinarySearch.upperBound(dp, 0, len, v);
 			if (pos < 0) {
 				pos = ~pos;
 				dp[pos] = v;

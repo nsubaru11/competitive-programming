@@ -44,8 +44,8 @@ public final class C {
 		}
 		long ans = 0;
 		for (int i = 0; i < n; i++) {
-			int ai = ArrayBinarySearch.lowerBoundSearch(pa, i, n + 1, pa[i] + a);
-			int bi = ArrayBinarySearch.upperBoundSearch(pb, i, n + 1, pb[i] + b - 1);
+			int ai = ArrayBinarySearch.lowerBound(pa, i, n + 1, pa[i] + a);
+			int bi = ArrayBinarySearch.upperBound(pb, i, n + 1, pb[i] + b - 1);
 			if (ai < 0) break;
 			if (bi < 0) bi = ~bi - 1;
 			ans += max(0, bi - ai + 1);

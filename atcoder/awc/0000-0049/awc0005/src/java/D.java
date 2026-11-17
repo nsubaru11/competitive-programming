@@ -29,7 +29,7 @@ public final class D {
 		int n = sc.nextInt();
 		int k = sc.nextInt();
 		int[] a = sc.nextInt(n);
-		long ans = BinarySearch.upperBoundSearch(0, stream(a).asLongStream().sum() + 1, load -> {
+		long ans = BinarySearch.upperBound(0, stream(a).asLongStream().sum() + 1, load -> {
 			int cnt = 1;
 			long sum = 0;
 			for (int v : a) {

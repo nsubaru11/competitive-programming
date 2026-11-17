@@ -23,7 +23,7 @@ public final class E {
 	private static void solve() {
 		int n = sc.nextInt(), k = sc.nextInt();
 		int[] a = sc.nextInt(n);
-		int ans = BinarySearch.lowerBoundSearch(1, max(a) + 1, m -> {
+		int ans = BinarySearch.lowerBound(1, max(a) + 1, m -> {
 			int l = (int) m;
 			int cnt = 0;
 			for (int i = 0; i < n; i++) {

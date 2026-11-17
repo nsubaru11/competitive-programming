@@ -26,7 +26,7 @@ public final class D {
 		long ans = -1;
 		for (int i = m - 1; i >= 0; i--) {
 			long bi = b[i];
-			int index = BinarySearch.upperBoundSearch(0, n, l -> {
+			int index = BinarySearch.upperBound(0, n, l -> {
 				int k = (int) l;
 				if (a[k] < bi - d) return -1;
 				if (a[k] > bi + d) return 1;

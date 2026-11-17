@@ -12,13 +12,13 @@ public class D {
 		int k = sc.nextInt();
 		int[] a = new int[n];
 		setAll(a, i -> sc.nextInt());
-		long ans = BinarySearch.normalSearch(a, (int) k, Arrays.stream(a).max().getAsInt(), Arrays.stream(a).sum());
+		long ans = BinarySearch.search(a, (int) k, Arrays.stream(a).max().getAsInt(), Arrays.stream(a).sum());
 		out.println(ans);
 		out.flush();
 	}
 
 	private static class BinarySearch {
-		private static long normalSearch(int[] a, long m, int left, int right) {
+		private static long search(int[] a, long m, int left, int right) {
 			while (left <= right) {
 				int mid = (left + right) / 2;
 				if (Comparator(mid, a, m)) {

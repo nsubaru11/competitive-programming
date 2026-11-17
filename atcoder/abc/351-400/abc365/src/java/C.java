@@ -19,13 +19,13 @@ public class C {
 		} else if (low * n >= m) {
 			System.out.println(m / n);
 		} else {
-			long x = BinarySearch.normalSearch(a, m, (int) low + 1, (int) high - 1);
+			long x = BinarySearch.search(a, m, (int) low + 1, (int) high - 1);
 			System.out.println(x);
 		}
 	}
 
 	private static class BinarySearch {
-		private static long normalSearch(int[] a, long m, int left, int right) {
+		private static long search(int[] a, long m, int left, int right) {
 			int ans = 0;
 			while (left <= right) {
 				int mid = (left + right) / 2;

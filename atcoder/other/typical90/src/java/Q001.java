@@ -26,7 +26,7 @@ public final class Q001 {
 		for (int i = 0; i < n; i++) a[i] = sc.nextInt();
 		a[n] = l;
 		for (int i = n; i > 0; i--) a[i] -= a[i - 1];
-		int ans = BinarySearch.upperBoundSearch(0, l + 1, t -> {
+		int ans = BinarySearch.upperBound(0, l + 1, t -> {
 			int cnt = 0, sum = 0;
 			for (int ai : a) {
 				sum += ai;

@@ -29,7 +29,7 @@ public final class F {
 			}
 			for (int i = 2; i < 1 << 6; i++) {
 				int k = i;
-				if (BinarySearch.normalSearch(1001, n + 1, b -> {
+				if (BinarySearch.contains(1001, n + 1, b -> {
 					long x = n, c = 1;
 					for (int j = k; j > 1; j >>= 1) {
 						if ((j & 1) == 1) {
@@ -40,7 +40,7 @@ public final class F {
 						c *= b;
 					}
 					return Long.compare(c, x);
-				}) >= 0) ans++;
+				})) ans++;
 			}
 			out.println(ans);
 		}

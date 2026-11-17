@@ -24,7 +24,7 @@ public final class C {
 		int a = sc.nextInt();
 		int b = sc.nextInt();
 		long x = sc.nextLong();
-		long ans = BinarySearch.upperBoundSearch(1, 1_000_000_001, n -> x >= (long) a * n + (long) b * digit10(n) ? 0 : 1);
+		long ans = BinarySearch.upperBound(1, 1_000_000_001, n -> x >= (long) a * n + (long) b * digit10(n) ? 0 : 1);
 		out.println(max(ans, 0));
 	}
 

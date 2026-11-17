@@ -23,9 +23,9 @@ public final class D {
 		int b = sc.nextInt();
 		int d = a - b;
 		int[] h = sc.nextSortedInt(n);
-		long ans = BinarySearch.lowerBoundSearch(1, ceilDiv(h[n - 1], b) + 1, cnt -> {
+		long ans = BinarySearch.lowerBound(1, ceilDiv(h[n - 1], b) + 1, cnt -> {
 			int cb = (int) cnt * b;
-			int i = ArrayBinarySearch.upperBoundSearch(h, cb);
+			int i = ArrayBinarySearch.upperBound(h, cb);
 			long k = 0;
 			for (i = i < 0 ? ~i : i; i < n; i++) {
 				k += (h[i] - cb + d - 1) / d;

@@ -21,7 +21,7 @@ public final class A12 {
 		int n = sc.nextInt();
 		int k = sc.nextInt();
 		int[] a = sc.nextInt(n);
-		int ans = BinarySearch.lowerBoundSearch(1, 1_000_000_001, index -> {
+		int ans = BinarySearch.lowerBound(1, 1_000_000_001, index -> {
 			long cnt = 0;
 			for (int ai : a) cnt += index / ai;
 			return cnt >= k ? 0 : -1;

@@ -23,7 +23,7 @@ public class C {
 		parallelPrefix(a, Long::sum);
 		while (q-- > 0) {
 			int b = sc.nextInt();
-			int k = BinarySearch.lowerBoundSearch(0, n, i -> {
+			int k = BinarySearch.lowerBound(0, n, i -> {
 				int idx = (int) i;
 				long v = idx > 0 ? a[idx] - a[idx - 1] : a[idx];
 				return Long.signum(v - b);

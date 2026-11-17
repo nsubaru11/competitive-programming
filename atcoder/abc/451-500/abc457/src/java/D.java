@@ -21,7 +21,7 @@ public final class D {
 		int n = sc.nextInt();
 		long k = sc.nextLong();
 		long[] a = sc.nextLong(n);
-		long ans = BinarySearch.upperBoundSearch(1, a[0] + k + 1, t -> {
+		long ans = BinarySearch.upperBound(1, a[0] + k + 1, t -> {
 			long cnt = 0;
 			for (int i = 0; i < n; i++) {
 				long ai = a[i];

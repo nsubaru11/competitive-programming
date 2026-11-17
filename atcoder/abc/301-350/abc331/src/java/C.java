@@ -27,7 +27,7 @@ public final class C {
 		parallelPrefix(a, Long::sum);
 		for (int i = 0; i < n; i++) {
 			long k = b[i];
-			int j = BinarySearch.upperBoundSearch(0, n, l -> {
+			int j = BinarySearch.upperBound(0, n, l -> {
 				int idx = (int) l;
 				return Long.signum(idx > 0 ? a[idx] - a[idx - 1] - k : a[idx] - k);
 			});

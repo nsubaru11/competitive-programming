@@ -29,7 +29,7 @@ public final class D {
 		parallelPrefix(pb, Long::sum);
 		long ans = 0;
 		for (int ai : a) {
-			int j = BinarySearch.lowerBoundSearch(0, m, index -> {
+			int j = BinarySearch.lowerBound(0, m, index -> {
 				int idx = (int) index;
 				return ai + b[idx] > p ? 0 : -1;
 			});

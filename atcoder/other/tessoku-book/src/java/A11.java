@@ -20,7 +20,7 @@ public final class A11 {
 		int n = sc.nextInt();
 		int x = sc.nextInt();
 		int[] a = sc.nextInt(n);
-		out.println(ArrayBinarySearch.lowerBoundSearch(a, x) + 1);
+		out.println(ArrayBinarySearch.lowerBound(a, x) + 1);
 	}
 
 	// region < Utility Methods >

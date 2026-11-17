@@ -29,7 +29,7 @@ public final class E {
 			for (int k = 3; ; k++) {
 				int fk = k;
 				long mx = (long) Math.pow(n, 1.0 / (k - 1));
-				long d = BinarySearch.upperBoundSearch(1, mx + 1, d2 -> {
+				long d = BinarySearch.upperBound(1, mx + 1, d2 -> {
 					Int128 sum = new Int128(fa);
 					long ai = fa;
 					for (int ki = 1; ki < fk; ki++) {

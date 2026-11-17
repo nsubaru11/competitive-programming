@@ -26,7 +26,7 @@ public final class D {
 		int k = sc.nextInt();
 		int[][] lr = sc.nextIntMat(n, 2);
 		sort(lr, comparingInt(a -> a[0]));
-		int ans = BinarySearch.upperBoundSearch(1, 1_000_000_001, index -> {
+		int ans = BinarySearch.upperBound(1, 1_000_000_001, index -> {
 			int sep = (int) index;
 			int p = -1;
 			int size = 0;
