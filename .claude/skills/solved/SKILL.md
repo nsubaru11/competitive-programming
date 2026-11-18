@@ -23,7 +23,7 @@ disable-model-invocation: true
 
 ## 3. IDEA のモジュール登録を確かめる
 
-`.ide/idea/.idea/modules.xml` に `<コンテスト名>.iml` の行があるか確かめる。なければ報告する。このファイルは Git の管理外なので、コミットには含まれない。
+`.ide/idea/.idea/modules.xml` に `<コンテスト名>.iml` の行があるか確かめる。なければ、AtCoder のコンテストなら `python scripts/new-atcoder-module.py <コンテスト名>` で登録できることを添えて報告する（自分では実行しない）。このファイルは Git の管理外なので、コミットには含まれない。
 
 ## 4. コミットする
 

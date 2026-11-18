@@ -111,7 +111,11 @@ Runコンソールでも色を出すため、`FORCE_COLOR=1` をこのcmdの子�
 ## 最初に一度行う設定
 
 - 各IDEの最近のプロジェクトにリポジトリのルートが残っていれば削除する。起動時に前回のプロジェクトとして開かれるのを防ぐ。
-- IDEA：.ide/ideaを開く。新しいコンテストのモジュールは.ide/idea/.idea/modules.xmlへ登録する。パスは$PROJECT_DIR$/../../から始める。libを使うモジュール（AtCoder、ICPC）には、依存として`<orderEntry type="module" module-name="library.main" />`を入れる。AOJ・paiza・Codeforcesのモジュールは言語レベルがJDK 24より低いため入れない。
+- IDEA：.ide/ideaを開く。新しいAtCoderのJavaモジュールは、リポジトリのルートで`python scripts/new-atcoder-module.py abc484`のように用意する。引数を省略すると、モジュール名の入力を求める。モジュール名は大文字で入力してもよい。
+- スクリプトはフォルダの実態を優先する。コンテストのフォルダ、`src/java`、source root付きの`.iml`のうち、無いものだけを作り、既にあるものは上書きせずに使う。そのうえで、.ide/idea/.idea/modules.xmlに登録が無ければ登録する。フォルダが別の場所へ移っていて古い登録が残っている場合や、`src/java`が無いのに登録が残っている場合は、その登録を一度消して登録し直す。IDEAに登録が反映されない場合は、プロジェクトを再読み込みする。
+- 置き場所は、`abc`・`arc`・`agc`・`awc`・`ahc`ならコンテスト番号から50回ごとのフォルダ（1回目から始まり、例：abc484は`atcoder/abc/451-500`）、それ以外は`atcoder/other`である。数値prefixのコンテスト名は、AWCを4桁、その他を3桁にそろえる。Javaファイルは`src/java`でIDEAのFile → New → Java Classから作成し、IDEAのテンプレートを使う。
+- AtCoder以外（ICPC、AOJ、paiza、Codeforces）の新しいコンテストのモジュールは、.ide/idea/.idea/modules.xmlへ手動で登録する。パスは$PROJECT_DIR$/../../から始める。
+- JDK 24を使うモジュール（AtCoder、ICPC）は、JDKをプロジェクト設定から継承する（`<orderEntry type="inheritedJdk" />`）。libを使うモジュールには、依存として`<orderEntry type="module" module-name="library.main" />`を入れる。AtCoderのモジュールはスクリプトがどちらも入れる。AOJ・paiza・Codeforcesのモジュールは言語レベルがJDK 24より低いため、JDKを明示し、libへの依存も入れない。
 - CLion：.ide/clionを開き、CMakeの設定を[CMAKE_SETUP.md](CMAKE_SETUP.md)の表と照らし合わせる。
 - CLion：EditorConfigプラグイン（JetBrains公式）を入れる。IDEAとPyCharmには同梱されているが、CLionには入っていないため、入れないと.editorconfigが無視される。Settings → Plugins → MarketplaceでEditorConfigを検索してInstallし、IDEを再起動する。導入後、PythonやCMakeのファイルを開き、右下の字下げ表示が「Tab」になることを確かめる。
 - PyCharm：.ide/pycharmを開く。pyproject.tomlからプロジェクト構成を自動生成するWorkspaceモードは無効にする。.ide/pycharm/.idea/pyProjectModel.xmlのusePyprojectTomlをfalseにする。Settings → Project Structureの切り替えと同じ設定である。有効にすると、モジュールが作り直されて除外設定が失われることがあり、パッケージの導入やpyproject.tomlへの追記も自動で提案される。
@@ -121,7 +125,7 @@ Runコンソールでも色を出すため、`FORCE_COLOR=1` をこのcmdの子�
 
 ## AtCoderのコンテスト名と教材のファイル名
 
-コンテストのフォルダ名はAtCoderのURLの `/contests/` 以降の公式IDに合わせる。Javaの `.iml` 名もフォルダ名とそろえ、移動・改名時は `.ide/idea/.idea/modules.xml` の参照も更新する。コンテスト専用のローカル別名は増やさない。
+コンテストのフォルダ名はAtCoderのURLの `/contests/` 以降の公式IDに合わせる。AtCoderのJavaの `.iml` 名はフォルダ名とそろえる。AtCoder以外は、モジュール名が重複しないよう、サイト名を頭に付ける（例：`aoj-alds1-topic01`、`icpc-prelim2020`、`paiza-skill-check-a`、`codeforces-round1103`）。移動・改名時は `.ide/idea/.idea/modules.xml` の参照も更新する。コンテスト専用のローカル別名は増やさない。
 
 - `atcoder/other/codequeen2024-final-N9tn8QqD`・`codequeen2025-final-Public` は各年の決勝の公式IDを使う
 - `atcoder/ahc/001-050/ahc040` は3桁の開催番号にそろえる
