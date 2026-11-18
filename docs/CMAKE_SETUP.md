@@ -71,7 +71,6 @@ template_cppはフォルダに入れない。
 リポジトリのルートから直接CMakeを構成した場合は、CLionの実行設定を生成しない。
 
 実行設定の同期に失敗しても、CMakeの構成は止めずに警告だけを出す。異常終了で.ide/clion/.idea/cp-run-configurations.lockが残っても、60秒を過ぎると次回の同期が取り除く。
-生成処理の検証は、Windowsの静的解析用.venvで`.venv\Scripts\python.exe -m unittest discover -s scripts/tests -p test_sync_clion_run_configurations.py`を実行する。WSL側では同じテストをpython3で実行できる。
 
 ## CLionからCMakeへ追加する機能
 
