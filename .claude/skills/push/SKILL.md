@@ -22,12 +22,12 @@ disable-model-invocation: true
 
 ## 2. push の前に確かめる
 
-まだ push していないコミットについて、次を確かめる。1つでも当たれば push せず、報告する。
+まだ push していないコミットが次の条件をすべて満たすか確認する。満たさない条件があれば、push の前に報告して止める。
 
 - 秘密情報：`git diff @{upstream}..HEAD` に、セッション、パスワード、トークン、メールアドレスがない。
 - 公開できないファイル：`paiza/skill-check/`、`paiza/other/`、ICPC の問題データと問題 PDF が含まれていない。
 - 開催中のコンテスト：解答のコミットがあれば、そのコンテストが終了している。当日のコンテストは、コンテストのページで終了時刻を確かめる。
-- CP Toolkit：`tools` で `userscripts/CpToolkit/dist/CpToolkit.user.js` が変わっているなら、`meta.json` の `version` が上がっていて、上げた位置が変更の種類に合っている。基準は [DEVELOPMENT.md](../../../tools/userscripts/CpToolkit/DEVELOPMENT.md) の「版の付け方」。
+- CP Toolkit：`tools` で `userscripts/CpToolkit/dist/CpToolkit.user.js` が変わっているなら、`meta.json` の `version` が上がっていて、上げた位置が変更の種類に合っている。版の付け方は [DEVELOPMENT.md](../../../tools/userscripts/CpToolkit/DEVELOPMENT.md) の「版の付け方」に従う。
 
 ## 3. submodule を push する
 

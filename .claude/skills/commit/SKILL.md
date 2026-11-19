@@ -5,7 +5,7 @@ description: "本体と submodule（tools、library/java、library/cpp）でコ�
 
 # コミットの手順
 
-決まりは [AGENTS.md](../../../AGENTS.md) の「Git」にある。ここには手順だけを書く。push はしない。
+コミットは [AGENTS.md](../../../AGENTS.md) の「Git」に従う。この手順では push しない。
 
 ## 1. 対象を決める
 

@@ -1,6 +1,6 @@
 # ICPC Solutions
 
-ICPC・JAG の過去問解答集。
+ICPC・JAG の過去問の解答をまとめています。
 
 ## 構成
 

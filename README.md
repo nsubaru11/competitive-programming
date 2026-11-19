@@ -11,7 +11,7 @@
 
 ## 関連リポジトリ
 
-次のリポジトリは、このリポジトリのsubmoduleとして取り込んでいます。
+次のリポジトリは、submoduleとして管理しています。
 
 - [Java Library](https://github.com/nsubaru11/competitive-programming-java-library)：Javaのアルゴリズム・データ構造（`library/java`）
 - [C++ Library](https://github.com/nsubaru11/competitive-programming-cpp-library)：C++のアルゴリズム・データ構造（`library/cpp`）
@@ -48,4 +48,4 @@ competitive-programming/
 | C++    | GCC 15.2.0（WSL、AtCoderはGNU C++23）                            |
 | Python | CPython 3.13.7 / PyPy 3.11-v7.3.20 / Codon 0.19.3（WSL）         |
 
-ライセンスは [0BSD](LICENSE) です。submoduleは各リポジトリのライセンスに従います。
+ライセンスは [0BSD](LICENSE) です。各submoduleには、それぞれのリポジトリのライセンスが適用されます。

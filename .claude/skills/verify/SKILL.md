@@ -16,7 +16,7 @@ description: "変更した場所ごとの検証コマンドの一覧。Java の�
 | `library/java/src` | `library/java`          | `.\gradlew.bat test`                                                      |
 | `lib.io.compat17`  | `library/java`          | `.\gradlew.bat check`                                                     |
 
-- `javac` は JDK 24.0.2（`C:\Program Files\java\jdk-24.0.2\bin`）を使う。PATH 上の `java` は JDK 25。
+- `javac` は JDK 24.0.2（`C:\Program Files\java\jdk-24.0.2\bin`）を使う。PATH 上の `java` は JDK 25 を指す。
 - 解答はデフォルトパッケージの同名クラスが多いので、1ファイルずつコンパイルする。出力先はリポジトリの外の一時フォルダにする。
 - `gradlew` は `JAVA_HOME`（JDK 24.0.2）で動く。
 - `test a` は AtCoder のサンプルで実行し、AC か WA かを判定する。`submit` は実行しない。ランナーは WSL に常駐し、Windows の環境変数は届かない。
