@@ -23,7 +23,7 @@ public final class C {
 		int n = sc.nextInt(), m = sc.nextInt();
 		UndirectedGraph graph = new UndirectedGraph(n, m);
 		graph.setAll(sc::nextInt0, sc::nextInt0);
-		Connectivity.Result res = Connectivity.lowLink(graph);
+		var res = Connectivity.lowLink(graph);
 		int ans = 0;
 		for (int i = 0; i < m; i++) {
 			if (res.isBridge(i)) ans++;
