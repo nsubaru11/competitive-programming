@@ -32,8 +32,6 @@ JDK 24のモジュール（AtCoder・ICPC）では、通常のJavaと同じよ�
 
 言語レベルが24より低いモジュール（AOJ=11、paiza=18、Codeforces=21）はlibraryに依存できないため、importせずにライブラリのコードを解答へ貼り付けます。クラスは解答クラスの中の`private static`の入れ子クラスにします。staticメソッドだけのクラスは、使うメソッドだけを解答クラスへコピーします。Java 11で使えない記法は書き換えます。CodeforcesではJava 17互換の`lib.io.compat17`を貼ります。AOJ・paizaの入出力は、libraryを使わず標準のScannerとPrintWriterを使います。
 
-Local Runnerはimportを補えるが、コードの可読性とIDEの補完のため、解答では明示的にimportします。
-
 雛形は[templates/java/README.md](../templates/java/README.md)の表から選びます。IDEへの登録は[IDE_SETUP.md](IDE_SETUP.md#テンプレートと共通設定の同期)の同期で行います。`lib.*`に対して補完、定義ジャンプ、Find Usages、Renameが利用できます。
 
 ## 手貼りへのフォールバック
@@ -41,6 +39,6 @@ Local Runnerはimportを補えるが、コードの可読性とIDEの補完の�
 Local Runnerの展開に問題がある場合は、次の順で切り戻せます。
 
 1. `toclip`でコピーした、最後に成功した提出コードを使います。
-2. `library/java/src/lib/...`から、ログの`Bundled library classes: ...`に表示されたクラスを手動で展開します。
+2. 手動で展開する場合は、解答が使うライブラリのソースを `library/java/src/lib/` からコピーします。同じ解答で変換に成功したときのログがあれば、`Bundled:` に展開した型名とファイル名が表示されています。
 
-Class・Class17・ICPC・Judgeのテンプレートは`lib.*`をimportするため、Local Runnerなしでは提出できません。
+Class・Class17・ICPC・Judge のテンプレートを使う場合は、提出前に Local Runner でライブラリを展開するか、使うコードを手動で貼り付けます。
