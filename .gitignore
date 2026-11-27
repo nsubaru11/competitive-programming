@@ -43,6 +43,7 @@ __pycache__/
 .mvn/
 
 # ログ・一時ファイル
+.junie/
 logs/
 history.txt
 *.log
@@ -60,6 +61,7 @@ paiza/other/
 .aoj/
 .codeforces/
 .icpc/
+.wcpc/
 .env
 .env.*
 session.txt
